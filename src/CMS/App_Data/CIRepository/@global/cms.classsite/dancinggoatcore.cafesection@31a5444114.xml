@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.classsite>
+  <Parent>
+    <CodeName>DancingGoatCore.CafeSection</CodeName>
+    <GUID>18919c27-0517-4559-8d95-fc13612bca12</GUID>
+    <ObjectType>cms.documenttype</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="DancingGoatCore">
+      <SiteID>
+        <CodeName>DancingGoatCore</CodeName>
+        <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+        <ObjectType>cms.site</ObjectType>
+      </SiteID>
+    </Binding>
+  </Bindings>
+</cms.classsite>

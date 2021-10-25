@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.alternativeform>
+  <FormClassID>
+    <CodeName>ecommerce.manufacturer</CodeName>
+    <GUID>dcbcbc29-fa72-404c-bcaf-7eea0dac144e</GUID>
+    <ObjectType>cms.systemtable</ObjectType>
+  </FormClassID>
+  <FormCustomizedColumns />
+  <FormDefinition>
+    <form version="2">
+      <field column="ManufacturerSiteID" visible="true">
+        <settings>
+          <controlname>dropdownlistcontrol</controlname>
+          <SortItems>False</SortItems>
+          <EditText>False</EditText>
+          <Options>
+<![CDATA[
+{%SiteContext.CurrentSiteID|(identity)GlobalAdministrator|(hash)9c39facc98736765cda9f794a5e39afc2f12d5ea5299715a63c306049620436c%};{$com.onthissiteonly$}
+;{$com.globally$}
+]]>
+          </Options>
+        </settings>
+        <properties>
+          <visiblemacro ismacro="">
+            <![CDATA[{%Settings.CMSStoreAllowGlobalManufacturers && CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","EcommerceGlobalModify") && (CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","ModifyManufacturers") || CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","EcommerceModify"))|(identity)GlobalAdministrator|(hash)6cc4a6009cb704770be3f8743c4b7a6381a91472a9a54506e81118b5d8193d5d%}]]>
+          </visiblemacro>
+          <defaultvalue ismacro="true">
+<![CDATA[
+{% if (!Settings.CMSStoreAllowGlobalManufacturers
+    || !CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","EcommerceGlobalModify")
+    || CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","ModifyManufacturers")
+    || CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","EcommerceModify")) {SiteContext.CurrentSiteID} |(identity)GlobalAdministrator|(hash)4e1dedfbb353a2ef43b81a2899752083a3dc03b28b7ae269ab8877aba46c4a39%}
+]]>
+          </defaultvalue>
+          <fieldcaption>{$com.available$}</fieldcaption>
+        </properties>
+      </field>
+    </form>
+  </FormDefinition>
+  <FormDisplayName>New</FormDisplayName>
+  <FormGUID>5de1e5db-2a65-4c03-b4ee-c19bff314a24</FormGUID>
+  <FormHideNewParentFields>False</FormHideNewParentFields>
+  <FormIsCustom>False</FormIsCustom>
+  <FormName>New</FormName>
+</cms.alternativeform>

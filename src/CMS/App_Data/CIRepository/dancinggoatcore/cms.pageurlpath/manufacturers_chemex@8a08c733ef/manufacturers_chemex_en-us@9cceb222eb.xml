@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>f403552b-23cc-492e-ae33-a2f195378c43</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Manufacturers/Chemex</CodeName>
+    <GUID>9a1bd87b-7ad2-4346-ad0c-353ee6656cba</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Manufacturers/Chemex</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[9140E209DC70D54884C371CB0F4FD4221D35CC20BB31E9A8F0D699F0801186C2]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

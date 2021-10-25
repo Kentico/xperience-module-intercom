@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.resourcesite>
+  <Parent>
+    <CodeName>CMS.DataProtection</CodeName>
+    <GUID>8089f9a7-95d9-4e3c-b95a-91a49ccf10c4</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="DancingGoatCore">
+      <SiteID>
+        <CodeName>DancingGoatCore</CodeName>
+        <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+        <ObjectType>cms.site</ObjectType>
+      </SiteID>
+    </Binding>
+  </Bindings>
+</cms.resourcesite>

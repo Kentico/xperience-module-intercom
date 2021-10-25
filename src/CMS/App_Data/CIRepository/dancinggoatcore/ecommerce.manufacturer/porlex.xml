@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.manufacturer>
+  <ManufactureHomepage>http://www.porlex.co.jp</ManufactureHomepage>
+  <ManufacturerDisplayName>Porlex</ManufacturerDisplayName>
+  <ManufacturerEnabled>True</ManufacturerEnabled>
+  <ManufacturerGUID>fa405a46-f07f-47b3-b0dc-47f4c574fe87</ManufacturerGUID>
+  <ManufacturerName>Porlex</ManufacturerName>
+  <ManufacturerSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </ManufacturerSiteID>
+</ecommerce.manufacturer>

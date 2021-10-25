@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.publicstatus>
+  <PublicStatusDisplayName>On sale</PublicStatusDisplayName>
+  <PublicStatusEnabled>True</PublicStatusEnabled>
+  <PublicStatusGUID>b753c8de-8d8b-4da0-bdce-c32a57baadbc</PublicStatusGUID>
+  <PublicStatusName>DancingGoatCore.OnSale</PublicStatusName>
+  <PublicStatusSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PublicStatusSiteID>
+</ecommerce.publicstatus>

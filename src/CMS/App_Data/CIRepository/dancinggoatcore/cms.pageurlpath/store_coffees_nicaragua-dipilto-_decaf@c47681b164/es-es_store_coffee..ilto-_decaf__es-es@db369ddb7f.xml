@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>8ecf29f7-7b46-4484-bc90-343d9991d27b</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Coffees/Nicaragua-Dipilto-(decaf)</CodeName>
+    <GUID>96b9b715-e8a4-4bb2-9d35-f1296b1d7296</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Store/Coffees/Nicaragua-Dipilto-(decaf)</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[9A78BA61539C4933F5FF1DE932740BF3DCB96544EF5A209387EFD5D0B0538B7C]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

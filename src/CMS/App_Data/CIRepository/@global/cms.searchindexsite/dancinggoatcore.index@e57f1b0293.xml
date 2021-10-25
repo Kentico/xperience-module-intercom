@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.searchindexsite>
+  <Parent>
+    <CodeName>DancingGoatCore.Index</CodeName>
+    <GUID>f3563e11-0390-4707-b53d-041f8ff511ee</GUID>
+    <ObjectType>cms.searchindex</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="DancingGoatCore">
+      <IndexSiteID>
+        <CodeName>DancingGoatCore</CodeName>
+        <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+        <ObjectType>cms.site</ObjectType>
+      </IndexSiteID>
+    </Binding>
+  </Bindings>
+</cms.searchindexsite>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.uielement>
+  <ElementCaption>{$Newsletter_Header.Send$}</ElementCaption>
+  <ElementCheckModuleReadPermission>False</ElementCheckModuleReadPermission>
+  <ElementDisplayName>{$Newsletter_Header.Send$}</ElementDisplayName>
+  <ElementFromVersion>8.0</ElementFromVersion>
+  <ElementGUID>6456b464-94ad-4632-a158-0012b2a2275e</ElementGUID>
+  <ElementIconClass />
+  <ElementIsCustom>False</ElementIsCustom>
+  <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
+  <ElementIsMenu>False</ElementIsMenu>
+  <ElementName>Newsletter.Send</ElementName>
+  <ElementOrder>4</ElementOrder>
+  <ElementParentID>
+    <CodeName>EditNewsletterProperties</CodeName>
+    <GUID>854db200-0882-408c-b731-d23d8d737f24</GUID>
+    <ObjectType>cms.uielement</ObjectType>
+    <Parent>
+      <CodeName>CMS.Newsletter</CodeName>
+      <GUID>82445572-642a-4f53-a411-063e5f4b63c0</GUID>
+      <ObjectType>cms.resource</ObjectType>
+    </Parent>
+  </ElementParentID>
+  <ElementProperties>
+    <Data>
+      <breadcrumbsSuffix>
+        <![CDATA[{% EditedObject.GetNiceName() |(identity)GlobalAdministrator|(hash)47e0ff227b152de6c76da40d381ab3d4acc77ebf98fb8e7876ae2f6bbcdcd3bd%}]]>
+      </breadcrumbsSuffix>
+      <DisplayBreadcrumbs>False</DisplayBreadcrumbs>
+    </Data>
+  </ElementProperties>
+  <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>
+  <ElementResourceID>
+    <CodeName>CMS.Newsletter</CodeName>
+    <GUID>82445572-642a-4f53-a411-063e5f4b63c0</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ElementResourceID>
+  <ElementSize>0</ElementSize>
+  <ElementTargetURL>
+    <![CDATA[~/CMSModules/Newsletters/Tools/Newsletters/Newsletter_Send.aspx]]>
+  </ElementTargetURL>
+  <ElementType>Url</ElementType>
+  <ElementVisibilityCondition>
+    <![CDATA[{%EditedObject.NewsletterSource == "D"|(identity)GlobalAdministrator|(hash)ce09eca59000798a9a48cb0279500e135ca1cf8f966d98f34906f27db97b4d0e%}]]>
+  </ElementVisibilityCondition>
+</cms.uielement>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.uielement>
+  <ElementCaption>{$general.general$}</ElementCaption>
+  <ElementCheckModuleReadPermission>True</ElementCheckModuleReadPermission>
+  <ElementDisplayName>{$general.general$}</ElementDisplayName>
+  <ElementFromVersion>8.0</ElementFromVersion>
+  <ElementGUID>4dac86c2-2dda-41de-916d-e15924dce8f9</ElementGUID>
+  <ElementIsCustom>False</ElementIsCustom>
+  <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
+  <ElementIsMenu>False</ElementIsMenu>
+  <ElementName>Forms.General</ElementName>
+  <ElementOrder>1</ElementOrder>
+  <ElementParentID>
+    <CodeName>EditForm</CodeName>
+    <GUID>a6dd1aa1-f2db-4dce-9a3e-83780acd4838</GUID>
+    <ObjectType>cms.uielement</ObjectType>
+    <Parent>
+      <CodeName>CMS</CodeName>
+      <GUID>ce1a65a0-80dc-4c53-b0e7-bdecf0aa8c02</GUID>
+      <ObjectType>cms.resource</ObjectType>
+    </Parent>
+  </ElementParentID>
+  <ElementProperties>
+    <data>
+      <includejquery>False</includejquery>
+      <category_name_header>False</category_name_header>
+      <displaybreadcrumbs>False</displaybreadcrumbs>
+    </data>
+  </ElementProperties>
+  <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>
+  <ElementResourceID>
+    <CodeName>CMS</CodeName>
+    <GUID>ce1a65a0-80dc-4c53-b0e7-bdecf0aa8c02</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ElementResourceID>
+  <ElementSize>0</ElementSize>
+  <ElementTargetURL>
+    <![CDATA[~/CMSModules/Modules/Pages/Class/AlternativeForm/General.aspx?altformid={%EditedObject.FormID|(identity)GlobalAdministrator|(hash)354a506f7ae293639a974e4964d45f9956604671bce19e05b4d3d16148f45c30%}&classid={%EditedObject.FormClassID|(identity)GlobalAdministrator|(hash)b2910bfed0413b34858216323c63a710d834270f5f417000fd276a48adb9af90%}&moduleid={%EditedObjectParent.ClassResourceID|(identity)GlobalAdministrator|(hash)52ad179f3421222eb540edd407157bc70a60b123978b63fc93c65df44ef9065e%}]]>
+  </ElementTargetURL>
+  <ElementType>Url</ElementType>
+</cms.uielement>

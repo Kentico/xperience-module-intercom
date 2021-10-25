@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>082ba1d6-6b7c-4e98-a081-a1315f0cc9cc</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Manufacturers/Aerobie</CodeName>
+    <GUID>8f2d1f12-124c-42d4-8223-f96681498025</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Manufacturers/Aerobie</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[F29727770129B4F4D6FF130FEE0794B0C632F5D30527C849FABF7ECAC5983AE7]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

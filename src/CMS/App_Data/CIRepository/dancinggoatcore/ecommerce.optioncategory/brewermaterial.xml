@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.optioncategory>
+  <CategoryDefaultRecord>(Please select)</CategoryDefaultRecord>
+  <CategoryDisplayName>Brewer material</CategoryDisplayName>
+  <CategoryDisplayPrice>True</CategoryDisplayPrice>
+  <CategoryEnabled>True</CategoryEnabled>
+  <CategoryGUID>eaf18001-065b-4db5-8e06-afc95cb1af4d</CategoryGUID>
+  <CategoryLiveSiteDisplayName>Material</CategoryLiveSiteDisplayName>
+  <CategoryName>BrewerMaterial</CategoryName>
+  <CategorySelectionType>RADIOBUTTONVERTICAL</CategorySelectionType>
+  <CategorySiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </CategorySiteID>
+  <CategoryType>ATTRIBUTE</CategoryType>
+</ecommerce.optioncategory>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.couponcode>
+  <CouponCodeCode>DGCOREVWIQB</CouponCodeCode>
+  <CouponCodeDiscountID>
+    <CodeName>10_OffForTheFirstOrder</CodeName>
+    <GUID>8abe626a-c8eb-4ad5-b887-1100c9a01b02</GUID>
+    <ObjectType>ecommerce.discount</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </CouponCodeDiscountID>
+  <CouponCodeGUID>a5013f28-f641-416d-b4b2-99b8dcefd38b</CouponCodeGUID>
+  <CouponCodeUseLimit>1</CouponCodeUseLimit>
+</ecommerce.couponcode>

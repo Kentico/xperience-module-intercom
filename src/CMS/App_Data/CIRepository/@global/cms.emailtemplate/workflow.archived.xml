@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.emailtemplate>
+  <EmailTemplateDisplayName>Workflow - Page archived</EmailTemplateDisplayName>
+  <EmailTemplateGUID>53d086cb-dc0c-4e5a-b48d-77a6b58fd549</EmailTemplateGUID>
+  <EmailTemplateName>Workflow.Archived</EmailTemplateName>
+  <EmailTemplatePlainText>
+<![CDATA[
+This is an automatic notification sent by Kentico CMS. The following page has been archived.
+
+Page: [url={%DocumentEditUrl%}]{%documentname%}[/url] {% DocumentPreviewUrl.IsNullOrEmpty() ? "" : "([url=" + DocumentPreviewUrl + "]preview[/url])"|(identity)GlobalAdministrator|(hash)db1b50725b8efb94b99ddab95ac5917a34ca458dfd281345256bbf5e7a192feb%}
+Archived by: {%approvedby%}
+Archived when: {%approvedwhen%}
+Comment: 
+{%comment%}
+]]>
+  </EmailTemplatePlainText>
+  <EmailTemplateSubject>
+    <![CDATA[Page '{%DocumentName%}' archived]]>
+  </EmailTemplateSubject>
+  <EmailTemplateText>
+<![CDATA[
+<html>
+  <head>
+  </head>
+  <body style="font-size: 12px; font-family: arial">
+    <p>
+    This is an automatic notification sent by Kentico CMS. The following page has been archived.</p>
+    <p>
+    <strong>Page:</strong> <a href="{%DocumentEditUrl%}">{%documentname%}</a> {% DocumentPreviewUrl.IsNullOrEmpty() ? "" : "(<a href=\"" + DocumentPreviewUrl + "\">preview</a>)"|(encode)false|(identity)GlobalAdministrator|(hash)1a6f37dfe39f4f7baf656a7f3058503a3c4b31620ea743b1683f552e959b09ff%}
+    <br />
+    <br />
+    <strong>Archived by:</strong> {%approvedby%}
+    <br />
+    <strong>Archived when:</strong> {%approvedwhen%}
+    <br />
+    <strong>Comment:</strong>
+    <br />
+    {%comment%}
+    </p>
+  </body>
+</html>
+]]>
+  </EmailTemplateText>
+  <EmailTemplateType>workflow</EmailTemplateType>
+</cms.emailtemplate>

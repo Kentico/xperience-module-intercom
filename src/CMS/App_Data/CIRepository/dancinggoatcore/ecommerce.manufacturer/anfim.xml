@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.manufacturer>
+  <ManufactureHomepage>http://www.anfim.net</ManufactureHomepage>
+  <ManufacturerDisplayName>Anfim</ManufacturerDisplayName>
+  <ManufacturerEnabled>True</ManufacturerEnabled>
+  <ManufacturerGUID>36acc7ea-36f3-47f6-a71f-6941fcf447b2</ManufacturerGUID>
+  <ManufacturerName>Anfim</ManufacturerName>
+  <ManufacturerSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </ManufacturerSiteID>
+</ecommerce.manufacturer>

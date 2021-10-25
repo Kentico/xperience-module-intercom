@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.emailtemplate>
+  <EmailTemplateDisplayName>Scoring - Notification email</EmailTemplateDisplayName>
+  <EmailTemplateGUID>5aea940d-ade5-4419-9f21-4744db45e917</EmailTemplateGUID>
+  <EmailTemplateName>scoring.notification</EmailTemplateName>
+  <EmailTemplatePlainText>
+<![CDATA[
+This is an automatic notification sent by Kentico CMS.
+
+Contact {%Contact.ContactFirstName|(identity)GlobalAdministrator|(hash)5690db6729f230be0c46bceb2a4d57fdb9d6ba20f15c8e7e083aeebc7f2d811a%} {%Contact.ContactLastName|(identity)GlobalAdministrator|(hash)380ac0a52b99bcb5a78fbdf21c05eefc06aa3f88ca3abf6307912fe0d99ebfbe%} has reached limit in score '{%Score.ScoreDisplayName|(identity)GlobalAdministrator|(hash)d8d37ea2f7fad9cc42ab26a35116f477bb83796bd129822664d8f2f6f9c19415%}'.
+
+Contact's current score is {%ScoreValue%}.
+]]>
+  </EmailTemplatePlainText>
+  <EmailTemplateSubject>
+    <![CDATA[{% GetResourceString("om.score.notificationsubject")|(recursive)true |(identity)GlobalAdministrator|(hash)390c4561b08088d67f8f6a5abd8bd98b7d9bce7b47890c403e6e545fa390f7f3%}]]>
+  </EmailTemplateSubject>
+  <EmailTemplateText>
+<![CDATA[
+<html>
+  <head>
+  </head>
+  <body style="font-size: 12px; font-family: arial">
+    <p>
+    This is an automatic notification sent by Kentico CMS.
+    </p>
+    <p>
+    Contact {%Contact.ContactFirstName|(identity)GlobalAdministrator|(hash)5690db6729f230be0c46bceb2a4d57fdb9d6ba20f15c8e7e083aeebc7f2d811a%} {%Contact.ContactLastName|(identity)GlobalAdministrator|(hash)380ac0a52b99bcb5a78fbdf21c05eefc06aa3f88ca3abf6307912fe0d99ebfbe%} has reached limit in score '{%Score.ScoreDisplayName|(identity)GlobalAdministrator|(hash)d8d37ea2f7fad9cc42ab26a35116f477bb83796bd129822664d8f2f6f9c19415%}'.
+    </p>
+    <p>
+    Contact's current score is {%ScoreValue%}.
+    </p>
+  </body>
+</html>
+]]>
+  </EmailTemplateText>
+  <EmailTemplateType>scoring</EmailTemplateType>
+</cms.emailtemplate>

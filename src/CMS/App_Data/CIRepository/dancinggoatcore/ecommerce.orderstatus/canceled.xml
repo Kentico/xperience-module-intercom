@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.orderstatus>
+  <StatusColor>#b12628</StatusColor>
+  <StatusDisplayName>Canceled</StatusDisplayName>
+  <StatusEnabled>True</StatusEnabled>
+  <StatusGUID>a9b98f46-008e-4c77-b7af-9e6e1af9d50d</StatusGUID>
+  <StatusName>Canceled</StatusName>
+  <StatusOrder>6</StatusOrder>
+  <StatusOrderIsPaid>False</StatusOrderIsPaid>
+  <StatusSendNotification>False</StatusSendNotification>
+  <StatusSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </StatusSiteID>
+</ecommerce.orderstatus>

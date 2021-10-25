@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.documenttypescope>
+  <ScopeAllowAllTypes>False</ScopeAllowAllTypes>
+  <ScopeAllowLinks>False</ScopeAllowLinks>
+  <ScopeGUID>f5be8dd0-517b-4102-97de-55935129ca9a</ScopeGUID>
+  <ScopeIncludeChildren>False</ScopeIncludeChildren>
+  <ScopePath>/Store/Grinders</ScopePath>
+  <ScopeSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </ScopeSiteID>
+</cms.documenttypescope>

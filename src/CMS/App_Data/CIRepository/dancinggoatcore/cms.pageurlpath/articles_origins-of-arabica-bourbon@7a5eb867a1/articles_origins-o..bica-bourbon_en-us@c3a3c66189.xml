@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>81069a2c-3ead-4b0c-b825-77d58eadabae</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Articles/Origins-of-Arabica-Bourbon</CodeName>
+    <GUID>7e306966-45b2-4923-9cfe-cdf8a89345db</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Articles/Origins-of-Arabica-Bourbon</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[EAE85C305B824B5B48E465D4C150DDCC9F39688918E5603C098F0DE8F33A908C]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

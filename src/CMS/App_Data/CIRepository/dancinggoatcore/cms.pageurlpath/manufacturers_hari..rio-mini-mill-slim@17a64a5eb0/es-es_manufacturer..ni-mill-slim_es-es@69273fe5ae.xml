@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>dbaa0891-d816-435f-94db-de4ff02a1c2c</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Manufacturers/Hario/Hario-Mini-Mill-Slim</CodeName>
+    <GUID>18b566ad-e37f-47a8-818c-ac54d9b4465d</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Manufacturers/Hario/Hario-Mini-Mill-Slim</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[DF14C9B44A642BAB12E503DF454EF5DC3D80BE7DC8A2FC942ABEEBD9BA80D774]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

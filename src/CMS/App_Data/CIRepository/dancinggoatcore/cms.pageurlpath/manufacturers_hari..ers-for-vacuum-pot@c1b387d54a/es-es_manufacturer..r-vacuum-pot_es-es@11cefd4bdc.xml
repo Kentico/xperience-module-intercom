@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>552b2f49-0c6a-46c4-9de4-9b4bafec08f6</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Manufacturers/Hario/Changeable-Paper-Filters-for-Vacuum-Pot</CodeName>
+    <GUID>6e869666-73f4-43dd-bbab-6e1b6f3ed752</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>
+    <![CDATA[es-ES/Manufacturers/Hario/Changeable-Paper-Filters-for-Vacuum-Pot]]>
+  </PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[A7A27DB12FF29D094A4DD06ACBA3D1C29221FDB2BC917904A7F4948CC9A2A599]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

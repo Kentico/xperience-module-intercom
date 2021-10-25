@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>5127cb2b-73f7-4763-b5eb-f1939f103def</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Brewers/Hario-V60</CodeName>
+    <GUID>1e28dc76-9379-4ac4-8de3-d4b5806a5943</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Store/Brewers/Hario-V60</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[07DD27301CCECC88FD14649DBB29D45EB0AE65BADA50051E178F6DD0A9BA810F]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

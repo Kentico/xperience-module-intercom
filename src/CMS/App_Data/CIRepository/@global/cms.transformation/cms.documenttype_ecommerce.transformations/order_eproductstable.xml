@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.transformation>
+  <TransformationClassID>
+    <CodeName>Ecommerce.Transformations</CodeName>
+    <GUID>7539c21d-cde0-4d71-ab9f-12de5ddec092</GUID>
+    <ObjectType>cms.documenttype</ObjectType>
+  </TransformationClassID>
+  <TransformationCode>
+<![CDATA[
+<br />
+- {%GetResourceString(OrderItemSKUName)%} (<a href="{%GetEproductUrl(Token, FileName, OrderSiteID)%}" target="_blank" >{%FileName%}</a>) {% String.IsNullOrEmpty(OrderItemValidTo) ? "never expires" : "expires after " + Format(OrderItemValidTo, "{0:G}") |(identity)GlobalAdministrator|(hash)8dbcbd4b5d0f1a7833f3a2d67c928e7d33c236167722c2cf39d9969642ceda70%}
+]]>
+  </TransformationCode>
+  <TransformationGUID>4ec7bbb8-88b3-4922-84ec-68d4ce02bfa5</TransformationGUID>
+  <TransformationName>Order_EproductsTable</TransformationName>
+  <TransformationType>text</TransformationType>
+</cms.transformation>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>fb5168df-89d0-45cd-9fe2-6291ab537f01</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Coffees/Guatemala-Finca-El-Injerto</CodeName>
+    <GUID>03bc31ea-a896-45b5-8a57-304336a47402</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Store/Coffees/Guatemala-Finca-El-Injerto</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[EAAE510F76408F047450CB4FBCD5C1583BA78A2C4918CC764A7A192A2F4D9D4F]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.alternativeform>
+  <FormClassID>
+    <CodeName>ecommerce.department</CodeName>
+    <GUID>1c05d8cc-e5b6-4477-b04c-2bcdf7f2ac84</GUID>
+    <ObjectType>cms.class</ObjectType>
+  </FormClassID>
+  <FormCustomizedColumns />
+  <FormDefinition>
+    <form version="2">
+      <field column="DepartmentSiteID" visible="true" order="3">
+        <settings>
+          <Options>
+<![CDATA[
+{%SiteContext.CurrentSiteID|(identity)GlobalAdministrator|(hash)9c39facc98736765cda9f794a5e39afc2f12d5ea5299715a63c306049620436c%};{$com.onthissiteonly$}
+;{$com.globally$}
+]]>
+          </Options>
+          <SortItems>False</SortItems>
+          <EditText>False</EditText>
+        </settings>
+        <properties>
+          <visiblemacro ismacro="true">
+            <![CDATA[{%QueryString["siteId"] != -4 && Settings.CMSStoreAllowGlobalDepartments && CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","ConfigurationGlobalModify") && CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","ConfigurationModify")|(identity)GlobalAdministrator|(hash)55cfe1d186ad888c0185798b2e55f7d589971b4387153852f06b5d3876d30121%}]]>
+          </visiblemacro>
+          <defaultvalue ismacro="true">
+<![CDATA[
+{% if ((QueryString["siteId"] != -4) && (!Settings.CMSStoreAllowGlobalDepartments
+    || !CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","ConfigurationGlobalModify")
+    || CurrentUser.IsAuthorizedPerResource("CMS.Ecommerce","ConfigurationModify"))) {SiteContext.CurrentSiteID} |(identity)GlobalAdministrator|(hash)382593d06f9690658b2a7e511437053b671855906fc0f7d1d01535d2d3e791da%}
+]]>
+          </defaultvalue>
+          <fieldcaption>{$com.available$}</fieldcaption>
+        </properties>
+      </field>
+      <field column="DepartmentDefaultTaxClassID" order="4" />
+      <field column="DepartmentGUID" order="5" />
+      <field column="DepartmentLastModified" order="6" />
+    </form>
+  </FormDefinition>
+  <FormDisplayName>New</FormDisplayName>
+  <FormGUID>238fed48-9799-4dcd-bd29-e4546e392bb1</FormGUID>
+  <FormHideNewParentFields>False</FormHideNewParentFields>
+  <FormIsCustom>False</FormIsCustom>
+  <FormName>New</FormName>
+</cms.alternativeform>

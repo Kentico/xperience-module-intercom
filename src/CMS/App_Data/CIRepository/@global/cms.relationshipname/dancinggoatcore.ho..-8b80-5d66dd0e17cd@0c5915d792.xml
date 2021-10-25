@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.relationshipname>
+  <RelationshipAllowedObjects>##DOCUMENTS##</RelationshipAllowedObjects>
+  <RelationshipDisplayName>Hot tips (Hot tips)</RelationshipDisplayName>
+  <RelationshipGUID>d82c5b9a-b338-4975-aff6-028b7a738400</RelationshipGUID>
+  <RelationshipName>
+    <![CDATA[DancingGoatCore.HotTips_8a768436-ef8c-4980-8b80-5d66dd0e17cd]]>
+  </RelationshipName>
+  <RelationshipNameIsAdHoc>True</RelationshipNameIsAdHoc>
+</cms.relationshipname>

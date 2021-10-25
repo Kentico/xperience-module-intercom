@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.orderstatus>
+  <StatusColor>#c98209</StatusColor>
+  <StatusDisplayName>In progress</StatusDisplayName>
+  <StatusEnabled>True</StatusEnabled>
+  <StatusGUID>3e05bc9f-9242-4006-b17a-f744efb6450e</StatusGUID>
+  <StatusName>InProgress</StatusName>
+  <StatusOrder>4</StatusOrder>
+  <StatusOrderIsPaid>False</StatusOrderIsPaid>
+  <StatusSendNotification>False</StatusSendNotification>
+  <StatusSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </StatusSiteID>
+</ecommerce.orderstatus>

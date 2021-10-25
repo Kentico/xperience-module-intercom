@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<media.library>
+  <LibraryAccess>4444444</LibraryAccess>
+  <LibraryDescription>
+<![CDATA[
+General graphic assets used on the site (e.g. logos and icons)
+
+]]>
+  </LibraryDescription>
+  <LibraryDisplayName>Graphics</LibraryDisplayName>
+  <LibraryFolder>Graphics</LibraryFolder>
+  <LibraryGUID>f3cf24e3-8764-42e1-bf85-0d82b1995250</LibraryGUID>
+  <LibraryName>Graphics</LibraryName>
+  <LibrarySiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </LibrarySiteID>
+</media.library>

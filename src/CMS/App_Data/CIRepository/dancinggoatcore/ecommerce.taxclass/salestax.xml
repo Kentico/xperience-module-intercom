@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.taxclass>
+  <TaxClassDisplayName>Sales tax</TaxClassDisplayName>
+  <TaxClassGUID>057b1b65-6b0b-43fa-9f72-c0b04bb31000</TaxClassGUID>
+  <TaxClassName>SalesTax</TaxClassName>
+  <TaxClassSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </TaxClassSiteID>
+  <TaxClassZeroIfIDSupplied>False</TaxClassZeroIfIDSupplied>
+</ecommerce.taxclass>

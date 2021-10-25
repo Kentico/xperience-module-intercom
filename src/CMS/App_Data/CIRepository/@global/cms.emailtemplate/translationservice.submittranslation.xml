@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.emailtemplate>
+  <EmailTemplateDisplayName>Translation services - Submit translation</EmailTemplateDisplayName>
+  <EmailTemplateGUID>de1a03d4-99b4-4ed5-9451-74cc1e75da4e</EmailTemplateGUID>
+  <EmailTemplateName>translationservice.submittranslation</EmailTemplateName>
+  <EmailTemplatePlainText>
+<![CDATA[
+Pages have been submitted for translation. The source text and instructions are enclosed in a ZIP file.
+
+This submission was created with priority {% GetTranslationPriority(Submission.SubmissionPriority) |(identity)GlobalAdministrator|(hash)e250950d21be1801232d8b85d53f40f4c7268e3ddcba07dfb9e563e8a4973a2d%} and is due by {% Submission.SubmissionDeadline |(identity)GlobalAdministrator|(hash)4671139fcc6a2d205b9e36c14d8ca8123b11c044dce37e2214f1ad18d2fbeeeb%}.
+
+To upload a ZIP archive with the completed translation, go to the following URL {% SubmissionLink %}.
+]]>
+  </EmailTemplatePlainText>
+  <EmailTemplateSubject>New translation submission</EmailTemplateSubject>
+  <EmailTemplateText>
+<![CDATA[
+<html>
+  <head>
+  </head>
+  <body style="font-size: 12px; font-family: arial">
+    <p>
+    Pages have been submitted for translation. The source text and instructions are enclosed in a ZIP file.
+    </p>
+    <p>
+    This submission was created with priority {% GetTranslationPriority(Submission.SubmissionPriority) |(identity)GlobalAdministrator|(hash)e250950d21be1801232d8b85d53f40f4c7268e3ddcba07dfb9e563e8a4973a2d%} and is due by {% Submission.SubmissionDeadline |(identity)GlobalAdministrator|(hash)4671139fcc6a2d205b9e36c14d8ca8123b11c044dce37e2214f1ad18d2fbeeeb%}.
+    </p>
+    <p>
+    To upload a ZIP archive with the completed translation, click this link: <a href="{% SubmissionLink %}">{% SubmissionLink %}</a>
+    </p>
+  </body>
+</html>
+]]>
+  </EmailTemplateText>
+  <EmailTemplateType>translationservices</EmailTemplateType>
+</cms.emailtemplate>

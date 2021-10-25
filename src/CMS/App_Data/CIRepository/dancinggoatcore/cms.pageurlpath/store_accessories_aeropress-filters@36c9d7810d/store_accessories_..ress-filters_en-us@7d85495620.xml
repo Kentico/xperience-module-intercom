@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>de59b515-22a9-4684-96e4-2f081279b1a4</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Accessories/AeroPress-Filters</CodeName>
+    <GUID>73fb2e7c-4ac1-4653-be5d-e0bc3aedddae</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Store/Accessories/AeroPress-Filters</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[1C6A17FF66E6F03216EDDD583354D6ABF4848EC958E753540F5382056C6A42C2]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

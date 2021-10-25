@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.manufacturer>
+  <ManufactureHomepage>http://www.hario.jp/</ManufactureHomepage>
+  <ManufacturerDisplayName>Hario</ManufacturerDisplayName>
+  <ManufacturerEnabled>True</ManufacturerEnabled>
+  <ManufacturerGUID>3e2bc5f2-e9c0-4928-978e-9009f8ada609</ManufacturerGUID>
+  <ManufacturerName>Hario</ManufacturerName>
+  <ManufacturerSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </ManufacturerSiteID>
+</ecommerce.manufacturer>

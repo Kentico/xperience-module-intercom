@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>f892450b-f49e-477d-adde-00331c91f058</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Articles/Coffee-Beverages-Explained</CodeName>
+    <GUID>6834c93e-fd9f-4cd6-8704-93e8ab59e2fb</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Articles/Coffee-Beverages-Explained</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[E88B777238B5355EA2C821499B50762C62A43808744C2E43C6AC47EBAF02FDF5]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

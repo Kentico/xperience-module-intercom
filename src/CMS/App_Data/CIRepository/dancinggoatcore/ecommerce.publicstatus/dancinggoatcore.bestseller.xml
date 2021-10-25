@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.publicstatus>
+  <PublicStatusDisplayName>Bestseller</PublicStatusDisplayName>
+  <PublicStatusEnabled>True</PublicStatusEnabled>
+  <PublicStatusGUID>3fafd72b-6b04-4dec-9039-159a327d769d</PublicStatusGUID>
+  <PublicStatusName>DancingGoatCore.Bestseller</PublicStatusName>
+  <PublicStatusSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PublicStatusSiteID>
+</ecommerce.publicstatus>

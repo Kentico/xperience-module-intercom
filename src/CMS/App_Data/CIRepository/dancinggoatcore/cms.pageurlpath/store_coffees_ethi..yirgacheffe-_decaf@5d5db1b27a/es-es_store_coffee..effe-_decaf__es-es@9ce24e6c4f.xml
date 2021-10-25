@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>b2d4f574-6cf2-4e88-89d0-9966e1d73d02</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Coffees/Ethiopia-Yirgacheffe-(decaf)</CodeName>
+    <GUID>2d993f55-9649-43e7-9bc4-9d49768e6962</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Store/Coffees/Ethiopia-Yirgacheffe-(decaf)</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[548A7CCD1B543B9C344CDB7E5E8AE19370F4227C3BAE5E747D55E8595C700522]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

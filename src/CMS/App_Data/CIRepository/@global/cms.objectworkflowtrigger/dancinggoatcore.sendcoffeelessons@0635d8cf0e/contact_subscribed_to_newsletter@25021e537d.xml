@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.objectworkflowtrigger>
+  <TriggerDisplayName>
+    <![CDATA[Contact subscribed to 'Newsletter']]>
+  </TriggerDisplayName>
+  <TriggerGUID>d2b34208-6920-4359-978e-2feff708a9af</TriggerGUID>
+  <TriggerMacroCondition>
+    <![CDATA[{%Rule("(Activity.LinkedToObject(\"newsletter.newsletter\", \"Newsletter\"))", "<rules><r pos=\"0\" par=\"\" op=\"and\" n=\"CMSActivityNewsletterSubscriptionPerformedForNewsletter\" ><p n=\"_was\"><t>was</t><v></v><r>0</r><d>select operation</d><vt>text</vt><tv>0</tv></p><p n=\"newsletter\"><t>Newsletter</t><v>Newsletter</v><r>1</r><d>{$macro.selector.newsletter$}</d><vt>text</vt><tv>0</tv></p></r></rules>")|(identity)GlobalAdministrator|(hash)ddb9b8ce801cdc144b8a56a39b6d60e78dac219158f65d2c39597cc664f957f9%}]]>
+  </TriggerMacroCondition>
+  <TriggerObjectType>om.activity</TriggerObjectType>
+  <TriggerParameters />
+  <TriggerTargetObjectID>
+    <CodeName>newslettersubscription</CodeName>
+    <ObjectType>om.activitytype</ObjectType>
+  </TriggerTargetObjectID>
+  <TriggerTargetObjectType>om.activitytype</TriggerTargetObjectType>
+  <TriggerType>0</TriggerType>
+  <TriggerWorkflowID>
+    <CodeName>DancingGoatCore.SendCoffeeLessons</CodeName>
+    <GUID>4abb2265-37c2-4a6c-9553-d52cda258fcb</GUID>
+    <ObjectType>ma.automationprocess</ObjectType>
+  </TriggerWorkflowID>
+</cms.objectworkflowtrigger>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>31c9f0b1-d5ab-40f6-886f-cd6ce4a138c9</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Accessories/Hario-Buono-Kettle</CodeName>
+    <GUID>c444e11e-d98a-4725-b5e5-2813eee551f8</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Store/Accessories/Hario-Buono-Kettle</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[231D180783B43399236BEF95030DAA62434BEF3DA55443054879E2557357C404]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

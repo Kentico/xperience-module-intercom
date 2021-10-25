@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>b7b8c45c-c900-446a-a609-4d129c1b8e02</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Grinders</CodeName>
+    <GUID>72ad46c2-2dc6-43e1-baa0-4bf557d76136</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Store/Grinders</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[D844DA913472C297ADAADDCB4CE3781196F2270B428AE3219BA039BAC64AE22F]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

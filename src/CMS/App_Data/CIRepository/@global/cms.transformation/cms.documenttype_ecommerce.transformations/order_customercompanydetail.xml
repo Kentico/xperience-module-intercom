@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.transformation>
+  <TransformationClassID>
+    <CodeName>Ecommerce.Transformations</CodeName>
+    <GUID>7539c21d-cde0-4d71-ab9f-12de5ddec092</GUID>
+    <ObjectType>cms.documenttype</ObjectType>
+  </TransformationClassID>
+  <TransformationCode>
+<![CDATA[
+{% if ((CustomerCompany + CustomerOrganizationID + CustomerTaxRegistrationID) != null) { %}
+  {% if (CustomerCompany != null) { %}
+    {% CustomerCompany|(encode)true %}
+    <br/>
+    {% } %}
+  {% Localize("{$customers_edit.lblorganizationid$}")|(encode)true %} {% ((CustomerOrganizationID == null) ? Localize("{$general.na$}") : CustomerOrganizationID)|(encode)true %} <br/>
+  {% Localize("{$customers_edit.lbltaxregistrationid$}")|(encode)true %} {% ((CustomerTaxRegistrationID == null) ? Localize("{$general.na$}") : CustomerTaxRegistrationID)|(encode)true %} <br/>
+{% } |(identity)GlobalAdministrator|(hash)281c40ecc255c6d4dbe894d2dd4d4da7b631fa2a3c7d760045b9bf748eb45651%}
+]]>
+  </TransformationCode>
+  <TransformationGUID>3eba2b54-3bfd-40fb-881f-611bcf03cc77</TransformationGUID>
+  <TransformationName>Order_CustomerCompanyDetail</TransformationName>
+  <TransformationType>text</TransformationType>
+</cms.transformation>

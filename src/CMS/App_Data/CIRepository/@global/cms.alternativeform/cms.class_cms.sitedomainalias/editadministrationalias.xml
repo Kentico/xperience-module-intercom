@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.alternativeform>
+  <FormClassID>
+    <CodeName>cms.sitedomainalias</CodeName>
+    <GUID>a72f9763-8c28-4314-981e-6247776f8134</GUID>
+    <ObjectType>cms.class</ObjectType>
+  </FormClassID>
+  <FormCustomizedColumns />
+  <FormDefinition>
+    <form version="2">
+      <field column="SiteDomainAliasID" guid="97dd2de6-e021-4be6-afc0-98bb257c2697" />
+      <field column="SiteDomainAliasName" guid="0128ef2c-a751-404e-a4ca-e635da780b90" allowempty="" order="1" />
+      <field column="SiteDomainPresentationUrl" guid="3fb93f49-d6e4-4909-9542-737b6f09ea79" order="2">
+        <settings>
+          <Trim>True</Trim>
+        </settings>
+        <properties>
+          <fieldcaption>
+            <![CDATA[{$sitedomainalias.administrationalias.previewpresentationurl$}]]>
+          </fieldcaption>
+          <fielddescription>
+            <![CDATA[{$sitedomainalias.administrationalias.previewpresentationurl.description$}]]>
+          </fielddescription>
+        </properties>
+      </field>
+      <field column="SiteID" guid="6bcc14c5-26c8-4219-95fa-b17014252d3a" />
+      <field column="SiteDefaultVisitorCulture" guid="a69982ab-2f9e-4c9d-a11a-caa1bee222aa">
+        <settings>
+          <SpecialFields>
+<![CDATA[
+;{$site_edit.automatic$};{%(AllSites[EditedObjectParent.SiteName].DataContext.Settings.CMSRoutingMode == Enums.PageRoutingModeEnum.Custom)|(identity)GlobalAdministrator|(hash)f3522b19010de6dbf24f2c31ef065951d76a48fbd629833470e3fcdf0744d5f0%}
+;{$general.pleaseselect$};{%(AllSites[EditedObjectParent.SiteName].DataContext.Settings.CMSRoutingMode == Enums.PageRoutingModeEnum.BasedOnContentTree)|(identity)GlobalAdministrator|(hash)e20249dbf5c20c3d8bfa2e7a352266751a21a7e4cb300a633275c4531b195201%}
+]]>
+          </SpecialFields>
+        </settings>
+        <properties>
+          <fieldcssclass>form-group hidden</fieldcssclass>
+        </properties>
+      </field>
+      <field column="SiteDomainGUID" guid="9f8ec7b9-bd18-4c2f-aa37-86cc2e848fa7" />
+      <field column="SiteDomainLastModified" guid="9ddf6eaa-3970-4615-9000-e40513eaa8c3" />
+      <field column="SiteDomainAliasType" guid="0d1ae28b-9467-4778-a551-69af1c4c6e17">
+        <properties>
+          <defaultvalue ismacro="true">
+            <![CDATA[{%Convert.ToInt(Enums.SiteDomainAliasTypeEnum.Administration)|(identity)GlobalAdministrator|(hash)91843d7685f2df0df51d7a1f92769f723756a064d0f877fa4faf8f0bbc2d8c92%}]]>
+          </defaultvalue>
+        </properties>
+      </field>
+    </form>
+  </FormDefinition>
+  <FormDisplayName>Edit administration alias</FormDisplayName>
+  <FormGUID>16a23f27-c6f3-4a47-87c9-0ac04f7f9abf</FormGUID>
+  <FormHideNewParentFields>True</FormHideNewParentFields>
+  <FormIsCustom>False</FormIsCustom>
+  <FormName>EditAdministrationAlias</FormName>
+</cms.alternativeform>

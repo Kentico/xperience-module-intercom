@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>abded099-4403-4e0f-b794-e826368195c7</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Accessories/Bleached-Paper-Filters-V60-01</CodeName>
+    <GUID>1a3032f0-b9e3-4a0a-a155-cd2dddb4a07e</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Store/Accessories/Bleached-Paper-Filters-V60-01</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[8EE289DCB33C40EF2033306E123506B7E63C3D12F52582F9B3B1FA3344F7F42A]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

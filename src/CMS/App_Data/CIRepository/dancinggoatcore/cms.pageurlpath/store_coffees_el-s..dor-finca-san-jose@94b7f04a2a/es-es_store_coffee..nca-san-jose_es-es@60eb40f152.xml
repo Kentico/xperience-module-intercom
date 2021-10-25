@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>8519a897-2210-4632-af0f-0a138819786b</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Coffees/El-Salvador-Finca-San-Jose</CodeName>
+    <GUID>c8e4abee-5faf-4ceb-a9a0-3ed601b71887</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Store/Coffees/El-Salvador-Finca-San-Jose</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[FA11149E15A8588123B5B6FBE2B2EDC0ECB33C86FA741069FC74203BB9382282]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

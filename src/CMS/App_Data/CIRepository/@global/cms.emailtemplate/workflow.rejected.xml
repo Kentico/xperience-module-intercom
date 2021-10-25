@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.emailtemplate>
+  <EmailTemplateDisplayName>Workflow - Page rejected</EmailTemplateDisplayName>
+  <EmailTemplateGUID>5b98fd54-1db8-4f57-b802-c7639fe08184</EmailTemplateGUID>
+  <EmailTemplateName>Workflow.Rejected</EmailTemplateName>
+  <EmailTemplatePlainText>
+<![CDATA[
+This is an automatic notification sent by Kentico CMS. The following page was rejected. 
+
+Page: [url={%DocumentEditUrl%}]{%documentname%}[/url] {% DocumentPreviewUrl.IsNullOrEmpty() ? "" : "([url=" + DocumentPreviewUrl + "]preview[/url])"|(identity)GlobalAdministrator|(hash)db1b50725b8efb94b99ddab95ac5917a34ca458dfd281345256bbf5e7a192feb%}
+Rejected by: {%approvedby%} 
+Rejected when: {%approvedwhen%} 
+Original step: {%originalstepname%} 
+Current step: {%currentstepname%} 
+Comment: 
+{%comment%} 
+
+]]>
+  </EmailTemplatePlainText>
+  <EmailTemplateSubject>
+    <![CDATA[Page '{%DocumentName%}' rejected]]>
+  </EmailTemplateSubject>
+  <EmailTemplateText>
+<![CDATA[
+<html>
+  <head>
+  </head>
+  <body style="font-size: 12px; font-family: arial">
+    <p>
+    This is an automatic notification sent by Kentico CMS. The following page was rejected.
+    </p>
+    <p>
+    <strong>Page:</strong> <a href="{%DocumentEditUrl%}">{%documentname%}</a> {% DocumentPreviewUrl.IsNullOrEmpty() ? "" : "(<a href=\"" + DocumentPreviewUrl + "\">preview</a>)"|(encode)false|(identity)GlobalAdministrator|(hash)1a6f37dfe39f4f7baf656a7f3058503a3c4b31620ea743b1683f552e959b09ff%}
+    <br />
+    <br />
+    <strong>Rejected by:</strong> {%approvedby%}
+    <br />
+    <strong>Rejected when:</strong> {%approvedwhen%}
+    <br />
+    <strong>Original step:</strong> {%originalstepname%}
+    <br />
+    <strong>Current step:</strong> {%currentstepname%}
+    <br />
+    <strong>Comment:</strong>
+    <br />
+    {%comment%}
+    </p>
+  </body>
+</html>
+]]>
+  </EmailTemplateText>
+  <EmailTemplateType>workflow</EmailTemplateType>
+</cms.emailtemplate>

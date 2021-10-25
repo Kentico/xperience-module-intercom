@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ecommerce.carrier>
+  <CarrierAssemblyName>CMS.Ecommerce</CarrierAssemblyName>
+  <CarrierClassName>CMS.Ecommerce.DefaultCarrierProvider</CarrierClassName>
+  <CarrierDisplayName>Default carrier</CarrierDisplayName>
+  <CarrierGUID>bd59ba1b-aaa4-4df7-bb88-ecdaebc398cc</CarrierGUID>
+  <CarrierName>DefaultCarrier</CarrierName>
+  <CarrierSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </CarrierSiteID>
+</ecommerce.carrier>

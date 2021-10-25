@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>en-US</PageUrlPathCulture>
+  <PageUrlPathGUID>5d981440-482d-4515-afb9-8a88419e49a2</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Brewers/Clever-Dripper</CodeName>
+    <GUID>c4f5871e-7559-4822-ba63-db62bcaefd10</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>Store/Brewers/Clever-Dripper</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[DF6629C7898649ECA6DEB364643A24FAB8CC1D81D14203FF3D2F6E0FF4B85436]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>

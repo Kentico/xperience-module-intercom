@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.pageurlpath>
+  <PageUrlPathCulture>es-ES</PageUrlPathCulture>
+  <PageUrlPathGUID>8ee79530-8620-4fbb-93f0-a47129fcdef7</PageUrlPathGUID>
+  <PageUrlPathNodeID>
+    <CodeName>/Store/Coffees/Panama-Los-Lajones-Honey</CodeName>
+    <GUID>92e08449-3d94-48bf-9c6f-c5643a10902b</GUID>
+    <ObjectType>cms.node</ObjectType>
+    <Site>
+      <CodeName>DancingGoatCore</CodeName>
+      <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+      <ObjectType>cms.site</ObjectType>
+    </Site>
+  </PageUrlPathNodeID>
+  <PageUrlPathSiteID>
+    <CodeName>DancingGoatCore</CodeName>
+    <GUID>80a391fd-3cfb-4bfa-ad6a-3ba33b79c632</GUID>
+    <ObjectType>cms.site</ObjectType>
+  </PageUrlPathSiteID>
+  <PageUrlPathUrlPath>es-ES/Store/Coffees/Panama-Los-Lajones-Honey</PageUrlPathUrlPath>
+  <PageUrlPathUrlPathHash>
+    <![CDATA[445207BCE0A5FBD0EEBF5813E8502352659F15501CA92DDA7C21310211D9E6CC]]>
+  </PageUrlPathUrlPathHash>
+</cms.pageurlpath>
