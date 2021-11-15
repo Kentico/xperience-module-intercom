@@ -1,5 +1,6 @@
 ﻿@using Kentico.Activities.Web.Mvc
 @using Kentico.OnlineMarketing.Web.Mvc
+@using Kentico.Xperience.Intercom
 
 @{
     Layout = null;
@@ -39,5 +40,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <page-builder-scripts />
+
+    @Html.IntercomScripts()
 </body>
 </html>

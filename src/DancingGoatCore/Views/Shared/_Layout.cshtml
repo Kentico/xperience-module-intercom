@@ -6,6 +6,7 @@
 
 @using DancingGoat.Helpers
 @using DancingGoat.Widgets
+@using Kentico.Xperience.Intercom
 
 @inject IHtmlLocalizer<SharedResources> HtmlLocalizer
 
@@ -155,6 +156,7 @@
     <page-builder-scripts />
 
     @RenderSection("scripts", required: false)
+    @Html.IntercomScripts()
 
 </body>
 </html>
