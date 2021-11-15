@@ -14303,7 +14303,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CMSScripts\Custom\" />
-	<Folder Include="CMSScripts\WebComponents\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CMSScripts\WebComponents\app-globals-8931cc91.js" />
@@ -14325,6 +14324,10 @@
     <Content Include="CMSScripts\WebComponents\shadow-css-8a020e34.system.js" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kentico.Xperience.Intercom.Admin.SampleModule\Kentico.Xperience.Intercom.Admin.SampleModule.csproj">
+      <Project>{11908d33-d38f-466c-be2a-a33ecd339d2d}</Project>
+      <Name>Kentico.Xperience.Intercom.Admin.SampleModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kentico.Xperience.Intercom.Admin\Kentico.Xperience.Intercom.Admin.csproj">
       <Project>{731d469e-6925-4194-aaae-b314c3d878e1}</Project>
       <Name>Kentico.Xperience.Intercom.Admin</Name>
