@@ -14303,7 +14303,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CMSScripts\Custom\" />
-    <Folder Include="CMSScripts\WebComponents\" />
+	<Folder Include="CMSScripts\WebComponents\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CMSScripts\WebComponents\app-globals-8931cc91.js" />
@@ -14323,6 +14323,12 @@
     <Content Include="CMSScripts\WebComponents\kentico-abtest-variant-listing_35.system.entry.js" />
     <Content Include="CMSScripts\WebComponents\shadow-css-14c5e2cb.js" />
     <Content Include="CMSScripts\WebComponents\shadow-css-8a020e34.system.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kentico.Xperience.Intercom.Admin\Kentico.Xperience.Intercom.Admin.csproj">
+      <Project>{731d469e-6925-4194-aaae-b314c3d878e1}</Project>
+      <Name>Kentico.Xperience.Intercom.Admin</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

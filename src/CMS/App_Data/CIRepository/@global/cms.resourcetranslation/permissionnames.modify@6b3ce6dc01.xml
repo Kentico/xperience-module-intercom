@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.resourcetranslation>
+  <Parent>
+    <CodeName>permissionnames.modify</CodeName>
+    <GUID>9ab518b5-d4ab-43d6-bf68-66693fa8f4a2</GUID>
+    <ObjectType>cms.resourcestring</ObjectType>
+  </Parent>
+  <Bindings>
+    <Binding id="cms.culture_en-US">
+      <TranslationCultureID>
+        <CodeName>en-US</CodeName>
+        <GUID>4c98fdfa-841b-431e-9bc8-9fc80800ee45</GUID>
+        <ObjectType>cms.culture</ObjectType>
+      </TranslationCultureID>
+      <TranslationText>Modify</TranslationText>
+    </Binding>
+  </Bindings>
+</cms.resourcetranslation>

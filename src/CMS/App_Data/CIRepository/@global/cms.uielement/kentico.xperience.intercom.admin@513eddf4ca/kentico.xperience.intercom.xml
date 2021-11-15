@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.uielement>
+  <ElementCaption>Intercom</ElementCaption>
+  <ElementCheckModuleReadPermission>True</ElementCheckModuleReadPermission>
+  <ElementDisplayName>Intercom</ElementDisplayName>
+  <ElementGUID>885e5926-210b-4f2c-8b47-3275282df39a</ElementGUID>
+  <ElementIconClass>icon-bubbles</ElementIconClass>
+  <ElementIconPath />
+  <ElementIsCustom>True</ElementIsCustom>
+  <ElementIsGlobalApplication>False</ElementIsGlobalApplication>
+  <ElementIsMenu>False</ElementIsMenu>
+  <ElementName>Kentico.Xperience.Intercom</ElementName>
+  <ElementOrder>19</ElementOrder>
+  <ElementParentID>
+    <CodeName>CMSDesk.OnlineMarketing</CodeName>
+    <GUID>7396a5d9-c69d-4a9a-a03f-41d5eee51be2</GUID>
+    <ObjectType>cms.uielement</ObjectType>
+    <Parent>
+      <CodeName>CMS</CodeName>
+      <GUID>ce1a65a0-80dc-4c53-b0e7-bdecf0aa8c02</GUID>
+      <ObjectType>cms.resource</ObjectType>
+    </Parent>
+  </ElementParentID>
+  <ElementProperties>
+    <Data>
+      <DisplayBreadcrumbs>False</DisplayBreadcrumbs>
+    </Data>
+  </ElementProperties>
+  <ElementRequiresGlobalAdminPriviligeLevel>False</ElementRequiresGlobalAdminPriviligeLevel>
+  <ElementResourceID>
+    <CodeName>Kentico.Xperience.Intercom.Admin</CodeName>
+    <GUID>c5dd1460-7002-4c6b-bd19-6a494db80157</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </ElementResourceID>
+  <ElementSize>0</ElementSize>
+  <ElementTargetURL>
+    <![CDATA[~/CMSModules/Kentico.Xperience.Intercom.Admin/Pages/Intercom_setup.aspx]]>
+  </ElementTargetURL>
+  <ElementType>Url</ElementType>
+</cms.uielement>

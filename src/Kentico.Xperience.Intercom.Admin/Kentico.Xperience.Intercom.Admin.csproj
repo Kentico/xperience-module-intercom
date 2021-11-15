@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <Authors>Kentico Software</Authors>
+    <Version>0.1.0</Version>
+    <Company>Kentico Software</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <None Remove="Pages\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CMS\CMSModules\Kentico.Xperience.Intercom.Admin\Pages\Intercom_AccessTokenDialog.aspx.cs" Link="Pages\Intercom_AccessTokenDialog.aspx.cs" />
+    <Compile Include="..\CMS\CMSModules\Kentico.Xperience.Intercom.Admin\Pages\Intercom_AccessTokenDialog.aspx.designer.cs" Link="Pages\Intercom_AccessTokenDialog.aspx.designer.cs" />
+    <Compile Include="..\CMS\CMSModules\Kentico.Xperience.Intercom.Admin\Pages\Intercom_setup.aspx.cs" Link="Pages\Intercom_setup.aspx.cs" />
+    <Compile Include="..\CMS\CMSModules\Kentico.Xperience.Intercom.Admin\Pages\Intercom_setup.aspx.designer.cs" Link="Pages\Intercom_setup.aspx.designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\CMS\CMSModules\Kentico.Xperience.Intercom.Admin\Pages\Intercom_AccessTokenDialog.aspx" Link="Pages\Intercom_AccessTokenDialog.aspx" />
+    <None Include="..\CMS\CMSModules\Kentico.Xperience.Intercom.Admin\Pages\Intercom_setup.aspx" Link="Pages\Intercom_setup.aspx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CMS.Activities">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\CMS.Activities.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Base">
+      <HintPath>..\Lib\CMS.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Base.Web.UI">
+      <HintPath>..\Lib\CMS.Base.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.ContactManagement">
+      <HintPath>..\Lib\CMS.ContactManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Core">
+      <HintPath>..\Lib\CMS.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.DataEngine">
+      <HintPath>..\Lib\CMS.DataEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Ecommerce">
+      <HintPath>..\Lib\CMS.Ecommerce.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Globalization">
+      <HintPath>..\Lib\CMS.Globalization.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Helpers">
+      <HintPath>..\Lib\CMS.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.MacroEngine">
+      <HintPath>..\Lib\CMS.MacroEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Membership">
+      <HintPath>..\Lib\CMS.Membership.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.Modules">
+      <HintPath>..\Lib\CMS.Modules.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.OnlineMarketing">
+      <HintPath>..\Lib\CMS.OnlineMarketing.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.SiteProvider">
+      <HintPath>..\Lib\CMS.SiteProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.UIControls">
+      <HintPath>..\Lib\CMS.UIControls.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.WebAnalytics">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\CMS.WebAnalytics.dll</HintPath>
+    </Reference>
+    <Reference Include="CMS.WebApi">
+      <HintPath>..\Lib\CMS.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
+  </ItemGroup>
+
+</Project>

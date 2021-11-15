@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.settingscategory>
+  <CategoryDisplayName>General</CategoryDisplayName>
+  <CategoryIconPath />
+  <CategoryIsGroup>True</CategoryIsGroup>
+  <CategoryName>CMS.Integration.Intercom.General</CategoryName>
+  <CategoryOrder>0</CategoryOrder>
+  <CategoryParentID>
+    <CodeName>CMS.Integration.Intercom</CodeName>
+    <ObjectType>cms.settingscategory</ObjectType>
+  </CategoryParentID>
+  <CategoryResourceID>
+    <CodeName>Kentico.Xperience.Intercom.Admin</CodeName>
+    <GUID>c5dd1460-7002-4c6b-bd19-6a494db80157</GUID>
+    <ObjectType>cms.resource</ObjectType>
+  </CategoryResourceID>
+</cms.settingscategory>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.resourcestring>
+  <StringGUID>a0ddb7f7-d81a-4cb1-ac77-2d6a709d7c5d</StringGUID>
+  <StringIsCustom>True</StringIsCustom>
+  <StringKey>permissionnames.read</StringKey>
+</cms.resourcestring>
