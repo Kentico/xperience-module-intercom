@@ -30,6 +30,11 @@ namespace Kentico.Xperience.Intercom.Admin
         /// </summary>
         private static void EnsureAPIKeysForSites()
         {
+            if (SettingsKeyInfoProvider.GetSettingsKeyInfo("CMSIntercomAPIKey") == null)
+            {
+                return;
+            }
+
             var siteNames = SiteInfo.Provider.Get().Column("SiteName").GetListResult<string>();
 
             foreach (var siteName in siteNames)

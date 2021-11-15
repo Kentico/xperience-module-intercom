@@ -81,8 +81,7 @@ public partial class CMSModules_Intercom_Pages_AccessTokenDialog : CMSModalPage
         // Store key in session
         WindowHelper.Add(SESSION_KEY, sessionKeyValue);
 
-        var currentUrl = URLHelper.GetAbsoluteUrl(RequestContext.CurrentURL);
-        var redirectUrl = new Uri(URLHelper.AppendQuery(currentUrl, $"redirected=1"));
+        var redirectUrl = new Uri(URLHelper.GetAbsoluteUrl(RequestContext.CurrentURL));
 
         try
         {
