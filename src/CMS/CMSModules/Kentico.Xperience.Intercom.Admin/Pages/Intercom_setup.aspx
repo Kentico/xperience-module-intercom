@@ -23,11 +23,11 @@
 
 <asp:Content ID="cntBody" runat="server" ContentPlaceHolderID="plcContent">
     <div class="intercom">
-        <h2>Intercom chat service</h2>
+        <h2>Intercom integration</h2>
         <div class="wrapper">
-            <p>
-                The integration allows updating contact information and logging custom activities.
-            </p>
+            <p>The Intercom chat service integration allows for the updating and extension of contact data based on information provided by visitors during chatbot conversations on your website.</p> 
+            <p>It also records conversation transcripts and logs conversation activities that can be used by other Kentico Xperience marketing features to further enrich the customer experience.</p>
+            
         </div>
 
         <asp:Panel ID="pnlSetup" runat="server" DefaultButton="btnSetupSave" CssClass="setup">
@@ -50,7 +50,6 @@
                     </div>
                     <div class="editing-form-value-cell">
                         <cms:CMSTextBox runat="server" ID="txtAppID" EnableViewState="false" />
-                        <div class="explanation-text-settings"><a target="_blank" href="https://www.intercom.com/help/en/articles/3539-where-can-i-find-my-workspace-id-app-id">Where can I find App ID?</a></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -60,7 +59,6 @@
                     </div>
                     <div class="editing-form-value-cell">
                         <cms:CMSTextBox runat="server" ID="txtClientID" EnableViewState="false" />
-                        <div class="explanation-text-settings"><a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md">Where can I find Client ID?</a></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -70,7 +68,6 @@
                     </div>
                     <div class="editing-form-value-cell">
                         <cms:CMSTextBox runat="server" ID="txtClientSecret" EnableViewState="false" />
-                        <div class="explanation-text-settings"><a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md">Where can I find Client Secret?</a></div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -80,7 +77,7 @@
                     </div>
                     <div class="editing-form-value-cell">
                         <cms:CMSTextBox runat="server" ID="txtIdentityVerificationSecret" EnableViewState="false" />
-                        <div class="explanation-text-settings"><a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md">Where can I find Identity Verification Secret?</a></div>
+                        <div class="explanation-text-settings"><a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md">Where can I find the Intercom IDs and Secrets?</a></div>
                     </div>
                 </div>
                 <div class="form-group form-group-submit">
@@ -89,11 +86,11 @@
             </div>
         </asp:Panel>
         <asp:Panel ID="pnlAccessToken" runat="server">
-            <h5>Accessing Intercom data via API</h5>
+            <h5>Intercom data access</h5>
             <cms:MessagesPlaceHolder ID="msgAccessToken" runat="server" IsLiveSite="false" />
             <div class="form-horizontal">
                 <div class="form-group">
-                    <p>Access tokens are used to access your workspace's data via API.</p>
+                    <p>Xperience requires an access token to obtain your Intercom workspace's data via the API.</p>
                     <div class="editing-form-label-cell">
                         <cms:LocalizedLabel CssClass="control-label" ID="lblGetToken" runat="server" EnableViewState="false" ResourceString="API Access"
                             DisplayColon="true" />
@@ -106,11 +103,11 @@
             </div>
         </asp:Panel>
         <asp:Panel ID="pnlAPIKey" runat="server">
-            <h5>Securing webhook requests</h5>
+            <h5>Webhook request security</h5>
             <div class="form-horizontal">
                 <div class="form-group">
-                    <p>API key must be included in every webhook request within the Series feature. For more information see <a target="_blank" href="#">How to use Series webhooks?</a></p>
-                    <p><span style="color:red;font-style:italic;">This is a temporary solution until Intercom fixes <span class="code">X-Hub-Signature</span> header in Series webhook.</span></p>
+                    <p>Contact data updates and logging of activities in Xperience is done via webhook requests sent using the Intercom Series feature.</p>
+                    <p>Security is provided by an API key that must be included in every webhook request, For more information, see <a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md">Using Series webhooks</a></p>
                     <div class="editing-form-label-cell">
                         <cms:LocalizedLabel CssClass="control-label" ID="lblWebhookAPIKey" runat="server" EnableViewState="false" ResourceString="Your API Key"
                             DisplayColon="true" />
@@ -121,7 +118,7 @@
                              <cms:LocalizedCopyToClipboardButton ID="btnCopy" runat="server" CopySourceControlID="txtWebhookAPIKey" ResourceString="general.copy" EnableViewState="false" ButtonStyle="Default" />
                              <cms:LocalizedButton runat="server" ID="btnGenerateWebhookAPIKey" OnClick="ButtonGenerateWebhookAPIKey_Click" Text="Generate new" ButtonStyle="Default" />
                         </div>
-                        <div class="explanation-text-settings">Provide the key value within <strong>XperienceApiKey</strong> header in every webhook request.</div>
+                        <div class="explanation-text-settings">Provide the key value within the <strong>XperienceApiKey</strong> header in every webhook request.</div>
                     </div>
                 </div>
             </div>

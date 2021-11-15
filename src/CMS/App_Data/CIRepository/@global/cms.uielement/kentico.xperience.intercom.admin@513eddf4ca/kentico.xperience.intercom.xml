@@ -2,6 +2,9 @@
 <cms.uielement>
   <ElementCaption>Intercom</ElementCaption>
   <ElementCheckModuleReadPermission>True</ElementCheckModuleReadPermission>
+  <ElementDescription>
+    <![CDATA[Allows you to set up integration with the Intercom chat service. The integration enables updating of contact data based on chatbot conversations, and logging of custom chat activities with conversation transcripts.]]>
+  </ElementDescription>
   <ElementDisplayName>Intercom</ElementDisplayName>
   <ElementGUID>885e5926-210b-4f2c-8b47-3275282df39a</ElementGUID>
   <ElementIconClass>icon-bubbles</ElementIconClass>
