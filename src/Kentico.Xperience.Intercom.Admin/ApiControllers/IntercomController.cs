@@ -168,7 +168,7 @@ namespace Kentico.Xperience.Intercom.Admin
             var currentApiKey = SettingsKeyInfoProvider.GetValue($"{site.SiteName}.CMSIntercomAPIKey");
 
             string apiKeyHeader;
-            if (Request.Headers.TryGetValues("XperienceAPIKey", out var apiKeyHeaderValues))
+            if (Request.Headers.TryGetValues("XperienceApiKey", out var apiKeyHeaderValues))
             {
                 apiKeyHeader = apiKeyHeaderValues.FirstOrDefault();
             }

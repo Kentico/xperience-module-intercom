@@ -121,6 +121,7 @@
                              <cms:LocalizedCopyToClipboardButton ID="btnCopy" runat="server" CopySourceControlID="txtWebhookAPIKey" ResourceString="general.copy" EnableViewState="false" ButtonStyle="Default" />
                              <cms:LocalizedButton runat="server" ID="btnGenerateWebhookAPIKey" OnClick="ButtonGenerateWebhookAPIKey_Click" Text="Generate new" ButtonStyle="Default" />
                         </div>
+                        <div class="explanation-text-settings">Provide the key value within <strong>XperienceApiKey</strong> header in every webhook request.</div>
                     </div>
                 </div>
             </div>
