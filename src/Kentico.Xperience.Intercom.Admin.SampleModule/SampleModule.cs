@@ -42,9 +42,9 @@ namespace Kentico.Xperience.Intercom.Admin.SampleModule
                 contact.SetValue("ContactCafeOwner", (string)ownerValue);
             }
 
-            if (e.ContactData.TryGetValue("ContactCoffeePreference", out var coffePreference))
+            if (e.ContactData.TryGetValue("ContactCoffeePreference", out var coffeePreference))
             {
-                contact.SetValue("ContactCoffeePreference", (string)coffePreference);
+                contact.SetValue("ContactCoffeePreference", (string)coffeePreference);
             }
         }
     }
