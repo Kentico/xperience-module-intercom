@@ -7,10 +7,11 @@ using CMS.WebAnalytics.Internal;
 namespace Kentico.Xperience.Intercom.Admin
 {
     /// <summary>
-    /// Activity initializer for activities logged through the Intercom webhook.
+    /// Activity initializer for custom activities logged through the Intercom webhook.
     /// </summary>
-    internal class IntercomActivityInitializer : IActivityInitializer
+    internal class IntercomActivityInitializer : CustomActivityInitializerBase
     {
+        private readonly string activityType;
         private readonly string activityValue;
         private readonly string activityUrl;
         private readonly string activityComment;
@@ -29,8 +30,7 @@ namespace Kentico.Xperience.Intercom.Admin
         public IntercomActivityInitializer(string activityType, string activityValue, string activityUrl, string conversationHistory)
             : this(Service.Resolve<IActivityUrlHashService>())
         {
-            ActivityType = activityType;
-
+            this.activityType = activityType;
             this.activityValue = activityValue;
             this.activityUrl = activityUrl;
             activityComment = conversationHistory?.Replace(Environment.NewLine, "<br/>");
@@ -44,11 +44,14 @@ namespace Kentico.Xperience.Intercom.Admin
         }
 
 
+        public override string ActivityType => activityType;
+
+
         /// <summary>
         /// Initializes <see cref="IActivityInfo"/> properties.
         /// </summary>
         /// <param name="activity">Activity info</param>
-        public void Initialize(IActivityInfo activity)
+        public override void Initialize(IActivityInfo activity)
         {
             activity.ActivityValue = activityValue;
             activity.ActivityTitle = titleBuilder.CreateTitle(ActivityType, activityValue);
@@ -58,28 +61,6 @@ namespace Kentico.Xperience.Intercom.Admin
             {
                 activity.ActivityURL = activityUrl;
                 activity.ActivityURLHash = activityUrlHashService.GetActivityUrlHash(activityUrl);
-            }
-        }
-
-
-        /// <summary>
-        /// Activity type
-        /// </summary>
-        public string ActivityType
-        {
-            get;
-            private set;
-        }
-
-
-        /// <summary>
-        /// Activity settings key name, used to check whether activity logging is enabled.
-        /// </summary>
-        public string SettingsKeyName
-        {
-            get
-            {
-                return String.Empty;
             }
         }
     }
