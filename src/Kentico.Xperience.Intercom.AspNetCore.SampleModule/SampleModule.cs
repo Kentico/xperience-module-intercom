@@ -1,6 +1,7 @@
 ﻿using CMS;
 using CMS.DataEngine;
 
+using Kentico.Xperience.Intercom;
 using Kentico.Xperience.Intercom.SampleModule;
 
 [assembly: AssemblyDiscoverable]
