@@ -54,10 +54,10 @@ namespace Kentico.Xperience.Intercom
                     if (conversationIDs.Count > 1 && !skipSeparator)
                     {
                         sb.AppendLine();
-                        sb.AppendLine("---");
+                        sb.AppendLine("----------------------------");
                         sb.AppendLine();
-                        skipSeparator = false;
                     }
+                    skipSeparator = false;
 
                     sb.AppendLine(await GetConversationText(conversationID, siteIdentifier));
                 }

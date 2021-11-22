@@ -79,7 +79,7 @@ namespace Kentico.Xperience.Intercom
 
         public override string ToString()
         {
-            return String.Join($"{Environment.NewLine}{Environment.NewLine}", ConversationParts.Where(c => String.Equals("comment", c.PartType, StringComparison.OrdinalIgnoreCase)));
+            return String.Join($"{Environment.NewLine}{Environment.NewLine}", ConversationParts.Where(c => !String.IsNullOrWhiteSpace(c.Body) && String.Equals("comment", c.PartType, StringComparison.OrdinalIgnoreCase)));
         }
     }
 
