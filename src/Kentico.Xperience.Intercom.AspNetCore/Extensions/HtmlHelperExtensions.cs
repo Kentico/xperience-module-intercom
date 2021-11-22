@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using System.Web;
 
 using CMS.ContactManagement;
@@ -65,9 +66,8 @@ window.intercomSettings = {{
             if (currentContact != null && !String.IsNullOrEmpty(identityVerificationSecret))
             {
                 generatedHtml.AppendFormat(@",
-    user_hash: ""{0}""", SecurityMethods.CalculateHash(currentContact.ContactGUID.ToString(), identityVerificationSecret));
+    user_hash: ""{0}""", SecurityMethods.CalculateHash<HMACSHA256>(currentContact.ContactGUID.ToString(), identityVerificationSecret));
             }
-
 
             generatedHtml.AppendLine("};");
 

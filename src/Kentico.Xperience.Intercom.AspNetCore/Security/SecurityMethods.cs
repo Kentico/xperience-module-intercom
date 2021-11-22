@@ -23,7 +23,7 @@ namespace Kentico.Xperience.Intercom
                 throw new InvalidOperationException($"Missing signature.");
             }
 
-            var calculatedSignature = "sha1=" + CalculateHash(requestBody, clientSecret);
+            var calculatedSignature = "sha1=" + CalculateHash<HMACSHA1>(requestBody, clientSecret);
 
             if (!String.Equals(calculatedSignature, providedSignature))
             {
@@ -32,14 +32,14 @@ namespace Kentico.Xperience.Intercom
         }
 
 
-        public static string CalculateHash(string message, string secret)
+        public static string CalculateHash<T>(string message, string secret) where T: HMAC
         {
             var encoding = new ASCIIEncoding();
             byte[] keyByte = encoding.GetBytes(secret);
             byte[] messageBytes = encoding.GetBytes(message);
-            using (var hmacsha1 = new HMACSHA1(keyByte))
+            using (var hmacsha = Activator.CreateInstance(typeof(T), keyByte) as HMAC)
             {
-                byte[] hashmessage = hmacsha1.ComputeHash(messageBytes);
+                byte[] hashmessage = hmacsha.ComputeHash(messageBytes);
                 var sb = new StringBuilder();
                 for (var i = 0; i <= hashmessage.Length - 1; i++)
                 {
