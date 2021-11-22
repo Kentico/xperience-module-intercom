@@ -20,8 +20,6 @@ namespace Kentico.Xperience.Intercom
         private const string SEARCH_CONTACTS_URL = "https://api.intercom.io/contacts/search";
         private const string GET_SPECIFIC_CONVERSATION_URL_FORMAT = "https://api.intercom.io/conversations/{0}";
 
-        private static readonly DateTime unixStartTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IEventLogService eventLogService;
 
@@ -170,19 +168,6 @@ namespace Kentico.Xperience.Intercom
 
             return conversationsResponse["conversations"].Select(c => (string)c["id"]).ToList();
             
-        }
-
-
-        /// <summary>
-        /// Converts UNIX time stamp to local time.
-        /// </summary>
-        /// <param name="timeStamp">Seconds since UNIX epoch</param>
-        /// <returns>DateTime in local time.</returns>
-        internal static DateTime UnixTimeStampToDateTime(double timeStamp)
-        {
-            var dt = unixStartTime.AddSeconds(timeStamp);
-
-            return dt.ToLocalTime();
         }
 
 

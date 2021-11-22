@@ -21,7 +21,7 @@ namespace Kentico.Xperience.Intercom
 
         public override string ToString()
         {
-            var createdAt = IntercomConversationService.UnixTimeStampToDateTime(CreatedAt).ToString("r");
+            var createdAt = DateTimeHelper.UnixTimeStampToDateTime(CreatedAt).ToString("r");
 
             return $"{createdAt} | {Source}{Environment.NewLine}{Environment.NewLine}{ConversationParts}";
         }
@@ -100,9 +100,27 @@ namespace Kentico.Xperience.Intercom
 
         public override string ToString()
         {
-            var createdAt = IntercomConversationService.UnixTimeStampToDateTime(CreatedAt).ToString("r");
+            var createdAt = DateTimeHelper.UnixTimeStampToDateTime(CreatedAt).ToString("r");
 
             return $"{createdAt} | {Author}:{Environment.NewLine}{HTMLHelper.StripTags(Body)}";
+        }
+    }
+
+
+    internal static class DateTimeHelper
+    {
+        private static readonly DateTime unixStartTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+
+        /// <summary>
+        /// Converts UNIX time stamp to local time.
+        /// </summary>
+        /// <param name="timeStamp">Seconds since UNIX epoch</param>
+        /// <returns>DateTime in local time.</returns>
+        internal static DateTime UnixTimeStampToDateTime(double timeStamp)
+        {
+            var dt = unixStartTime.AddSeconds(timeStamp);
+
+            return dt.ToLocalTime();
         }
     }
 }

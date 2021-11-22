@@ -17,7 +17,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Kentico.Xperience.Intercom
 {
-
+    /// <summary>
+    /// Controller that provides endpoints for Intercom Series webhook calls.
+    /// </summary>
     public class KenticoIntercomController : ControllerBase
     {
         private const string INTERCOM_SECURITY_HEADER = "X-Hub-Signature";
@@ -39,7 +41,7 @@ namespace Kentico.Xperience.Intercom
 
 
         /// <summary>
-        /// Updates the contact data with provided <paramref name="contactData"/> details.
+        /// Updates the contact's fields with the provided values.
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> UpdateContact()
@@ -89,7 +91,7 @@ namespace Kentico.Xperience.Intercom
 
 
         /// <summary>
-        /// Log the activity of the specified type.
+        /// Logs custom activity of the specified type.
         /// </summary>
         [HttpPost]
         public async Task<IActionResult> LogActivity()
@@ -207,7 +209,6 @@ namespace Kentico.Xperience.Intercom
         {
             using (var reader = new StreamReader(httpRequest.Body))
             {
-                //httpRequest.Body.Seek(0, SeekOrigin.Begin);
                 var body = await reader.ReadToEndAsync();
 
                 return body;
