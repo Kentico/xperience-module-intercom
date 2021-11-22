@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Kentico.Xperience.Intercom.Admin
+namespace Kentico.Xperience.Intercom
 {
     internal class IntercomWhereEqualsFilter
     {

@@ -9,7 +9,7 @@ using CMS.Membership;
 
 using Newtonsoft.Json.Linq;
 
-namespace Kentico.Xperience.Intercom.Admin
+namespace Kentico.Xperience.Intercom
 {
     internal static class ContactFieldMapper
     {

@@ -1,48 +1,57 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 using CMS.Activities;
+using CMS.Base;
 using CMS.ContactManagement;
 using CMS.Core;
 using CMS.DataEngine;
 using CMS.SiteProvider;
-using CMS.WebApi;
-
-using Kentico.Xperience.Intercom.Admin;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-[assembly: RegisterCMSApiController(typeof(IntercomController), RequiresSessionState = false)]
-
-namespace Kentico.Xperience.Intercom.Admin
+namespace Kentico.Xperience.Intercom
 {
-    public class IntercomController : CMSApiController
+
+    public class KenticoIntercomController : ControllerBase
     {
         private const string INTERCOM_SECURITY_HEADER = "X-Hub-Signature";
+
+        private readonly IActivityLogService activityLogService;
+        private readonly ISiteService siteService;
+        private readonly IIntercomConversationService intercomConversationService;
+
+
+        /// <summary>
+        /// Constructor for dependency injection.
+        /// </summary>
+        public KenticoIntercomController(IActivityLogService activityLogService, ISiteService siteService, IIntercomConversationService intercomConversationService)
+        {
+            this.activityLogService = activityLogService ?? throw new ArgumentNullException(nameof(activityLogService));
+            this.siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
+            this.intercomConversationService = intercomConversationService;
+        }
 
 
         /// <summary>
         /// Updates the contact data with provided <paramref name="contactData"/> details.
         /// </summary>
         [HttpPost]
-        public async Task<IHttpActionResult> UpdateContact()
+        public async Task<IActionResult> UpdateContact()
         {
-            var site = SiteContext.CurrentSite;
+            var site = siteService.CurrentSite;
 
-            if (site == null)
+            if (site == null || !IsIntercomEnabled(site))
             {
                 return NotFound();
             }
 
-            if (!IsIntercomEnabled(site))
-            {
-                return BadRequest("Intercom integration is disabled.");
-            }
-
-            var requestBody = await Request.Content.ReadAsStringAsync();
+            var requestBody = await GetBodyFromRequestAsync(Request);
             VerifySecurityHeaders(requestBody, site);
 
             var contactData = JObject.Parse(requestBody);
@@ -83,21 +92,16 @@ namespace Kentico.Xperience.Intercom.Admin
         /// Log the activity of the specified type.
         /// </summary>
         [HttpPost]
-        public async Task<IHttpActionResult> LogActivity()
+        public async Task<IActionResult> LogActivity()
         {
-            var site = SiteContext.CurrentSite;
+            var site = siteService.CurrentSite;
 
-            if (site == null)
+            if (site == null || !IsIntercomEnabled(site))
             {
                 return NotFound();
             }
 
-            if (!IsIntercomEnabled(site))
-            {
-                return BadRequest("Intercom integration is disabled.");
-            }
-
-            var requestBody = await Request.Content.ReadAsStringAsync();
+            var requestBody = await GetBodyFromRequestAsync(Request);
 
             VerifySecurityHeaders(requestBody, site);
 
@@ -130,30 +134,30 @@ namespace Kentico.Xperience.Intercom.Admin
                 return BadRequest("Contact identifier is incorrect");
             }
 
-            string conversationHistory = await IntercomConversationHelper.GetConversationHistory(contact, site.SiteID);
+            string conversationHistory = await intercomConversationService.GetConversationHistory(contact, site.SiteID);
 
             var activity = new IntercomActivityInitializer(activityData.ActivityType, activityData.ActivityURL, activityData.ActivityValue, conversationHistory)
                     .WithSiteId(site.SiteID)
                     .WithContactId(contact.ContactID);
 
-            Service.Resolve<IActivityLogService>().LogWithoutModifiersAndFilters(activity);
+            activityLogService.LogWithoutModifiersAndFilters(activity);
 
             return Ok();
         }
 
 
-        private void VerifySecurityHeaders(string requestBody, SiteInfo site)
+        private void VerifySecurityHeaders(string requestBody, ISiteInfo site)
         {
             string securityHeader = null;
-            if (Request.Headers.TryGetValues(INTERCOM_SECURITY_HEADER, out var securityHeaderValues))
+            if (Request.Headers.TryGetValue(INTERCOM_SECURITY_HEADER, out var securityHeaderValues))
             {
-                securityHeader = securityHeaderValues.FirstOrDefault();
+                securityHeader = securityHeaderValues;
             }
 
             if (!String.IsNullOrEmpty(securityHeader))
             {
                 // TODO: remove if and validate always after Intercom bugfix
-                IntercomSecurityMethods.VerifySignature(requestBody, securityHeader, site);
+                SecurityMethods.VerifySignature(requestBody, securityHeader, site);
             }
             else
             {
@@ -163,18 +167,18 @@ namespace Kentico.Xperience.Intercom.Admin
         }
 
 
-        private void VerifyTemporaryAPIKey(SiteInfo site)
+        private void VerifyTemporaryAPIKey(ISiteInfo site)
         {
             var currentApiKey = SettingsKeyInfoProvider.GetValue($"{site.SiteName}.CMSIntercomAPIKey");
 
             string apiKeyHeader;
-            if (Request.Headers.TryGetValues("XperienceApiKey", out var apiKeyHeaderValues))
+            if (Request.Headers.TryGetValue("XperienceApiKey", out var apiKeyHeaderValues))
             {
                 apiKeyHeader = apiKeyHeaderValues.FirstOrDefault();
             }
             else
             {
-                throw new InvalidOperationException("Missing Xperience security header.");
+                throw new InvalidOperationException("Missing 'XperienceApiKey' header.");
             }
 
             if (String.IsNullOrEmpty(currentApiKey))
@@ -189,9 +193,25 @@ namespace Kentico.Xperience.Intercom.Admin
         }
 
 
-        private bool IsIntercomEnabled(SiteInfo site)
+        private bool IsIntercomEnabled(ISiteInfo site)
         {
             return SettingsKeyInfoProvider.GetBoolValue($"{site.SiteName}.CMSIntercomEnabled");
+        }
+
+
+        /// <summary>
+        /// Gets the current body from http request.
+        /// </summary>
+        /// <param name="httpRequest">The current http request.</param>
+        private static async Task<string> GetBodyFromRequestAsync(HttpRequest httpRequest)
+        {
+            using (var reader = new StreamReader(httpRequest.Body))
+            {
+                //httpRequest.Body.Seek(0, SeekOrigin.Begin);
+                var body = await reader.ReadToEndAsync();
+
+                return body;
+            }
         }
     }
 }

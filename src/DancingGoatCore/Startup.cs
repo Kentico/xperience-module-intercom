@@ -18,6 +18,8 @@ using Kentico.PageBuilder.Web.Mvc;
 using Kentico.Scheduler.Web.Mvc;
 using Kentico.Web.Mvc;
 
+using Kentico.Xperience.Intercom;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -64,6 +66,8 @@ namespace DancingGoat
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             // Ensures redirect to the administration instance based on URL defined in settings
             services.AddSingleton<IStartupFilter>(new AdminRedirectStartupFilter(Configuration));
             
@@ -147,6 +151,8 @@ namespace DancingGoat
             app.UseEndpoints(endpoints =>
             {
                 endpoints.Kentico().MapRoutes();
+
+                endpoints.MapKenticoIntercomRoutes();
 
                 endpoints.MapControllerRoute(
                    name: "error",

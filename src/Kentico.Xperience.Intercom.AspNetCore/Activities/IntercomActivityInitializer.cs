@@ -4,7 +4,7 @@ using CMS.Activities;
 using CMS.Core;
 using CMS.WebAnalytics.Internal;
 
-namespace Kentico.Xperience.Intercom.Admin
+namespace Kentico.Xperience.Intercom
 {
     /// <summary>
     /// Activity initializer for custom activities logged through the Intercom webhook.

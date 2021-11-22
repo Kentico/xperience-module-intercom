@@ -422,6 +422,38 @@
           <controlname>checkboxcontrol</controlname>
         </settings>
       </field>
+      <category name="CustomFields">
+        <properties>
+          <caption>Custom fields</caption>
+          <visible>True</visible>
+        </properties>
+      </category>
+      <field allowempty="true" column="ContactCoffeePreference" columnsize="200" columntype="text" guid="58cfb1d3-16bb-4e20-bba7-aaab504b69cf" visible="true">
+        <properties>
+          <fieldcaption>Coffee Preference</fieldcaption>
+        </properties>
+        <settings>
+          <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
+          <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>
+          <AutoCompleteShowOnlyCurrentWordInCompletionListItem>False</AutoCompleteShowOnlyCurrentWordInCompletionListItem>
+          <controlname>TextBoxControl</controlname>
+          <FilterMode>False</FilterMode>
+          <Trim>False</Trim>
+        </settings>
+      </field>
+      <field allowempty="true" column="ContactCafeOwner" columnsize="200" columntype="text" guid="8c4f8596-ce0d-4ed7-9dde-912a233e297d" visible="true">
+        <properties>
+          <fieldcaption>Cafe Owner</fieldcaption>
+        </properties>
+        <settings>
+          <AutoCompleteEnableCaching>False</AutoCompleteEnableCaching>
+          <AutoCompleteFirstRowSelected>False</AutoCompleteFirstRowSelected>
+          <AutoCompleteShowOnlyCurrentWordInCompletionListItem>False</AutoCompleteShowOnlyCurrentWordInCompletionListItem>
+          <controlname>TextBoxControl</controlname>
+          <FilterMode>False</FilterMode>
+          <Trim>False</Trim>
+        </settings>
+      </field>
     </form>
   </ClassFormDefinition>
   <ClassFormLayout />

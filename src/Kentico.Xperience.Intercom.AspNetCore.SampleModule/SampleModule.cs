@@ -1,13 +1,13 @@
 ﻿using CMS;
 using CMS.DataEngine;
 
-using Kentico.Xperience.Intercom.Admin.SampleModule;
+using Kentico.Xperience.Intercom.SampleModule;
 
 [assembly: AssemblyDiscoverable]
 
 [assembly: RegisterModule(typeof(SampleModule))]
 
-namespace Kentico.Xperience.Intercom.Admin.SampleModule
+namespace Kentico.Xperience.Intercom.SampleModule
 {
     /// <summary>
     /// Represents sample module that handles <see cref="IntercomEvents.UpdateContact"/> event to configure custom fields.

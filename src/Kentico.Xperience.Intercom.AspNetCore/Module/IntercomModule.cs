@@ -10,7 +10,7 @@ using Kentico.Xperience.Intercom;
 namespace Kentico.Xperience.Intercom
 {
     /// <summary>
-    /// Represents the Intercom chat service module.
+    /// Represents the Intercom chat integration module.
     /// </summary>
     public class IntercomModule : Module
     {

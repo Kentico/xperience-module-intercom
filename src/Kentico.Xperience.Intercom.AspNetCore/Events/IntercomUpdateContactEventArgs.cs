@@ -5,7 +5,7 @@ using CMS.ContactManagement;
 
 using Newtonsoft.Json.Linq;
 
-namespace Kentico.Xperience.Intercom.Admin
+namespace Kentico.Xperience.Intercom
 {
     /// <summary>
     /// Event arguments for handler <see cref="IntercomUpdateContactHandler"/>.

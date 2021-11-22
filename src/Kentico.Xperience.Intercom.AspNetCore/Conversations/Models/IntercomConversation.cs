@@ -6,7 +6,7 @@ using CMS.Helpers;
 
 using Newtonsoft.Json;
 
-namespace Kentico.Xperience.Intercom.Admin
+namespace Kentico.Xperience.Intercom
 {
     internal class IntercomConversation
     {
@@ -21,7 +21,7 @@ namespace Kentico.Xperience.Intercom.Admin
 
         public override string ToString()
         {
-            var createdAt = IntercomConversationHelper.UnixTimeStampToDateTime(CreatedAt).ToString("r");
+            var createdAt = IntercomConversationService.UnixTimeStampToDateTime(CreatedAt).ToString("r");
 
             return $"{createdAt} | {Source}{Environment.NewLine}{Environment.NewLine}{ConversationParts}";
         }
@@ -100,7 +100,7 @@ namespace Kentico.Xperience.Intercom.Admin
 
         public override string ToString()
         {
-            var createdAt = IntercomConversationHelper.UnixTimeStampToDateTime(CreatedAt).ToString("r");
+            var createdAt = IntercomConversationService.UnixTimeStampToDateTime(CreatedAt).ToString("r");
 
             return $"{createdAt} | {Author}:{Environment.NewLine}{HTMLHelper.StripTags(Body)}";
         }

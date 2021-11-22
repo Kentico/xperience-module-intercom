@@ -4,9 +4,9 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DancingGoatCore", "DancingGoatCore\DancingGoatCore.csproj", "{7C642AED-0700-4B6A-B536-6CABAC3251EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Intercom.AspNetCore", "Kentico.Xperience.Intercom.AspNetCore\Kentico.Xperience.Intercom.AspNetCore.csproj", "{335ABD1F-884E-4FB2-88CB-70A63F9D3E98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kentico.Xperience.Intercom.AspNetCore", "Kentico.Xperience.Intercom.AspNetCore\Kentico.Xperience.Intercom.AspNetCore.csproj", "{335ABD1F-884E-4FB2-88CB-70A63F9D3E98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Intercom.Mvc5", "Kentico.Xperience.Intercom.Mvc5\Kentico.Xperience.Intercom.Mvc5.csproj", "{B9720EC5-B3EE-4015-ADDB-063C33B7A955}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Xperience.Intercom.AspNetCore.SampleModule", "Kentico.Xperience.Intercom.AspNetCore.SampleModule\Kentico.Xperience.Intercom.AspNetCore.SampleModule.csproj", "{870501EE-2D5B-4679-AD6D-1968717D39EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,18 +42,18 @@ Global
 		{335ABD1F-884E-4FB2-88CB-70A63F9D3E98}.Release|x64.Build.0 = Release|Any CPU
 		{335ABD1F-884E-4FB2-88CB-70A63F9D3E98}.Release|x86.ActiveCfg = Release|Any CPU
 		{335ABD1F-884E-4FB2-88CB-70A63F9D3E98}.Release|x86.Build.0 = Release|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Debug|x64.Build.0 = Debug|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Debug|x86.Build.0 = Debug|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Release|x64.ActiveCfg = Release|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Release|x64.Build.0 = Release|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Release|x86.ActiveCfg = Release|Any CPU
-		{B9720EC5-B3EE-4015-ADDB-063C33B7A955}.Release|x86.Build.0 = Release|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Release|x64.Build.0 = Release|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{870501EE-2D5B-4679-AD6D-1968717D39EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
