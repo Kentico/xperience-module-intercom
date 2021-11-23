@@ -85,10 +85,24 @@ namespace Kentico.Xperience.Intercom
                 throw new ArgumentNullException(nameof(siteIdentifier));
             }
 
-            var conversationIDs = await GetConversationIDs(contact, siteIdentifier);
             var intercomAppID = SettingsKeyInfoProvider.GetValue($"{siteIdentifier.ObjectCodeName}.CMSIntercomAppID");
 
-            return conversationIDs.Select(id => String.Format(LINK_TO_CONVERSATION_URL_FORMAT, intercomAppID, id));
+            if (String.IsNullOrEmpty(intercomAppID))
+            {
+                return Enumerable.Empty<string>();
+            }
+
+            try
+            {
+                var conversationIDs = await GetConversationIDs(contact, siteIdentifier);
+
+                return conversationIDs.Select(id => String.Format(LINK_TO_CONVERSATION_URL_FORMAT, intercomAppID, id));
+            }
+            catch (Exception ex)
+            {
+                eventLogService.LogException("Intercom", "GETCONVERSATIONLINKS", ex, additionalMessage: $"Could not load conversation links for contact '{contact.ContactGUID}' due to unexpected exception.");
+                return Enumerable.Empty<string>();
+            }
         }
 
 
