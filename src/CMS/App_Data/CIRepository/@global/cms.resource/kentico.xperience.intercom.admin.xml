@@ -2,13 +2,13 @@
 <cms.resource>
   <ResourceAuthor>Kentico Software</ResourceAuthor>
   <ResourceDescription>
-    <![CDATA[A custom module for the Xperience integration with Intercom chat service. Should be installed in the Kentico Xperience Administration project.]]>
+    <![CDATA[A module that integrates Kentico Xperience with the Intercom chat service. Install into the Xperience administration project.]]>
   </ResourceDescription>
   <ResourceDisplayName>Intercom</ResourceDisplayName>
   <ResourceGUID>c5dd1460-7002-4c6b-bd19-6a494db80157</ResourceGUID>
   <ResourceHasFiles>False</ResourceHasFiles>
   <ResourceIsInDevelopment>True</ResourceIsInDevelopment>
   <ResourceName>Kentico.Xperience.Intercom.Admin</ResourceName>
-  <ResourceVersion>0.1.0</ResourceVersion>
+  <ResourceVersion>1.0.0</ResourceVersion>
   <ShowInDevelopment>False</ShowInDevelopment>
 </cms.resource>

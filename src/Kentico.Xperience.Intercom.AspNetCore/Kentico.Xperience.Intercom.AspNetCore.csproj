@@ -2,7 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Version>0.1.0</Version>
+    <Version>1.0.0</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Kentico/xperience-module-intercom</RepositoryUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <Authors>Kentico Software</Authors>
+    <Company>Kentico Software</Company>
+    <PackageTags>kentico xperience mvc core intercom chat</PackageTags>
+    <Description>Contains an HtmlHelper and webhook request handling endpoints for the integration of Kentico Xperience and the Intercom chat service. Install into the Xperience live site project.</Description>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +21,13 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\img\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
