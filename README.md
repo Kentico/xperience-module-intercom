@@ -3,8 +3,8 @@
 
 |  | Package |
 | ------------- |:-------------:|
-| Administration | [![NuGet](https://img.shields.io/nuget/v/Kentico.Xperience.Intercom.Admin.KX13.svg)](https://www.nuget.org/packages/Kentico.Xperience.Intercom.Admin.KX13/0.0.1-preview) |
-| Live site - ASP.NET Core | [![NuGet](https://img.shields.io/nuget/v/Kentico.Xperience.Intercom.KX13.svg)](https://www.nuget.org/packages/Kentico.Xperience.Intercom.KX13/0.0.1-preview) |
+| Administration | [![NuGet](https://img.shields.io/nuget/v/Kentico.Xperience.Intercom.Admin.KX13.svg)](https://www.nuget.org/packages/Kentico.Xperience.Intercom.Admin.KX13) |
+| Live site - ASP.NET Core | [![NuGet](https://img.shields.io/nuget/v/Kentico.Xperience.Intercom.KX13.svg)](https://www.nuget.org/packages/Kentico.Xperience.Intercom.KX13) |
 
 [Intercom integration](https://www.intercom.com/) for [Kentico Xperience](https://xperience.io/)
 
@@ -169,7 +169,7 @@ When visitors use the Intercom chat, you may wish to transfer specific pieces of
 	      * ContactCompanyName
 	      * Additionally, your developers may implement handling for custom contact fields.
 	   * For the key values, select the corresponding people attribute from Intercom from which you want to take the data.				  
-![Intercom_Webhook_Contact_Data](https://user-images.githubusercontent.com/16876168/142995176-c078a0c2-a3a1-4e56-95c3-d846e4914267.png)
+![Intercom_Webhook_Contact_Data](https://user-images.githubusercontent.com/16876168/143006883-0d181788-d1fd-48fa-9456-4c265c51ea59.png)
 8. Save the webhook.
 
 When visitors go through the Series in the Intercom chat on your website and submit information, the data of the matching contact in Xperience is now updated correspondingly.
@@ -197,7 +197,7 @@ When visitors use the Intercom chat, you may wish to log activites in Xperience 
 	      * **ContactGuid** key, with the **User ID** people attribute as the value.
 	   * Optionally, you can add keys for the **ActivityURL** and **ActivityValue** fields.
 	   * For the key values, select the corresponding people attribute from Intercom or enter a value directly.
-![Intercom_Webhook_Activity](https://user-images.githubusercontent.com/16876168/142998639-b83fc747-fe90-48a6-b185-c2983d3acd94.png)
+![Intercom_Webhook_Activity](https://user-images.githubusercontent.com/16876168/143006758-0f817d86-08ff-4434-81af-5704ef9347fc.png)
 8. Save the webhook.
 
 When visitors go through the Series in the Intercom chat on your website, activites are logged in Xperience according to the rules of your Series.
