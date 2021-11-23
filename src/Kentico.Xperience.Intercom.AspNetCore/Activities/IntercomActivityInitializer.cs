@@ -26,14 +26,15 @@ namespace Kentico.Xperience.Intercom
         /// <param name="activityValue">Activity value.</param>
         /// <param name="activityUrl">Url where activity occurred.</param>
         /// <param name="referrerUrl">Url referrer.</param>
+        /// <param name="activityComment">Optional activity comment.</param>
         /// <exception cref="ArgumentException">When <paramref name="activityUrl"/> is null or empty.</exception>
-        public IntercomActivityInitializer(string activityType, string activityValue, string activityUrl, string conversationHistory)
+        public IntercomActivityInitializer(string activityType, string activityValue, string activityUrl, string activityComment = null)
             : this(Service.Resolve<IActivityUrlHashService>())
         {
             this.activityType = activityType;
             this.activityValue = activityValue;
             this.activityUrl = activityUrl;
-            activityComment = conversationHistory?.Replace(Environment.NewLine, "<br/>");
+            this.activityComment = activityComment;
         }
 
 

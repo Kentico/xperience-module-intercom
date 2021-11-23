@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using CMS;
 using CMS.ContactManagement;
@@ -21,5 +22,13 @@ namespace Kentico.Xperience.Intercom
         /// <param name="contact">Contact to download conversation history for.</param>
         /// <param name="siteIdentifier">Site where the conversation occurred.</param>
         Task<string> GetConversationHistory(ContactInfo contact, SiteInfoIdentifier siteIdentifier);
+
+
+        /// <summary>
+        /// Returns links to the Intercom conversations of <paramref name="contact"/> on the provided site (<paramref name="siteIdentifier"/>).
+        /// </summary>
+        /// <param name="contact">Contact.</param>
+        /// <param name="siteIdentifier">Site where the conversations occurred.</param>
+        Task<IEnumerable<string>> GetConversationLinks(ContactInfo contact, SiteInfoIdentifier siteIdentifier);
     }
 }

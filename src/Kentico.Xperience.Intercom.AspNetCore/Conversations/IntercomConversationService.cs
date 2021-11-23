@@ -19,6 +19,7 @@ namespace Kentico.Xperience.Intercom
         private const string SEARCH_CONVERSATIONS_URL = "https://api.intercom.io/conversations/search";
         private const string SEARCH_CONTACTS_URL = "https://api.intercom.io/contacts/search";
         private const string GET_SPECIFIC_CONVERSATION_URL_FORMAT = "https://api.intercom.io/conversations/{0}";
+        private const string LINK_TO_CONVERSATION_URL_FORMAT = "https://app.intercom.com/a/apps/{0}/inbox/inbox/conversation/{1}";
 
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IEventLogService eventLogService;
@@ -69,6 +70,25 @@ namespace Kentico.Xperience.Intercom
                 eventLogService.LogException("Intercom", "GETCONVERSATIONSHISTORY", ex, additionalMessage: $"Could not load conversation history for contact '{contact.ContactGUID}' due to unexpected exception.");
                 return null;
             }
+        }
+
+
+        public async Task<IEnumerable<string>> GetConversationLinks(ContactInfo contact, SiteInfoIdentifier siteIdentifier)
+        {
+            if (contact == null)
+            {
+                throw new ArgumentNullException(nameof(contact));
+            }
+
+            if (siteIdentifier == null)
+            {
+                throw new ArgumentNullException(nameof(siteIdentifier));
+            }
+
+            var conversationIDs = await GetConversationIDs(contact, siteIdentifier);
+            var intercomAppID = SettingsKeyInfoProvider.GetValue($"{siteIdentifier.ObjectCodeName}.CMSIntercomAppID");
+
+            return conversationIDs.Select(id => String.Format(LINK_TO_CONVERSATION_URL_FORMAT, intercomAppID, id));
         }
 
 

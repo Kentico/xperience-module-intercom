@@ -136,9 +136,10 @@ namespace Kentico.Xperience.Intercom
                 return BadRequest("Contact identifier is incorrect");
             }
 
-            string conversationHistory = await intercomConversationService.GetConversationHistory(contact, site.SiteID);
+            var conversationLinks = await intercomConversationService.GetConversationLinks(contact, site.SiteID);
+            var activityComment = String.Join("<br/>", conversationLinks);
 
-            var activity = new IntercomActivityInitializer(activityData.ActivityType, activityData.ActivityURL, activityData.ActivityValue, conversationHistory)
+            var activity = new IntercomActivityInitializer(activityData.ActivityType, activityData.ActivityURL, activityData.ActivityValue, activityComment)
                     .WithSiteId(site.SiteID)
                     .WithContactId(contact.ContactID);
 
