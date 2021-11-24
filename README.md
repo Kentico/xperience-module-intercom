@@ -43,13 +43,13 @@ The setup of the Intercom integration consists of the following steps:
 ### Install the administration package
 1. Open the solution with your Xperience administration project (*~/WebApp.sln*).
 1. Navigate to the *NuGet Package Manager Console*.
-1. Run `Install-Package Kentico.Xperience.Intercom.Admin.KX13 -Version 0.0.1-preview`
+1. Run `Install-Package Kentico.Xperience.Intercom.Admin.KX13 -Version 1.0.0`
 1. Rebuild the CMSApp project.
 
 ### Install the live site package
 1. Open the solution with your live site project (e.g., *~/DancingGoatCore.sln*).
 1. Navigate to the *NuGet Package Manager Console*.
-1. Run `Install-Package Kentico.Xperience.Intercom.KX13 -Version 0.0.1-preview`
+1. Run `Install-Package Kentico.Xperience.Intercom.KX13 -Version 1.0.0`
 1. Rebuild your live site project.
 
 ### Add Intercom webhook endpoints
