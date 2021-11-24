@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.settingskey>
+  <KeyCategoryID>
+    <CodeName>CMS.Integration.Intercom.General</CodeName>
+    <ObjectType>cms.settingscategory</ObjectType>
+  </KeyCategoryID>
+  <KeyDescription />
+  <KeyDisplayName>OAuth token</KeyDisplayName>
+  <KeyExplanationText />
+  <KeyGUID>72998ef9-9ae8-476a-9b42-c78c768555eb</KeyGUID>
+  <KeyIsGlobal>False</KeyIsGlobal>
+  <KeyIsHidden>True</KeyIsHidden>
+  <KeyName>CMSIntercomOAuthToken</KeyName>
+  <KeyOrder>5</KeyOrder>
+  <KeyType>string</KeyType>
+</cms.settingskey>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.settingskey>
+  <KeyCategoryID>
+    <CodeName>CMS.Integration.Intercom.General</CodeName>
+    <ObjectType>cms.settingscategory</ObjectType>
+  </KeyCategoryID>
+  <KeyDescription />
+  <KeyDisplayName>Client ID</KeyDisplayName>
+  <KeyExplanationText />
+  <KeyGUID>9fcbe4bf-8cd7-47d1-ac52-7a363a3df7c2</KeyGUID>
+  <KeyIsGlobal>False</KeyIsGlobal>
+  <KeyIsHidden>True</KeyIsHidden>
+  <KeyName>CMSIntercomClientID</KeyName>
+  <KeyOrder>3</KeyOrder>
+  <KeyType>string</KeyType>
+</cms.settingskey>

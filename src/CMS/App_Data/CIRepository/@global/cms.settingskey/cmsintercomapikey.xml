@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.settingskey>
+  <KeyCategoryID>
+    <CodeName>CMS.Integration.Intercom.General</CodeName>
+    <ObjectType>cms.settingscategory</ObjectType>
+  </KeyCategoryID>
+  <KeyDescription />
+  <KeyDisplayName>API key for webhooks</KeyDisplayName>
+  <KeyExplanationText />
+  <KeyGUID>dae7298c-a1b5-4924-9549-243fa148264b</KeyGUID>
+  <KeyIsGlobal>False</KeyIsGlobal>
+  <KeyIsHidden>True</KeyIsHidden>
+  <KeyName>CMSIntercomAPIKey</KeyName>
+  <KeyOrder>6</KeyOrder>
+  <KeyType>string</KeyType>
+</cms.settingskey>

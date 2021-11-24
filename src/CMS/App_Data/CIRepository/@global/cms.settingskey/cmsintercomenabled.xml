@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.settingskey>
+  <KeyCategoryID>
+    <CodeName>CMS.Integration.Intercom.General</CodeName>
+    <ObjectType>cms.settingscategory</ObjectType>
+  </KeyCategoryID>
+  <KeyDefaultValue>False</KeyDefaultValue>
+  <KeyDescription />
+  <KeyDisplayName>Intercom enabled</KeyDisplayName>
+  <KeyExplanationText />
+  <KeyGUID>a42005f8-dc40-4415-b106-12a4d2ecff17</KeyGUID>
+  <KeyIsGlobal>False</KeyIsGlobal>
+  <KeyIsHidden>True</KeyIsHidden>
+  <KeyName>CMSIntercomEnabled</KeyName>
+  <KeyOrder>1</KeyOrder>
+  <KeyType>boolean</KeyType>
+</cms.settingskey>
