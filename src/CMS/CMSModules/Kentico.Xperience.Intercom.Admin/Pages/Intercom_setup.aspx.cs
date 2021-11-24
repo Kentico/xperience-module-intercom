@@ -46,7 +46,7 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
     {
         base.OnLoad(e);
 
-        CheckPermissions("Kentico.Xperience.Admin", PermissionsEnum.Read.ToString());
+        CheckPermissions("Kentico.Xperience.Intercom.Admin", PermissionsEnum.Read.ToString());
         if (SiteContext.CurrentSite == null)
         {
             RedirectToResourceNotAvailableOnSite("Kentico.Xperience.Intercom.Admin");

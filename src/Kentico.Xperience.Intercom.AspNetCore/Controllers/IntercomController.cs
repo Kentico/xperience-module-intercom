@@ -26,17 +26,19 @@ namespace Kentico.Xperience.Intercom
 
         private readonly IActivityLogService activityLogService;
         private readonly ISiteService siteService;
+        private readonly ISettingsService settingsService;
         private readonly IIntercomConversationService intercomConversationService;
 
 
         /// <summary>
-        /// Constructor for dependency injection.
+        /// Creates a new instance of <see cref="KenticoIntercomController"/>.
         /// </summary>
-        public KenticoIntercomController(IActivityLogService activityLogService, ISiteService siteService, IIntercomConversationService intercomConversationService)
+        public KenticoIntercomController(IActivityLogService activityLogService, ISiteService siteService, ISettingsService settingsService, IIntercomConversationService intercomConversationService)
         {
             this.activityLogService = activityLogService ?? throw new ArgumentNullException(nameof(activityLogService));
             this.siteService = siteService ?? throw new ArgumentNullException(nameof(siteService));
-            this.intercomConversationService = intercomConversationService;
+            this.settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+            this.intercomConversationService = intercomConversationService ?? throw new ArgumentNullException(nameof(intercomConversationService));
         }
 
 
@@ -65,7 +67,7 @@ namespace Kentico.Xperience.Intercom
 
             if (!contactData.TryGetValue("ContactGUID", StringComparison.OrdinalIgnoreCase, out var contactGuidToken))
             {
-                return BadRequest("Contact identifier is not provided");
+                return BadRequest("Contact identifier is not provided.");
             }
 
             if (!Guid.TryParse(contactGuidToken.Value<string>(), out var contactGuid))
@@ -73,7 +75,7 @@ namespace Kentico.Xperience.Intercom
                 return BadRequest("Contact identifier is in incorrect format.");
             }
 
-            var contact = ContactInfo.Provider.Get(contactGuid) ?? VisitorToContactInfoProvider.GetContactForVisitor(contactGuid);
+            var contact = await ContactInfo.Provider.GetAsync(contactGuid) ?? VisitorToContactInfoProvider.GetContactForVisitor(contactGuid);
 
             if (contact == null)
             {
@@ -129,7 +131,7 @@ namespace Kentico.Xperience.Intercom
                 return BadRequest("Contact identifier is in incorrect format.");
             }
 
-            var contact = ContactInfo.Provider.Get(contactGuid) ?? VisitorToContactInfoProvider.GetContactForVisitor(contactGuid);
+            var contact = await ContactInfo.Provider.GetAsync(contactGuid) ?? VisitorToContactInfoProvider.GetContactForVisitor(contactGuid);
 
             if (contact == null)
             {
@@ -157,14 +159,14 @@ namespace Kentico.Xperience.Intercom
                 securityHeader = securityHeaderValues;
             }
 
+            // Intercom Series webhook requests do not include X-Hub-Signature header at the moment - this is a confirmed bug on their side.
+            // We use temporary API key to protect the endpoints.
             if (!String.IsNullOrEmpty(securityHeader))
             {
-                // TODO: remove if and validate always after Intercom bugfix
                 SecurityMethods.VerifySignature(requestBody, securityHeader, site);
             }
             else
             {
-                // Temporary else branch
                 VerifyTemporaryAPIKey(site);
             }
         }
@@ -172,7 +174,7 @@ namespace Kentico.Xperience.Intercom
 
         private void VerifyTemporaryAPIKey(ISiteInfo site)
         {
-            var currentApiKey = SettingsKeyInfoProvider.GetValue($"{site.SiteName}.CMSIntercomAPIKey");
+            var currentApiKey = settingsService[$"{site.SiteName}.CMSIntercomAPIKey"];
 
             string apiKeyHeader;
             if (Request.Headers.TryGetValue("XperienceApiKey", out var apiKeyHeaderValues))
@@ -198,7 +200,7 @@ namespace Kentico.Xperience.Intercom
 
         private bool IsIntercomEnabled(ISiteInfo site)
         {
-            return SettingsKeyInfoProvider.GetBoolValue($"{site.SiteName}.CMSIntercomEnabled");
+            return settingsService[$"{site.SiteName}.CMSIntercomEnabled"].ToBoolean(false);
         }
 
 
