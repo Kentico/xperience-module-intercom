@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="editing-form-value-cell">
                                         <cms:CMSTextBox runat="server" ID="txtIdentityVerificationSecret" EnableViewState="false" />
-                                        <div class="explanation-text-settings"><a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md">Where can I find the Intercom IDs and Secrets?</a></div>
+                                        <div class="explanation-text-settings"><a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md#configure-intercom-and-xperience">Where can I find the Intercom IDs and Secrets?</a></div>
                                     </div>
                                 </div>
                                     <div class="form-group">
@@ -94,7 +94,7 @@
                                             <cms:CMSRadioButton ID="radNever" runat="server" Text="Never" GroupName="RadioPrivacy" AutoPostBack="true" />
                                         </div>
                                         <div class="control-group-inline-forced">
-                                                <cms:CMSRadioButton  ID="radConsent" runat="server" Text="Only if contact has agreed to a specific consent:" GroupName="RadioPrivacy" AutoPostBack="true" />
+                                                <cms:CMSRadioButton  ID="radConsent" runat="server" Text="Only if the contact has agreed with a specific consent:" GroupName="RadioPrivacy" AutoPostBack="true" />
                                                 <asp:PlaceHolder ID="plcConsentSelector" runat="server" />
                                         </div>
                                     </div>
@@ -126,7 +126,7 @@
                     <div class="form-horizontal">
                         <div class="form-group">
                             <p>Contact data updates and logging of activities in Xperience is done via webhook requests sent using the Intercom Series feature.</p>
-                            <p>Security is provided by an API key that must be included in every webhook request, For more information, see <a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md">Using Series webhooks</a></p>
+                            <p>Security is provided by an API key that must be included in every webhook request, For more information, see <a target="_blank" href="https://github.com/Kentico/xperience-module-intercom/blob/master/README.md#intercom-series-webhooks-marketers">Intercom Series webhooks</a></p>
                             <div class="editing-form-label-cell">
                                 <cms:LocalizedLabel CssClass="control-label" ID="lblWebhookAPIKey" runat="server" EnableViewState="false" ResourceString="Your API Key"
                                     DisplayColon="true" />
