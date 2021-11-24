@@ -94,7 +94,7 @@
                                             <cms:CMSRadioButton ID="radNever" runat="server" Text="Never" GroupName="RadioPrivacy" AutoPostBack="true" />
                                         </div>
                                         <div class="control-group-inline-forced">
-                                                <cms:CMSRadioButton  ID="radConsent" runat="server" Text="Only if the contact has agreed with a specific consent:" GroupName="RadioPrivacy" AutoPostBack="true" />
+                                                <cms:CMSRadioButton  ID="radConsent" runat="server" Text="Only if contact has agreed with consent:" GroupName="RadioPrivacy" AutoPostBack="true" />
                                                 <asp:PlaceHolder ID="plcConsentSelector" runat="server" />
                                         </div>
                                     </div>
