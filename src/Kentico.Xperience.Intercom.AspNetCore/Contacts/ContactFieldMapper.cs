@@ -39,12 +39,10 @@ namespace Kentico.Xperience.Intercom
         public static void MapDefaultContactFields(JObject contactData, ContactInfo contact)
         {
             var contactEmail = contactData.Value<string>("ContactEmail");
-            if (!String.IsNullOrEmpty(contactEmail) && ValidationHelper.IsEmail(contactEmail, true))
+
+            if (ValidationHelper.IsEmail(contactEmail, true) && !IsEmailTaken(contactEmail, contact))
             {
-                if (!IsEmailTaken(contactEmail, contact))
-                {
-                    contact.ContactEmail = contactEmail;
-                }
+                contact.ContactEmail = contactEmail;
             }
 
             foreach (var fieldLengthPair in modifiableStringFields.Value)
@@ -59,39 +57,34 @@ namespace Kentico.Xperience.Intercom
         /// </summary>
         private static bool IsEmailTaken(string contactEmail, ContactInfo contact)
         {
-            var emailTaken = false;
-
             var existingContactID = ContactInfoProvider.GetContactIDByEmail(contactEmail);
             if (existingContactID != 0 && contact.ContactID != existingContactID)
             {
-                emailTaken = true;
+                return true;
             }
 
-            if (!emailTaken)
+            var existingUser = UserInfo.Provider.Get().WhereEquals("Email", contactEmail).TopN(1).FirstOrDefault();
+
+            if (existingUser != null)
             {
-                var existingUser = UserInfo.Provider.Get().WhereEquals("Email", contactEmail).TopN(1).FirstOrDefault();
+                var userRelatedContactID = ContactMembershipInfoProvider.GetContactIDByMembership(existingUser.UserID, MemberTypeEnum.CmsUser);
 
-                if (existingUser != null)
+                if (contact.ContactID != userRelatedContactID)
                 {
-                    var userRelatedContactID = ContactMembershipInfoProvider.GetContactIDByMembership(existingUser.UserID, MemberTypeEnum.CmsUser);
-
-                    emailTaken = contact.ContactID != userRelatedContactID;
+                    return true;
                 }
             }
 
-            if (!emailTaken)
+            var existingCustomer = CustomerInfo.Provider.Get().WhereEquals("CustomerEmail", contactEmail).TopN(1).FirstOrDefault();
+
+            if (existingCustomer != null)
             {
-                var existingCustomer = CustomerInfo.Provider.Get().WhereEquals("CustomerEmail", contactEmail).TopN(1).FirstOrDefault();
+                var customerRelatedContactID = ContactMembershipInfoProvider.GetContactIDByMembership(existingCustomer.CustomerID, MemberTypeEnum.EcommerceCustomer);
 
-                if (existingCustomer != null)
-                {
-                    var customerRelatedContactID = ContactMembershipInfoProvider.GetContactIDByMembership(existingCustomer.CustomerID, MemberTypeEnum.EcommerceCustomer);
-
-                    emailTaken = contact.ContactID != customerRelatedContactID;
-                }
+                return contact.ContactID != customerRelatedContactID;
             }
 
-            return emailTaken;
+            return false;
         }
 
 

@@ -14,6 +14,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Kentico.Xperience.Intercom
 {
+    /// <summary>
+    /// Service that retrieves contact's conversation history from the Intercom.
+    /// </summary>
     internal class IntercomConversationService : IIntercomConversationService
     {
         private const string SEARCH_CONVERSATIONS_URL = "https://api.intercom.io/conversations/search";
@@ -23,15 +26,25 @@ namespace Kentico.Xperience.Intercom
 
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IEventLogService eventLogService;
+        private readonly ISettingsService settingsService;
 
 
-        public IntercomConversationService(IHttpClientFactory httpClientFactory, IEventLogService eventLogService)
+        /// <summary>
+        /// Creates a new instance of <see cref="IntercomConversationService"/>.
+        /// </summary>
+        public IntercomConversationService(IHttpClientFactory httpClientFactory, IEventLogService eventLogService, ISettingsService settingsService)
         {
-            this.httpClientFactory = httpClientFactory;
-            this.eventLogService = eventLogService;
+            this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            this.eventLogService = eventLogService ?? throw new ArgumentNullException(nameof(eventLogService));
+            this.settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         }
 
 
+        /// <summary>
+        /// Returns the conversation history of the <paramref name="contact"/> on the provided site (<paramref name="siteIdentifier"/>).
+        /// </summary>
+        /// <param name="contact">Contact to download conversation history for.</param>
+        /// <param name="siteIdentifier">Site where the conversation occurred.</param>
         public async Task<string> GetConversationHistory(ContactInfo contact, SiteInfoIdentifier siteIdentifier)
         {
             if (contact == null)
@@ -73,6 +86,11 @@ namespace Kentico.Xperience.Intercom
         }
 
 
+        /// <summary>
+        /// Returns links to the Intercom conversations of <paramref name="contact"/> on the provided site (<paramref name="siteIdentifier"/>).
+        /// </summary>
+        /// <param name="contact">Contact.</param>
+        /// <param name="siteIdentifier">Site where the conversations occurred.</param>
         public async Task<IEnumerable<string>> GetConversationLinks(ContactInfo contact, SiteInfoIdentifier siteIdentifier)
         {
             if (contact == null)
@@ -85,7 +103,7 @@ namespace Kentico.Xperience.Intercom
                 throw new ArgumentNullException(nameof(siteIdentifier));
             }
 
-            var intercomAppID = SettingsKeyInfoProvider.GetValue($"{siteIdentifier.ObjectCodeName}.CMSIntercomAppID");
+            var intercomAppID = settingsService[$"{siteIdentifier.ObjectCodeName}.CMSIntercomAppID"];
 
             if (String.IsNullOrEmpty(intercomAppID))
             {
@@ -108,17 +126,7 @@ namespace Kentico.Xperience.Intercom
 
         private async Task<string> GetConversationText(string conversationId, SiteInfoIdentifier siteIdentifier)
         {
-            if (String.IsNullOrEmpty(conversationId))
-            {
-                throw new ArgumentException("Conversation ID cannot be empty", nameof(conversationId));
-            }
-
-            if (siteIdentifier == null)
-            {
-                throw new ArgumentNullException(nameof(siteIdentifier));
-            }
-
-            var accessToken = SettingsKeyInfoProvider.GetValue($"{siteIdentifier.ObjectCodeName}.CMSIntercomOAuthToken");
+            var accessToken = settingsService[$"{siteIdentifier.ObjectCodeName}.CMSIntercomOAuthToken"];
 
             if (String.IsNullOrEmpty(accessToken))
             {
@@ -150,17 +158,7 @@ namespace Kentico.Xperience.Intercom
 
         private async Task<IList<string>> GetConversationIDs(ContactInfo contact, SiteInfoIdentifier siteIdentifier)
         {
-            if (contact == null)
-            {
-                throw new ArgumentNullException(nameof(contact));
-            }
-
-            if (siteIdentifier == null)
-            {
-                throw new ArgumentNullException(nameof(siteIdentifier));
-            }
-
-            var accessToken = SettingsKeyInfoProvider.GetValue($"{siteIdentifier.ObjectCodeName}.CMSIntercomOAuthToken");
+            var accessToken = settingsService[$"{siteIdentifier.ObjectCodeName}.CMSIntercomOAuthToken"];
 
             if (String.IsNullOrEmpty(accessToken))
             {
@@ -200,7 +198,7 @@ namespace Kentico.Xperience.Intercom
                 return new List<string>();
             }
 
-            return conversationsResponse["conversations"].Select(c => (string)c["id"]).ToList();
+            return conversationsResponse["conversations"].Select(c => (string)c["id"]).Where(r => !String.IsNullOrEmpty(r)).ToList();
             
         }
 

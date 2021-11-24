@@ -37,32 +37,6 @@ namespace Kentico.Xperience.Intercom
             var currentContact = ContactManagementContext.CurrentContact;
             string contactName = null;
 
-            
-            var sendContactDataMode = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomSendContactData");
-            
-            bool shouldIncludeData;
-
-            switch (sendContactDataMode.ToLowerInvariant())
-            {
-                case "always":
-                    {
-                        shouldIncludeData = true;
-                        break;
-                    }
-                case "consent":
-                    {
-                        var sendContactDataConsent = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomSendContactDataConsent");
-                        var consent = ConsentInfo.Provider.Get(sendContactDataConsent);
-                        shouldIncludeData = consent != null && Service.Resolve<IConsentAgreementService>().IsAgreed(currentContact, consent);
-                        break;
-                    }
-                default:
-                    {
-                        shouldIncludeData = false;
-                        break;
-                    }
-            }
-
             if (currentContact != null && !currentContact.ContactLastName.StartsWith(ContactHelper.ANONYMOUS, StringComparison.Ordinal))
             {
                 contactName = ContactInfoProvider.GetContactFullName(currentContact);
@@ -78,7 +52,7 @@ window.intercomSettings = {{
     user_id: ""{0}""", currentContact.ContactGUID.ToString());
             }
 
-            if (shouldIncludeData)
+            if (ShouldIncludeData(currentContact, currentSite))
             {
                 if (!String.IsNullOrEmpty(contactName))
                 {
@@ -92,7 +66,7 @@ window.intercomSettings = {{
     email: ""{0}""", HttpUtility.JavaScriptStringEncode(currentContact.ContactEmail));
                 }
             }
-            
+
             var identityVerificationSecret = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomIdentityVerificationSecret");
             if (currentContact != null && !String.IsNullOrEmpty(identityVerificationSecret))
             {
@@ -107,6 +81,31 @@ window.intercomSettings = {{
             generatedHtml.AppendHtmlLine("</script>");
 
             return generatedHtml;
+        }
+
+
+        private static bool ShouldIncludeData(ContactInfo currentContact, SiteInfo currentSite)
+        {
+            var sendContactDataMode = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomSendContactData");
+
+            switch (sendContactDataMode.ToLowerInvariant())
+            {
+                case "always":
+                    {
+                        return true;
+                    }
+                case "consent":
+                    {
+                        var sendContactDataConsent = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomSendContactDataConsent");
+                        var consent = ConsentInfo.Provider.Get(sendContactDataConsent);
+
+                        return consent != null && Service.Resolve<IConsentAgreementService>().IsAgreed(currentContact, consent);
+                    }
+                default:
+                    {
+                        return false;
+                    }
+            }
         }
     }
 }
