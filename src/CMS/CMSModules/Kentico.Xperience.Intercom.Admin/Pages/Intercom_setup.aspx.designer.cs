@@ -13,6 +13,15 @@ public partial class CMSModules_Intercom_Pages_Setup
 {
 
     /// <summary>
+    /// pnlForm control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMS.Base.Web.UI.CMSUpdatePanel pnlForm;
+
+    /// <summary>
     /// pnlSetup control.
     /// </summary>
     /// <remarks>
@@ -119,6 +128,51 @@ public partial class CMSModules_Intercom_Pages_Setup
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSTextBox txtIdentityVerificationSecret;
+
+    /// <summary>
+    /// LocalizedLabel1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMS.Base.Web.UI.LocalizedLabel LocalizedLabel1;
+
+    /// <summary>
+    /// radAlways control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMS.Base.Web.UI.CMSRadioButton radAlways;
+
+    /// <summary>
+    /// radNever control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMS.Base.Web.UI.CMSRadioButton radNever;
+
+    /// <summary>
+    /// radConsent control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMS.Base.Web.UI.CMSRadioButton radConsent;
+
+    /// <summary>
+    /// plcConsentSelector control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.PlaceHolder plcConsentSelector;
 
     /// <summary>
     /// btnSetupSave control.

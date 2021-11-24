@@ -3,7 +3,9 @@ using System.Security.Cryptography;
 using System.Web;
 
 using CMS.ContactManagement;
+using CMS.Core;
 using CMS.DataEngine;
+using CMS.DataProtection;
 using CMS.SiteProvider;
 
 using Microsoft.AspNetCore.Html;
@@ -21,23 +23,49 @@ namespace Kentico.Xperience.Intercom
             var currentSite = SiteContext.CurrentSite;
             if (currentSite == null)
             {
-                new HtmlContentBuilder();
+                return new HtmlContentBuilder();
             }
 
-            var intercomEnabled = SettingsKeyInfoProvider.GetBoolValue($"{SiteContext.CurrentSiteName}.CMSIntercomEnabled");
-            var intercomAppID = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomAppID");
+            var intercomEnabled = SettingsKeyInfoProvider.GetBoolValue($"{currentSite.SiteName}.CMSIntercomEnabled");
+            var intercomAppID = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomAppID");
 
             if (!intercomEnabled || String.IsNullOrEmpty(intercomAppID))
             {
-                new HtmlContentBuilder();
+                return new HtmlContentBuilder();
             }
 
             var currentContact = ContactManagementContext.CurrentContact;
             string contactName = null;
 
+            
+            var sendContactDataMode = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomSendContactData");
+            
+            bool shouldIncludeData;
+
+            switch (sendContactDataMode.ToLowerInvariant())
+            {
+                case "always":
+                    {
+                        shouldIncludeData = true;
+                        break;
+                    }
+                case "consent":
+                    {
+                        var sendContactDataConsent = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomSendContactDataConsent");
+                        var consent = ConsentInfo.Provider.Get(sendContactDataConsent);
+                        shouldIncludeData = consent != null && Service.Resolve<IConsentAgreementService>().IsAgreed(currentContact, consent);
+                        break;
+                    }
+                default:
+                    {
+                        shouldIncludeData = false;
+                        break;
+                    }
+            }
+
             if (currentContact != null && !currentContact.ContactLastName.StartsWith(ContactHelper.ANONYMOUS, StringComparison.Ordinal))
             {
-                contactName = $"{currentContact.ContactFirstName} {currentContact.ContactLastName}".Trim();
+                contactName = ContactInfoProvider.GetContactFullName(currentContact);
             }
 
             var generatedHtml = new HtmlContentBuilder().AppendFormat(@"<script>
@@ -50,19 +78,22 @@ window.intercomSettings = {{
     user_id: ""{0}""", currentContact.ContactGUID.ToString());
             }
 
-            if (!String.IsNullOrEmpty(contactName))
+            if (shouldIncludeData)
             {
-                generatedHtml.AppendFormat(@",
+                if (!String.IsNullOrEmpty(contactName))
+                {
+                    generatedHtml.AppendFormat(@",
     name: ""{0}""", HttpUtility.JavaScriptStringEncode(contactName));
-            }
+                }
 
-            if (!String.IsNullOrEmpty(currentContact?.ContactEmail))
-            {
-                generatedHtml.AppendFormat(@",
+                if (!String.IsNullOrEmpty(currentContact?.ContactEmail))
+                {
+                    generatedHtml.AppendFormat(@",
     email: ""{0}""", HttpUtility.JavaScriptStringEncode(currentContact.ContactEmail));
+                }
             }
-
-            var identityVerificationSecret = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomIdentityVerificationSecret");
+            
+            var identityVerificationSecret = SettingsKeyInfoProvider.GetValue($"{currentSite.SiteName}.CMSIntercomIdentityVerificationSecret");
             if (currentContact != null && !String.IsNullOrEmpty(identityVerificationSecret))
             {
                 generatedHtml.AppendFormat(@",

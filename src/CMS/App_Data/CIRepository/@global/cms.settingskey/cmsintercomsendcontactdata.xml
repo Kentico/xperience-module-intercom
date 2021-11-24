@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<cms.settingskey>
+  <KeyCategoryID>
+    <CodeName>CMS.Integration.Intercom.General</CodeName>
+    <ObjectType>cms.settingscategory</ObjectType>
+  </KeyCategoryID>
+  <KeyDescription />
+  <KeyDisplayName>Send contact attributes to Intercom</KeyDisplayName>
+  <KeyExplanationText />
+  <KeyGUID>adfc0f24-94e0-496e-93b5-d9831d729376</KeyGUID>
+  <KeyIsGlobal>False</KeyIsGlobal>
+  <KeyIsHidden>True</KeyIsHidden>
+  <KeyName>CMSIntercomSendContactData</KeyName>
+  <KeyOrder>7</KeyOrder>
+  <KeyType>string</KeyType>
+</cms.settingskey>

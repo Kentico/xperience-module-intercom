@@ -4,6 +4,8 @@ using CMS.Base;
 using CMS.Base.Web.UI;
 using CMS.Core;
 using CMS.DataEngine;
+using CMS.DataProtection;
+using CMS.FormEngine.Web.UI;
 using CMS.Helpers;
 using CMS.Membership;
 using CMS.SiteProvider;
@@ -16,11 +18,27 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
 {
     private readonly ISettingsService settingsService;
     private readonly ISiteService siteService;
+    private UniSelector consentSelector;
 
     public CMSModules_Intercom_Pages_Setup()
     {
         settingsService = Service.Resolve<ISettingsService>();
         siteService = Service.Resolve<ISiteService>();
+    }
+
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+
+        SetupPrivacyRadioButtons();
+        SetupConsentSelector();
+
+        chkEnableIntercom.Checked = SettingsKeyInfoProvider.GetBoolValue($"{SiteContext.CurrentSiteName}.CMSIntercomEnabled");
+        txtAppID.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomAppID");
+        txtClientID.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientID");
+        txtClientSecret.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientSecret");
+        txtIdentityVerificationSecret.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomIdentityVerificationSecret");
     }
 
 
@@ -56,6 +74,8 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
             msgAccessToken.ShowWarning($"Your site might not be accessible over the secured SSL protocol which is required by Intercom authorization.");
         }
 
+        consentSelector.Enabled = radConsent.Checked && radConsent.Enabled;
+
         // Register the dialog script
         ScriptHelper.RegisterDialogScript(Page);
     }
@@ -65,14 +85,72 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
     {
         base.OnPreRender(e);
 
-        chkEnableIntercom.Checked = SettingsKeyInfoProvider.GetBoolValue($"{SiteContext.CurrentSiteName}.CMSIntercomEnabled");
-        txtAppID.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomAppID");
-        txtClientID.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientID");
-        txtClientSecret.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientSecret");
-        txtIdentityVerificationSecret.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomIdentityVerificationSecret");
         txtWebhookAPIKey.Text = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomAPIKey");
 
+        btnGetToken.Enabled = !String.IsNullOrEmpty(SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientID"))
+                                && !String.IsNullOrEmpty(SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientSecret"));
+
         ConfigureTokenControl();
+    }
+
+
+    private void SetupPrivacyRadioButtons()
+    {
+        var shareMode = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomSendContactData");
+
+        switch (shareMode.ToLowerInvariant())
+        {
+            case "never":
+                {
+                    radNever.Checked = true;
+                    break;
+                }
+            case "consent":
+                {
+                    radConsent.Checked = true;
+                    break;
+                }
+            default:
+                {
+                    radAlways.Checked = true;
+                    break;
+                }
+        }
+
+        if (!AnyConsentExists())
+        {
+            radConsent.Enabled = false;
+        }
+    }
+
+
+    private void SetupConsentSelector()
+    {
+        var consentName = SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomSendContactDataConsent");
+
+        consentSelector = LoadUserControl("~/CMSAdminControls/UI/UniSelector/UniSelector.ascx") as UniSelector;
+        consentSelector.Enabled = radConsent.Checked && radConsent.Enabled;
+        consentSelector.ObjectType = "cms.consent";
+        consentSelector.ID = "consentSelector";
+        consentSelector.CheckChanges = true;
+        consentSelector.ReturnColumnName = "ConsentName";
+        consentSelector.SelectionMode = SelectionModeEnum.SingleDropDownList;
+        consentSelector.IsLiveSite = false;
+        consentSelector.AllowEmpty = false;
+
+        if (!String.IsNullOrEmpty(consentName))
+        {
+            consentSelector.Value = consentName;
+        }
+        
+        plcConsentSelector.Controls.Clear();
+        plcConsentSelector.Controls.Add(consentSelector);
+    }
+
+
+    private static bool AnyConsentExists()
+    {
+        return ConsentInfo.Provider.Get().Column("ConsentID").TopN(1).HasResults();
     }
 
 
@@ -87,10 +165,6 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
         var tokenStatus = isTokenConfigured ? "Access token is configured" : "Access token is not configured";
 
         ltlTokenStatus.Text = $"<div class=\"form-control-text\">{iconTag}<span class=\"TokenStatus\">{tokenStatus}</span></div>";
-
-
-        btnGetToken.Enabled = !String.IsNullOrEmpty(SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientID"))
-                                && !String.IsNullOrEmpty(SettingsKeyInfoProvider.GetValue($"{SiteContext.CurrentSiteName}.CMSIntercomClientSecret"));
     }
 
 
@@ -114,6 +188,24 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
             SettingsKeyInfoProvider.SetValue("CMSIntercomClientID", SiteContext.CurrentSiteName, txtClientID.Text);
             SettingsKeyInfoProvider.SetValue("CMSIntercomClientSecret", SiteContext.CurrentSiteName, txtClientSecret.Text);
             SettingsKeyInfoProvider.SetValue("CMSIntercomIdentityVerificationSecret", SiteContext.CurrentSiteName, txtIdentityVerificationSecret.Text);
+
+            if (radAlways.Checked)
+            {
+                SettingsKeyInfoProvider.SetValue("CMSIntercomSendContactData", SiteContext.CurrentSiteName, "always");
+                SettingsKeyInfoProvider.SetValue("CMSIntercomSendContactDataConsent", SiteContext.CurrentSiteName, null);
+            }
+
+            if (radNever.Checked)
+            {
+                SettingsKeyInfoProvider.SetValue("CMSIntercomSendContactData", SiteContext.CurrentSiteName, "never");
+                SettingsKeyInfoProvider.SetValue("CMSIntercomSendContactDataConsent", SiteContext.CurrentSiteName, null);
+            }
+
+            if (radConsent.Enabled && radConsent.Checked)
+            {
+                SettingsKeyInfoProvider.SetValue("CMSIntercomSendContactData", SiteContext.CurrentSiteName, "consent");
+                SettingsKeyInfoProvider.SetValue("CMSIntercomSendContactDataConsent", SiteContext.CurrentSiteName, consentSelector.Value);
+            }
 
             ShowConfirmation("Intercom settings saved.");
         }
