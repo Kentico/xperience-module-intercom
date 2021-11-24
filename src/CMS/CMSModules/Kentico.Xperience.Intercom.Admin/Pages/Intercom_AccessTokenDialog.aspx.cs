@@ -27,7 +27,7 @@ public partial class CMSModules_Intercom_Pages_AccessTokenDialog : CMSModalPage
     {
         base.OnLoad(e);
 
-        CheckPermissions("Kentico.Xperience.Admin", PermissionsEnum.Modify.ToString());
+        CheckPermissions("Kentico.Xperience.Intercom.Admin", PermissionsEnum.Modify.ToString());
         if (SiteContext.CurrentSite == null)
         {
             RedirectToResourceNotAvailableOnSite("Kentico.Xperience.Intercom.Admin");

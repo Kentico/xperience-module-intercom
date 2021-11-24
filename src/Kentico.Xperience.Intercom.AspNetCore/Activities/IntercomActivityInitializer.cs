@@ -21,6 +21,12 @@ namespace Kentico.Xperience.Intercom
 
 
         /// <summary>
+        /// Represents custom activity code name.
+        /// </summary>
+        public override string ActivityType => activityType;
+
+
+        /// <summary>
         /// Constructor for intercom activity initializer of the provided type.
         /// </summary>
         /// <param name="activityValue">Activity value.</param>
@@ -43,9 +49,6 @@ namespace Kentico.Xperience.Intercom
             this.activityUrlHashService = activityUrlHashService ?? throw new ArgumentNullException(nameof(activityUrlHashService));
             titleBuilder = new ActivityTitleBuilder();
         }
-
-
-        public override string ActivityType => activityType;
 
 
         /// <summary>

@@ -13,7 +13,7 @@ This repository contains the source code for modules that integrate Kentico Xper
 ## Description
 
 The Intercom integration modules provide the following features:
-* Synchronization of Xperience contact data to contacts in your Intercom organization.
+* Synchronization of Xperience contact data to contacts in your Intercom organization. Depending on your site's personal data policy, this synchronization can be disabled, or conditionally applied only to contacts who agree with a specific consent.
 * Transfer of data submitted through the Intercom chat to corresponding contact attributes in Xperience.
 * Logging of custom activities in Xperience when users perform specified actions in the Intercom chat.
 * HtmlHelper API that helps developers generate scripts that add the Intercom chat interface on the pages of your live site.
@@ -30,7 +30,7 @@ The project consists of two modules:
 * Your Xperience administration application must run using the secured **HTTPS** protocol.
 * The *Enable on-line marketing* setting needs to be selected in the Xperience *Settings* application.
 * You need to have an *Intercom* account, workspace and app created. You can register a free developer account at [https://www.intercom.com/](https://www.intercom.com/). For more information, see the [Intercom Developer Hub Docs](https://developers.intercom.com/building-apps/docs/welcome).
-* **Important**: The integration synchronizes contact data from Xperience to your Intercom workspace. As a result, the **personal data** of visitors may be exported to a third party. You may need to update your website's personal data policy and any related consents.
+* **Important**: The integration optionally synchronizes contact data from Xperience to your Intercom workspace. As a result, the **personal data** of visitors may be exported to a third party. If necessary, update your website's personal data policy and any related consents.
 
 ## Setup (Developers)
 The setup of the Intercom integration consists of the following steps:
@@ -88,7 +88,7 @@ Place the scripts before the closing `</body>` tag on every page where you want 
 </body>
 ```
 
-The generated scripts automatically ensure that data available for your contacts in Xperience is synchronized to the corresponding fields of contacts in Intercom.
+The generated scripts automatically ensure that the names and email address of your contacts in Xperience are synchronized to the corresponding fields of contacts in Intercom. You can configure the synchronization in the Xperience administration according to your site's personal data policy. It can be disabled completely or conditionally enabled only for contacts who agree with a specific consent.
 
 ### Configure Intercom and Xperience
 Communication between Xperience and your Intercom app requires configuration on both sides.
@@ -103,11 +103,12 @@ Open the Xperience administration and navigate to the **Intercom** application. 
   4. Copy the values to the corresponding settings in Xperience.
 <img src="https://user-images.githubusercontent.com/16876168/142841507-339fdb5f-3491-4b9f-9f5f-b170ed50306e.png" height="250">
 
-* **Intercom Identity Verification Secret** - to ensure secure communication, [Enable identity verification](https://www.intercom.com/help/en/articles/183-enable-identity-verification-for-web-and-mobile) in Intercom:
+* **Intercom Identity Verification Secret** - To ensure secure communication, [Enable identity verification](https://www.intercom.com/help/en/articles/183-enable-identity-verification-for-web-and-mobile) in Intercom:
   1. Access the **Settings** of your Intercom workspace.
   2. Go to **Security > Enforce identity on web**.
   3. Enable the **Enforce identity verification** option.
   4. Copy the **Identity verification secret** value to the corresponding setting in Xperience.
+* **Send contact attributes to Intercom** - Choose how the integration synchronizes the names and email adress of contacts from Xperience to your Intercom organization (depending on your site's personal data policy). You can leave the synchronization enabled for all contacts (*Always*), disable it completely (*Never*), or enable it only for contacts who agree with a selected consent.
 
 **Save** the settings in the Xperience *Intercom* application.
 
@@ -127,6 +128,8 @@ Next, you need to provide an access token that allows Xperience to obtain data f
 7. **Save** the authentication settings.
 8. Return to the Xperience *Intercom* application.
 9. Click **Get token** next to the **API access** field in the **Intercom data access** section.
+
+<img src="https://user-images.githubusercontent.com/16876168/143205457-9a651aa3-0d1c-4334-9ea1-e74410f09072.png" height="400">
 
 Your marketers can now set up the required contact synchronization and activity logging using the Intercom Series feature and webhooks.
 
@@ -172,9 +175,9 @@ When visitors use the Intercom chat, you may wish to transfer specific pieces of
 ![Intercom_Webhook_Contact_Data](https://user-images.githubusercontent.com/16876168/143006883-0d181788-d1fd-48fa-9456-4c265c51ea59.png)
 8. Save the webhook.
 
-When visitors go through the Series in the Intercom chat on your website and submit information, the data of the matching contact in Xperience is now updated correspondingly.
-
 **Note**: Intercom checks if a user matches a Series block every time they visit your website, and periodically in the background. After you change and save a Series, there may be a delay before the results impact visitors on your website.
+
+When visitors go through the Series in the Intercom chat on your website and submit information, the data of the matching contact in Xperience is now updated correspondingly.
 
 ### Log custom activities in Xperience
 When visitors use the Intercom chat, you may wish to log activites in Xperience at certain points during the conversation. To set up this logging of activities, create an Intercom Series according to the following steps:
@@ -200,9 +203,9 @@ When visitors use the Intercom chat, you may wish to log activites in Xperience 
 ![Intercom_Webhook_Activity](https://user-images.githubusercontent.com/16876168/143006758-0f817d86-08ff-4434-81af-5704ef9347fc.png)
 8. Save the webhook.
 
-When visitors go through the Series in the Intercom chat on your website, activites are logged in Xperience according to the rules of your Series.
-
 **Note**: Intercom checks if a user matches a Series block every time they visit your website, and periodically in the background. After you change and save a Series, there may be a delay before the results impact visitors on your website.
+
+When visitors go through the Series in the Intercom chat on your website, activites are logged in Xperience according to the Series rules. The comment field of the logged activities contains a link to Intercom, where marketers can view the conversation history from the given chat interaction.
 
 ## Synchronize data to custom contact fields (Developers)
 
