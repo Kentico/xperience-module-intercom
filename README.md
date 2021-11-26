@@ -22,10 +22,12 @@ The project consists of two modules:
 * **Administration** - Adds the *Intercom* application to the Xperience administration interface. The application is used to set up the integration and allows you to toggle the Intercom functionality on or off.
 * **Live site** - Provides an HtmlHelper API to simplify generating of scripts that add the Intercom chat interface to your site's pages. Adds endpoints that recieve requests from Intercom webhooks, which are used to update contacts and log activities.
 
+## Compatibility
+* *Kentico Xperience 13.0.0* or newer. 
+* Only the **ASP.NET Core** development model for the live site is supported.
+
 ## Requirements and prerequisites
 
-* *Kentico Xperience 13* installed. 
-* Only the **ASP.NET Core** development model for the live site is supported.
 * **Xperience Enterprise** license edition for your site's domain, as the integration uses on-line marketing features (contacts and activities).
 * Your Xperience administration application must run using the secured **HTTPS** protocol.
 * The *Enable on-line marketing* setting needs to be selected in the Xperience *Settings* application.
