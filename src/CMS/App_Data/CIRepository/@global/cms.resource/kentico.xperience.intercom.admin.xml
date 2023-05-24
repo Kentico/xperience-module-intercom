@@ -9,6 +9,6 @@
   <ResourceHasFiles>False</ResourceHasFiles>
   <ResourceIsInDevelopment>True</ResourceIsInDevelopment>
   <ResourceName>Kentico.Xperience.Intercom.Admin</ResourceName>
-  <ResourceVersion>1.0.0</ResourceVersion>
+  <ResourceVersion>1.0.1</ResourceVersion>
   <ShowInDevelopment>False</ShowInDevelopment>
 </cms.resource>
