@@ -1,0 +1,90 @@
+name: "CI: Build and Test"
+
+env:
+  working-directory: ./src
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.cs"
+      - "**.tsx"
+      - "**.js"
+      - "**.csproj"
+      - "**.props"
+      - "**.targets"
+      - "**.sln"
+      - "**/Client/**/*.json"
+      - "**/ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "**.cs"
+      - "**.tsx"
+      - "**.js"
+      - "**.csproj"
+      - "**.props"
+      - "**.targets"
+      - "**.sln"
+      - "**/Client/**/*.json"
+      - "**/ci.yml"
+
+jobs:
+  dotnet-format:
+    name: Format
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        run: |
+          if ($env:GITHUB_EVENT_NAME -eq "pull_request") {
+            $BASE_REF = "origin/${{ github.base_ref }}"
+          } else {
+            $BASE_REF = "${{ github.event.before }}"
+          }
+          $CHANGED_FILES = (git diff --name-only $BASE_REF ${{ github.sha }}) -replace '\n',' '
+          echo "CHANGED_FILES=$CHANGED_FILES" | Out-File -Append -FilePath $Env:GITHUB_ENV
+
+      - name: Run dotnet format
+        run: |
+          $files = $Env:CHANGED_FILES -split ' '
+          if ($files.Length -eq 0) {
+            Write-Host "No relevant files have changed."
+          } else {
+            dotnet format ./src/WebApp.sln --verify-no-changes --include $files
+          }
+
+
+  build-and-test:
+    name: Build and test
+    runs-on: windows-latest
+
+    needs: dotnet-format
+
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: ${{ env.working-directory }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore Packages
+        run: nuget restore WebApp.sln
+
+      - name: Build Solution
+        run: msbuild.exe WebApp.sln /p:platform="Any CPU" /p:configuration="Release"
