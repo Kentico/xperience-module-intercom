@@ -10,7 +10,7 @@
 
 
 public partial class CMSFormControls_Basic_DropDownListControl {
-    
+
     /// <summary>
     /// dropDownList control.
     /// </summary>
@@ -19,7 +19,7 @@ public partial class CMSFormControls_Basic_DropDownListControl {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSDropDownList dropDownList;
-    
+
     /// <summary>
     /// autoComplete control.
     /// </summary>
@@ -27,8 +27,8 @@ public partial class CMSFormControls_Basic_DropDownListControl {
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::System.Web.UI.HtmlControls.HtmlGenericControl autoComplete;
-    
+    protected global::System.Web.UI.WebControls.Panel autoComplete;
+
     /// <summary>
     /// txtCombo control.
     /// </summary>
@@ -37,7 +37,7 @@ public partial class CMSFormControls_Basic_DropDownListControl {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSTextBox txtCombo;
-    
+
     /// <summary>
     /// btnAutocomplete control.
     /// </summary>

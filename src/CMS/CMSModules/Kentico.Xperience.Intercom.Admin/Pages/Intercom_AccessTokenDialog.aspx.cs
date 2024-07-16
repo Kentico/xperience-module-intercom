@@ -45,7 +45,7 @@ public partial class CMSModules_Intercom_Pages_AccessTokenDialog : CMSModalPage
         else
         {
             var authorizationCode = QueryHelper.GetString(AUTHORIZATION_CODE_QUERY_PARAMETER, String.Empty);
-            
+
             if (String.IsNullOrEmpty(authorizationCode))
             {
                 ShowError("Authorization code is missing.");

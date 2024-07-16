@@ -5,28 +5,27 @@ cmsdefine(["require", "exports", 'CMS/EventHub'], function(cmsrequire, exports, 
                 restrict: 'A',
                 scope: {},
                 link: function ($scope) {
-                    var welcomeTileDataModel;
-
                     $scope.model = {};
                     $scope.model.visible = false;
 
-                    __welcomeTile.get(function (wtData) {
-                        welcomeTileDataModel = wtData;
+                    const toggleWelcomeTile = (value) => $scope.$emit('toggleWelcomeTile', value);
 
-                        $scope.model.visible = wtData.Visible;
+                    __welcomeTile.get(function (wtData) {
                         $scope.model.header = wtData.Header;
                         $scope.model.description = wtData.Description;
                         $scope.model.browseApplicationsText = wtData.BrowseApplicationsText;
                         $scope.model.openHelpText = wtData.OpenHelpText;
+
+                        // User settings indicate the Welcome tile visibility
+                        toggleWelcomeTile(wtData.Visible);
                     });
 
-                    $scope.model.hide = function () {
-                        welcomeTileDataModel.Visible = false;
+                    $scope.model.hide = () => {
+                        toggleWelcomeTile(false);
 
-                        __welcomeTile.update(welcomeTileDataModel, function () {
-                            $scope.model.visible = welcomeTileDataModel.Visible;
-                        });
-                    };
+                        // Store the hidden welcome tile state in the user settings
+                        __welcomeTile.update({ visible: false });
+                    }
                 },
                 templateUrl: 'welcomeTileTemplate.html'
             };

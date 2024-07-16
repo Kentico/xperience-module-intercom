@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -8,7 +10,9 @@ using System.Web.UI.WebControls;
 using CMS.Base;
 using CMS.Base.Web.UI;
 using CMS.Base.Web.UI.ActionsConfig;
+using CMS.Core;
 using CMS.DataEngine;
+using CMS.DocumentEngine.Internal;
 using CMS.Helpers;
 using CMS.Membership;
 using CMS.SiteProvider;
@@ -36,10 +40,16 @@ public partial class CMSModules_Categories_Controls_CategorySelectionDialog : CM
     private int mSelectedCategoryId = -1;
     private CategoryInfo mSelectedCategory;
     private int mSelectedParentId;
+    private int mDocumentId;
+    private int siteId;
     private const int CATEGORIES_ROOT_PARENT_ID = -1;
     private const int PERSONAL_CATEGORIES_ROOT_PARENT_ID = -2;
     private bool canModifySite;
     private bool canModifyGlobal;
+    private IDictionary<int, bool> filteredCategories;
+    private CMS.DocumentEngine.TreeNode currentPage;
+    private bool showAutoSelectButton;
+    private bool autoCheckParents;
 
     // Actions
     private HeaderAction upAction;
@@ -47,6 +57,7 @@ public partial class CMSModules_Categories_Controls_CategorySelectionDialog : CM
     private HeaderAction deleteAction;
     private HeaderAction editAction;
     private HeaderAction newAction;
+    private HeaderAction autoSelectAction;
 
     #endregion
 
@@ -85,6 +96,18 @@ public partial class CMSModules_Categories_Controls_CategorySelectionDialog : CM
             treeElemP.IsLiveSite = value;
 
             base.IsLiveSite = value;
+        }
+    }
+
+
+    /// <summary>
+    /// Messages placeholder.
+    /// </summary>
+    public override MessagesPlaceHolder MessagesPlaceHolder
+    {
+        get
+        {
+            return plcMess;
         }
     }
 
@@ -258,12 +281,59 @@ public partial class CMSModules_Categories_Controls_CategorySelectionDialog : CM
 
 
     /// <summary>
+    /// Document ID for which the category selection is being performed.
+    /// </summary>
+    public int DocumentID
+    {
+        get
+        {
+            return mDocumentId;
+        }
+    }
+
+
+    /// <summary>
     /// Allows to specify where to place actions.
     /// </summary>
     public HeaderActions Actions
     {
         get;
         set;
+    }
+
+
+    /// <summary>
+    /// Filtered categories for document type of the current document specified by <see cref="DocumentID"/>.
+    /// </summary>
+    /// <remarks>If <see cref="DocumentID"/> is not specified, this collection is empty, hence all categories are allowed.</remarks>
+    private IDictionary<int, bool> FilteredCategoriesInTree
+    {
+        get
+        {
+            if (filteredCategories is null)
+            {
+                filteredCategories = LoadFilteredCategories(DocumentID);
+            }
+
+            return filteredCategories;
+        }
+    }
+
+
+    /// <summary>
+    /// Current page tree node.
+    /// </summary>
+    private CMS.DocumentEngine.TreeNode CurrentPage
+    {
+        get
+        {
+            if (currentPage is null)
+            {
+                currentPage = DocumentManager.Tree.SelectSingleDocument(DocumentID);
+            }
+
+            return currentPage;
+        }
     }
 
     #endregion
@@ -319,7 +389,7 @@ public partial class CMSModules_Categories_Controls_CategorySelectionDialog : CM
         }
         else
         {
-            CategoryInfo cat = CategoryInfo.Provider.Get(values[0], SiteContext.CurrentSiteID);
+            CategoryInfo cat = CategoryInfo.Provider.Get(values[0], siteId);
             catId = (cat != null) ? cat.CategoryID : 0;
         }
 
@@ -357,7 +427,7 @@ public partial class CMSModules_Categories_Controls_CategorySelectionDialog : CM
         treeElemP.NodeTemplate = treeElemG.NodeTemplate = "<span id=\"node_##NODECODENAME####NODEID##\" name=\"treeNode\" class=\"ContentTreeItem\" onclick=\"SelectNode('##NODECODENAME####NODEID##'); if (NodeSelected) { NodeSelected(##NODEID##, ##PARENTID##); ##ONCLICK## return false;}\">##ICON##<span class=\"Name\">##NODECUSTOMNAME##</span></span>";
 
         treeElemP.UsePostBack = treeElemG.UsePostBack = false;
-        treeElemG.ProviderObject = CreateTreeProvider(SiteContext.CurrentSiteID, 0);
+        treeElemG.ProviderObject = CreateTreeProvider(siteId, 0);
         treeElemP.ProviderObject = CreateTreeProvider(0, UserID);
 
         treeElemP.ExpandPath = treeElemG.ExpandPath = "/";
@@ -428,27 +498,27 @@ function RaiseHiddenPostBack() {", ControlsHelper.GetPostBackEventReference(hdnB
 
         switch (SelectionMode)
         {
-                // Button modes
+            // Button modes
             case SelectionModeEnum.SingleButton:
             case SelectionModeEnum.MultipleButton:
-            {
-                // Register javascript code
-                if (callbackMethod == null)
                 {
-                    script.AppendFormat("function SelectItems(items,hash) {{ wopener.US_SelectItems_{0}(items,hash); CloseDialog(); }}", parentClientId);
+                    // Register javascript code
+                    if (callbackMethod == null)
+                    {
+                        script.AppendFormat("function SelectItems(items,hash) {{ wopener.US_SelectItems_{0}(items,hash); CloseDialog(); }}", parentClientId);
+                    }
+                    else
+                    {
+                        script.AppendFormat("function SelectItems(items,hash) {{ wopener.{0}(items.replace(/^;+|;+$/g, ''),hash); CloseDialog(); }}", callbackMethod);
+                    }
                 }
-                else
-                {
-                    script.AppendFormat("function SelectItems(items,hash) {{ wopener.{0}(items.replace(/^;+|;+$/g, ''),hash); CloseDialog(); }}", callbackMethod);
-                }
-            }
                 break;
 
-                // Selector modes
+            // Selector modes
             default:
-            {
-                // Register javascript code
-                script.Append(@"
+                {
+                    // Register javascript code
+                    script.Append(@"
 function SelectItems(items, names, hiddenFieldId, txtClientId, hashClientId, hash) {
     if(items.length > 0) {
         wopener.US_SetItems(items, names, hiddenFieldId, txtClientId, null, hashClientId, hash);
@@ -467,7 +537,7 @@ function SelectItemsReload(items, names, hiddenFieldId, txtClientId, hidValue, h
     wopener.US_ReloadPage_", parentClientId, @"();
     return CloseDialog();
 }");
-            }
+                }
                 break;
         }
 
@@ -517,7 +587,7 @@ function disableParents(id, disable) {
                 if (parentChkbox.length) {
                     if (disable) {
                         parentChkbox.attr('disabled', 'disabled');
-                    } else {
+                    } else if (parentChkbox.attr('data-disabled') === undefined) {
                         parentChkbox.removeAttr('disabled');
                     }
 
@@ -560,7 +630,7 @@ function ProcessItem(chkbox, hash, changeChecked, getHash) {
             itemsElem.value = items.replace(re, '", ValuesSeparator, @"');
         }
         checkHash = '|' + item + '#' + hash;
-        disableParents(item, chkbox.checked);
+        ", autoCheckParents ? "disableParents(item, chkbox.checked);" : "", @"
     }
     else
     {
@@ -683,6 +753,12 @@ function SelectAllItems(checkbox, hash) {
         {
             CategoryInfo category = new CategoryInfo(itemData);
 
+            // If selecting categories for a page, check if category is allowed to be rendered
+            if (DocumentID > 0 && !IsCategoryAllowedForRendering(category))
+            {
+                return null;
+            }
+
             string caption = category.CategoryDisplayName;
             if (String.IsNullOrEmpty(caption))
             {
@@ -709,13 +785,17 @@ function SelectAllItems(checkbox, hash) {
             {
                 // Prepare checbox when in multiple selection mode
                 checkBox = string.Format("<span class=\"checkbox tree-checkbox\"><input id=\"chk{0}\" type=\"checkbox\" onclick=\"ProcessItem(this,'{1}',false,true);\" class=\"chckbox\" ", category.CategoryID, ValidationHelper.GetHashString(category.CategoryID.ToString(), new HashSettings(mSecurityPurpose)));
-                if (catHasCheckedChildren || (hidItem.Value.IndexOfCSafe(ValuesSeparator + category.CategoryID + ValuesSeparator, true) >= 0))
+                if ((autoCheckParents && catHasCheckedChildren) || (hidItem.Value.IndexOfCSafe(ValuesSeparator + category.CategoryID + ValuesSeparator, true) >= 0))
                 {
                     checkBox += "checked=\"checked\" ";
                 }
-                if (catHasCheckedChildren)
+                if (autoCheckParents && catHasCheckedChildren)
                 {
                     checkBox += "disabled=\"disabled\" ";
+                }
+                if (DocumentID > 0 && FilteredCategoriesInTree.TryGetValue(category.CategoryID, out var isCategoryAllowed) && !isCategoryAllowed)
+                {
+                    checkBox += catHasCheckedChildren ? "data-disabled " : "disabled=\"disabled\" data-disabled ";
                 }
                 checkBox += "name=\"" + category.CategoryID + "_" + category.CategoryParentID + "\"";
                 checkBox += string.Format("/><label for=\"chk{0}\">&nbsp;</label>", category.CategoryID);
@@ -835,6 +915,9 @@ function SelectAllItems(checkbox, hash) {
             case "collapseall":
                 CollapseAll();
                 break;
+            case "autoselect":
+                AutoSelect();
+                break;
         }
     }
 
@@ -936,6 +1019,51 @@ function SelectAllItems(checkbox, hash) {
         pnlUpdateTrees.Update();
     }
 
+
+    /// <summary>
+    /// Handles request for auto selecting categories.
+    /// </summary>
+    public void AutoSelect()
+    {
+        const string INVALID_CATEGORIES_ERROR = "categories.autoselect.invalidcategorieserror";
+        const string SERVICE_ERROR = "categories.autoselect.serviceerror";
+
+        if (!FilteredCategoriesInTree.Any())
+        {
+            return;
+        }
+
+        treeElemG.ExpandAll = true;
+        pnlUpdate.ShowProgress = true;
+
+        try
+        {
+            var categoryIds = FilteredCategoriesInTree
+                                   .Where(c => c.Value)
+                                   .Select(pair => pair.Key);
+
+            var pageCategorizationService = Service.Resolve<IPageCategorizationService>();
+            var categorizedPage = pageCategorizationService.CategorizePage(CurrentPage, categoryIds);
+            var identifiedCategories = categorizedPage.Categories;
+
+            if (identifiedCategories is null || !identifiedCategories.Any())
+            {
+                MessagesPlaceHolder.ShowError(GetString(INVALID_CATEGORIES_ERROR));
+                return;
+            }
+
+            ClearSelectedCategories();
+
+            SelectCategories(identifiedCategories);
+        }
+        catch (Exception ex)
+        {
+            Service.Resolve<IEventLogService>().LogException("CategorySelectionDialog", "AUTOSELECT", ex, CurrentSite.SiteID);
+
+            MessagesPlaceHolder.ShowError(GetString(SERVICE_ERROR));
+        }
+    }
+
     #endregion
 
 
@@ -986,6 +1114,10 @@ function SelectAllItems(checkbox, hash) {
             returnColumnName = ValidationHelper.GetString(parameters["ReturnColumnName"], null);
             disabledItems = ValidationHelper.GetString(parameters["DisabledItems"], null);
             mSecurityPurpose = ValidationHelper.GetString(parameters["SecurityPurpose"], String.Empty);
+            mDocumentId = ValidationHelper.GetInteger(parameters["CurrentDocumentID"], 0);
+            siteId = ValidationHelper.GetInteger(parameters["SiteID"], SiteContext.CurrentSiteID);
+            showAutoSelectButton = ValidationHelper.GetBoolean(parameters["ShowAutoSelect"], false);
+            autoCheckParents = ValidationHelper.GetBoolean(parameters["AutoCheckParents"], true);
 
             switch (SelectionMode)
             {
@@ -1014,6 +1146,51 @@ function SelectAllItems(checkbox, hash) {
                 }
             }
         }
+    }
+
+
+    /// <summary>
+    /// Clears selected categories while ignoring personal categories.
+    /// </summary>
+    private void ClearSelectedCategories()
+    {
+        int[] selectedIds = ValidationHelper.GetIntegers(
+                            hidItem.Value.Split(new[] { ValuesSeparator }, StringSplitOptions.RemoveEmptyEntries),
+                            0);
+
+        foreach (var categoryId in selectedIds)
+        {
+            if (!FilteredCategoriesInTree.ContainsKey(categoryId))
+            {
+                continue;
+            }
+
+            hidItem.Value = hidItem.Value.Replace(ValuesSeparator + categoryId + ValuesSeparator, ValuesSeparator);
+        }
+    }
+
+
+    private void SelectCategories(IEnumerable<int> categoryIds)
+    {
+        foreach (var categoryId in categoryIds)
+        {
+            if (string.IsNullOrEmpty(hidItem.Value) || hidItem.Value.Equals(ValuesSeparator + ValuesSeparator, StringComparison.OrdinalIgnoreCase))
+            {
+                hidItem.Value = string.Format("{0}{1}{0}", ValuesSeparator, categoryId);
+            }
+            else
+            {
+                hidItem.Value = string.Format("{0}{1}{2}", hidItem.Value, categoryId, ValuesSeparator);
+            }
+        }
+
+        hidHash.Value = ValidationHelper.GetHashString(hidItem.Value, new HashSettings(mSecurityPurpose));
+
+        // Update selected categories in provider object
+        treeElemG.ProviderObject = CreateTreeProvider(siteId, 0);
+
+        pnlHidden.Update();
+        pnlUpdateTrees.Update();
     }
 
 
@@ -1153,7 +1330,7 @@ function SelectAllItems(checkbox, hash) {
                 else
                 {
                     // Site categories have to belong to selected site
-                    valid = (SelectedCategory.CategorySiteID == SiteContext.CurrentSiteID);
+                    valid = (SelectedCategory.CategorySiteID == siteId);
                 }
             }
         }
@@ -1207,6 +1384,16 @@ function SelectAllItems(checkbox, hash) {
         Actions.ActionPerformed += Actions_ActionPerformed;
 
         // Init actions images
+        if (CurrentPage != null && showAutoSelectButton)
+        {
+            Actions.AddAction(autoSelectAction = new HeaderAction
+            {
+                Text = GetString("categories.autoselect.button"),
+                CommandName = "AutoSelect",
+                ButtonStyle = ButtonStyle.Default
+            });
+        }
+
         Actions.AddActions(
             newAction = new HeaderAction
             {
@@ -1319,6 +1506,11 @@ function SelectAllItems(checkbox, hash) {
         upAction.Enabled = upDownDeleteEnabled;
         downAction.Enabled = upDownDeleteEnabled;
         deleteAction.Enabled = upDownDeleteEnabled;
+
+        if (autoSelectAction != null)
+        {
+            autoSelectAction.Enabled = FilteredCategoriesInTree.Any();
+        }
     }
 
 
@@ -1337,6 +1529,36 @@ function SelectAllItems(checkbox, hash) {
     private bool IsCurrentUserCategory(CategoryInfo selectedCategory)
     {
         return (selectedCategory != null) && (selectedCategory.CategoryUserID == UserID);
+    }
+
+
+    private bool IsCategoryAllowedForRendering(CategoryInfo category) => FilteredCategoriesInTree.ContainsKey(category.CategoryID) || category.CategoryIsPersonal;
+
+
+    private IDictionary<int, bool> LoadFilteredCategories(int documentId)
+    {
+        var filteredCategoriesMap = new Dictionary<int, bool>();
+
+        if (documentId > 0)
+        {
+            var classId = DataClassInfoProvider.GetDataClassInfo(CurrentPage.NodeClassName).ClassID;
+            var allowedCategories = new PageTypeCategoriesRetriever().Get(siteId, classId);
+            var allowedCategoryIDs = allowedCategories.Select(c => c.CategoryID).ToList();
+
+            var filteredCategoryIDs = allowedCategories.SelectMany(category =>
+            {
+                return category.CategoryIDPath
+                    .Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(categoryIDPathPart => ValidationHelper.GetInteger(categoryIDPathPart, 0));
+            }).Distinct();
+
+            foreach (var categoryId in filteredCategoryIDs)
+            {
+                filteredCategoriesMap.Add(categoryId, allowedCategoryIDs.Contains(categoryId));
+            }
+        }
+
+        return filteredCategoriesMap;
     }
 
     #endregion

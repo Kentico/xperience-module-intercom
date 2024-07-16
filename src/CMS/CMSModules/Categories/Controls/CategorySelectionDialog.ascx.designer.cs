@@ -83,6 +83,16 @@ public partial class CMSModules_Categories_Controls_CategorySelectionDialog {
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSUpdatePanel pnlUpdate;
     
+
+    /// <summary>
+    /// plcMess control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMS.Base.Web.UI.MessagesPlaceHolder plcMess;
+
     /// <summary>
     /// pnlContent control.
     /// </summary>

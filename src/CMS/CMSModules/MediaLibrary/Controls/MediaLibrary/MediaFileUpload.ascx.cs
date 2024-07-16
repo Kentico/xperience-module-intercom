@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 
 using CMS.Base;
 using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.DataEngine;
 using CMS.Helpers;
 using CMS.IO;
@@ -604,7 +605,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileUplo
 
                     string tooltip = null;
                     string iconTag = UIHelper.GetFileIcon(Page, fileExt, tooltip: fileName);
-                    bool isImage = ImageHelper.IsImage(fileExt);
+                    bool isImage = ImageHelper.IsEditableImage(fileExt);
 
                     if (isImage)
                     {
@@ -617,9 +618,12 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileUplo
                             file.Close();
                             if (img != null)
                             {
-                                int[] imgDims = ImageHelper.EnsureImageDimensions(0, 0, 150, img.Width, img.Height);
+                                int maxSideSize = 150;
+                                int[] imgDims = ImageHelper.EnsureImageDimensions(0, 0, maxSideSize, img.Width, img.Height);
                                 string setRTL = (CultureHelper.IsUICultureRTL() ? ", LEFT, true" : "");
-                                tooltip = "onmouseout=\"UnTip()\" onmouseover=\"Tip('<div style=\\'width:" + imgDims[0] + "px; text-align:center;\\'><img src=\\'" + URLHelper.AddParameterToUrl(fileUrl, "maxsidesize", "150") + "\\' alt=\\'" + fileName + "\\' /></div>'" + setRTL + ")\"";
+                                string url = URLHelper.AddParameterToUrl(fileUrl, "maxsidesize", maxSideSize.ToString());
+                                url = Service.Resolve<IMediaProtectionService>().GetProtectedUrl(url, true);
+                                tooltip = "onmouseout=\"UnTip()\" onmouseover=\"Tip('<div style=\\'width:" + imgDims[0] + "px; text-align:center;\\'><img src=\\'" + url + "\\' alt=\\'" + fileName + "\\' /></div>'" + setRTL + ")\"";
 
                                 // Dispose image
                                 img.Dispose();

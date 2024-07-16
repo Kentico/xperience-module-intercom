@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Web.UI;
 
-using CMS.Base;
 using CMS.Base.Web.UI;
 using CMS.Helpers;
-using CMS.Membership;
 using CMS.PortalEngine;
-using CMS.SiteProvider;
 using CMS.UIControls;
 
 
@@ -66,10 +63,10 @@ public partial class CMSModules_PortalEngine_UI_WebParts_WebPartZoneProperties :
         string controlPath = "~/CMSModules/PortalEngine/Controls/WebParts/WebPartZoneProperties.ascx";
         string ctrlId = "wpzp";
 
-        selectedTab = ValidationHelper.GetString(Request["hdnSelectedTab"], String.Empty);
+        selectedTab = ScriptHelper.GetString(ValidationHelper.GetString(Request["hdnSelectedTab"], String.Empty));
 
         // Set personalized control path if selected
-        switch (selectedTab.ToLowerCSafe())
+        switch (selectedTab.ToLowerInvariant())
         {
             case "webpartzoneproperties.variant":
                 controlPath = "~/CMSModules/OnlineMarketing/Controls/WebParts/WebPartZonePersonalized.ascx";

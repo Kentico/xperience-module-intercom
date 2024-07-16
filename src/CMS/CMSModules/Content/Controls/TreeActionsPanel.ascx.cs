@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI;
 
 using CMS.Base.Web.UI;
+using CMS.DocumentEngine;
+using CMS.DocumentEngine.Internal;
+using CMS.DocumentEngine.Routing;
 using CMS.Helpers;
-using CMS.PortalEngine;
+using CMS.Membership;
+using CMS.SiteProvider;
 using CMS.UIControls;
 
 public partial class CMSModules_Content_Controls_TreeActionsPanel : CMSUserControl, ICallbackEventHandler
@@ -87,7 +92,7 @@ public partial class CMSModules_Content_Controls_TreeActionsPanel : CMSUserContr
             var cultureCode = GetSelectedCulture();
             var argument = nodeId + ';' + cultureCode;
 
-            { Page.ClientScript.GetCallbackEventReference(this, "argument", "OpenInNewTabCallback", null) }
+            {Page.ClientScript.GetCallbackEventReference(this, "argument", "OpenInNewTabCallback", null)}
         }}
 ";
         ScriptHelper.RegisterClientScriptBlock(this, typeof(string), "GetPreviewUrlScript", getPreviewUrlScript, true);
@@ -196,13 +201,10 @@ public partial class CMSModules_Content_Controls_TreeActionsPanel : CMSUserContr
 
         if (parts.Length == 2)
         {
-            mNodePreviewUrl = DocumentUIHelper.GetDocumentPageUrl(new UIPageURLSettings
-            {
-                NodeID = ValidationHelper.GetInteger(parts[0], 0),
-                Culture = parts[1],
-                Mode = ViewModeEnum.Preview.ToString(),
-                AllowViewValidate = false,
-            });
+            int nodeId = ValidationHelper.GetInteger(parts[0], 0);
+            string culture = parts[1];
+
+            mNodePreviewUrl = GetPreviewLinkUrl(nodeId, culture);
         }
 
         mNodePreviewUrl = mNodePreviewUrl ?? DocumentUIHelper.GetPageNotAvailableUrl();
@@ -215,6 +217,39 @@ public partial class CMSModules_Content_Controls_TreeActionsPanel : CMSUserContr
     public string GetCallbackResult()
     {
         return mNodePreviewUrl;
+    }
+
+
+    private string GetPreviewLinkUrl(int nodeId, string culture)
+    {
+        bool combineWithDefaultCulture = SiteInfoProvider.CombineWithDefaultCulture(SiteContext.CurrentSiteName);
+        var page = DocumentHelper.GetDocument(nodeId, culture, combineWithDefaultCulture, new TreeProvider());
+        if (page == null)
+        {
+            return null;
+        }
+
+        if (page.IsRoot() && PageRoutingHelper.GetRoutingMode(page.NodeSiteID) == PageRoutingModeEnum.BasedOnContentTree)
+        {
+            page = GetHomePage(page.NodeSiteName, page.DocumentCulture);
+        }
+
+        return new PreviewLinkGenerator(page).GeneratePreviewModeUrl(MembershipContext.AuthenticatedUser.UserGUID, embededInAdministration: false, cultureCode: culture);
+    }
+
+
+    private static TreeNode GetHomePage(string siteName, string cultureCode)
+    {
+        var homePath = PageRoutingHelper.GetHomePagePath(siteName);
+
+        return new DocumentQuery()
+                    .OnSite(siteName)
+                    .Culture(cultureCode)
+                    .CombineWithAnyCulture()
+                    .WhereEquals("NodeAliasPath", homePath)
+                    .LatestVersion()
+                    .TopN(1)
+                    .FirstOrDefault();
     }
 
     #endregion

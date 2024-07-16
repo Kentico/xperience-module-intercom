@@ -607,6 +607,23 @@
             </summary>
             <param name="targetDomain">The site domain which the token will be issued for.</param>
         </member>
+        <member name="T:CMS.Membership.Internal.DebugAuthenticationConfiguration">
+            <summary>
+            Represents security token configuration for authentication in WebAPI for accessing live site debug logs.
+            </summary>
+        </member>
+        <member name="P:CMS.Membership.Internal.DebugAuthenticationConfiguration.Issuer">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.Membership.Internal.DebugAuthenticationConfiguration.Audience">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.Membership.Internal.DebugAuthenticationConfiguration.TokenEncryption">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.Membership.Internal.DebugAuthenticationConfiguration.Validity">
+            <inheritdoc/>
+        </member>
         <member name="T:CMS.Membership.Internal.ITokenConfiguration">
             <summary>
             Represents security token configuration.
@@ -1421,13 +1438,14 @@
             Service with avatar helper methods.
             </summary>
         </member>
-        <member name="M:CMS.Membership.AvatarService.#ctor(CMS.Core.IEventLogService,CMS.Membership.IAvatarInfoProvider,CMS.Membership.IUserInfoProvider)">
+        <member name="M:CMS.Membership.AvatarService.#ctor(CMS.Core.IEventLogService,CMS.Membership.IAvatarInfoProvider,CMS.Membership.IUserInfoProvider,CMS.Core.IMediaProtectionService)">
             <summary>
             Creates new instance of <see cref="T:CMS.Membership.AvatarService"/>
             </summary>
             <param name="eventLogService">Event log service</param>
             <param name="avatarInfoProvider">Provider for <see cref="T:CMS.Membership.AvatarInfo"/> management.</param>
             <param name="userInfoProvider">Provider for <see cref="T:CMS.Membership.UserInfo"/> management.</param>
+            <param name="mediaProtectionService">Service to protect URLs with resize-able media content.</param>
         </member>
         <member name="M:CMS.Membership.AvatarService.UpdateAvatar(CMS.Base.IUploadedFile,System.Int32,System.String)">
             <summary>
@@ -1532,11 +1550,26 @@
             <param name="defaultData">Default data which should be loaded if data required</param>
             <returns>Returns true if new data has been loaded</returns>
         </member>
+        <member name="M:CMS.Membership.CMSOutputAvatar.EnsureData(System.Byte[],System.Boolean)">
+            <summary>
+            Ensures that the object contains the output data.
+            </summary>
+            <param name="defaultData">Default data which should be loaded if data required</param>
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
+            <returns>Returns true if new data has been loaded</returns>
+        </member>
         <member name="M:CMS.Membership.CMSOutputAvatar.LoadData(System.Byte[])">
             <summary>
             Loads the data to the object.
             </summary>
-            <param name="data">New data</param>
+            <param name="data">New data.</param>
+        </member>
+        <member name="M:CMS.Membership.CMSOutputAvatar.LoadData(System.Byte[],System.Boolean)">
+            <summary>
+            Loads the data to the object.
+            </summary>
+            <param name="data">New data.</param>
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
         </member>
         <member name="P:CMS.Membership.CMSOutputAvatar.Item(System.String)">
             <summary>
@@ -2937,6 +2970,12 @@
             Search indexer for users index
             </summary>
         </member>
+        <member name="M:CMS.Membership.UserSearchIndexer.IsTaskProcessingAllowed(CMS.Search.SearchTaskInfo)">
+            <summary>
+            Indicates if task processing is allowed for given task.
+            </summary>
+            <param name="sti">Search task to process.</param>
+        </member>
         <member name="M:CMS.Membership.UserSearchIndexer.ExecuteProcessTask(CMS.Search.SearchTaskInfo)">
             <summary>
             Processes the index task
@@ -3590,11 +3629,6 @@
             <param name="userId">User ID</param>
             <param name="roleId">Role ID</param>
         </member>
-        <member name="M:CMS.Membership.UserRoleInfoProvider.IsSearchRequired">
-            <summary>
-            Returns true if exists at least one user index with role condition
-            </summary>
-        </member>
         <member name="M:CMS.Membership.UserRoleInfoProvider.GetUserRoleInfoInternal(System.Int32,System.Int32)">
             <summary>
             Returns the UserRoleInfo structure for the specified userRole.
@@ -3678,6 +3712,9 @@
             <summary>
             Returns <see langword="true"/> when <paramref name="c"/> is English letter character from A to Z ignoring case.
             </summary>
+        </member>
+        <member name="M:CMS.Membership.Security.UserPrivilegeLevelEvaluator.IsEditor">
+            <inheritdoc/>
         </member>
         <member name="T:CMS.Membership.UserSecurityHelper">
             <summary>
@@ -4906,7 +4943,7 @@
         <member name="P:CMS.Membership.UserInfo.UserPasswordExpiration">
             <summary>
             Return number of days before user password expiration, null value means that password will never expire,
-            positive values indicates number of days the password is expired and negative value indicates number of days before expiration
+            positive values indicates number of days before which the password expires, 0 means that password is already expired
             </summary>
         </member>
         <member name="P:CMS.Membership.UserInfo.ObjectDisplayName">

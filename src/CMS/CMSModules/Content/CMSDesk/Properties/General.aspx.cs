@@ -8,8 +8,8 @@ using CMS.Core;
 using CMS.DataEngine;
 using CMS.DocumentEngine;
 using CMS.FormEngine.Web.UI;
-using CMS.Helpers;
 using CMS.Globalization;
+using CMS.Helpers;
 using CMS.Localization;
 using CMS.Membership;
 using CMS.SiteProvider;
@@ -24,12 +24,12 @@ public partial class CMSModules_Content_CMSDesk_Properties_General : CMSProperti
     #region "Variables"
 
     protected bool canEditOwner = false;
-    protected bool canEdit = true;    
+    protected bool canEdit = true;
 
     protected FormEngineUserControl usrOwner = null;
 
     #endregion
-    
+
     protected bool IsAdvancedMode
     {
         get
@@ -117,9 +117,9 @@ public partial class CMSModules_Content_CMSDesk_Properties_General : CMSProperti
             txtAlias.MaxLength = TreePathUtils.MaxAliasLength;
 
             // Get strings for headings
-            headOtherProperties.Text = GetString("GeneralProperties.OtherGroup");            
+            headOtherProperties.Text = GetString("GeneralProperties.OtherGroup");
 
-            canEditOwner = (MembershipContext.AuthenticatedUser.IsAuthorizedPerDocument(Node, NodePermissionsEnum.ModifyPermissions) == AuthorizationResultEnum.Allowed);            
+            canEditOwner = (MembershipContext.AuthenticatedUser.IsAuthorizedPerDocument(Node, NodePermissionsEnum.ModifyPermissions) == AuthorizationResultEnum.Allowed);
 
             ReloadData();
         }
@@ -185,7 +185,7 @@ public partial class CMSModules_Content_CMSDesk_Properties_General : CMSProperti
                     usrOwner.Value = Node.GetValue("NodeOwner");
                 }
 
-                txtAlias.Text = Node.NodeAlias;                
+                txtAlias.Text = Node.NodeAlias;
                 chkExcludeFromSearch.Checked = Node.DocumentSearchExcluded;
             }
 
@@ -224,7 +224,7 @@ public partial class CMSModules_Content_CMSDesk_Properties_General : CMSProperti
 
             // Culture
             CultureInfo ci = CultureInfo.Provider.Get(Node.DocumentCulture);
-            lblCulture.Text = ((ci != null) ? ResHelper.LocalizeString(ci.CultureName) : Node.DocumentCulture);
+            lblCulture.Text = ((ci != null) ? ResHelper.LocalizeString(ci.CultureName, encode: true) : Node.DocumentCulture);
 
             if (Node.IsPublished)
             {
@@ -276,7 +276,7 @@ public partial class CMSModules_Content_CMSDesk_Properties_General : CMSProperti
         SaveDocumentOwner(node);
         SaveAlias(e);
         SaveSearch(node);
-    }    
+    }
 
 
     private void DocumentManager_OnAfterAction(object sender, DocumentManagerEventArgs e)
@@ -336,7 +336,7 @@ public partial class CMSModules_Content_CMSDesk_Properties_General : CMSProperti
 
         // Disable 'save button'
         menuElem.Enabled = false;
-        
+
         usrOwner.Enabled = false;
 
         pnlAlias.Enabled = false;

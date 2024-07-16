@@ -3201,6 +3201,11 @@
             Gets a unique key to identify the operation
             </summary>
         </member>
+        <member name="M:CMS.CMSImportExport.FileOperation.Clone">
+            <summary>
+            Clones the object.
+            </summary>
+        </member>
         <member name="T:CMS.CMSImportExport.FileOperationCollection">
             <summary>
             Collection of files for processing.
@@ -3283,6 +3288,11 @@
             </summary>
             <param name="info">The serialization info.</param>
             <param name="context">The streaming context.</param>
+        </member>
+        <member name="M:CMS.CMSImportExport.FileOperationCollection.Clone">
+            <summary>
+            Clones the object.
+            </summary>
         </member>
         <member name="T:CMS.CMSImportExport.FileOperationEnum">
             <summary>
@@ -4269,6 +4279,11 @@
         <member name="M:CMS.CMSImportExport.SiteImportSettings.ClearInfoData">
             <summary>
             Clears info data
+            </summary>
+        </member>
+        <member name="M:CMS.CMSImportExport.SiteImportSettings.Clone">
+            <summary>
+            Clones the object.
             </summary>
         </member>
         <member name="T:CMS.CMSImportExport.ImportExportModule">

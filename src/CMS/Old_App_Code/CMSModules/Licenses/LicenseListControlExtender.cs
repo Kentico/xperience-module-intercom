@@ -40,7 +40,7 @@ public class LicenseListControlExtender : ControlExtender<UniGrid>
     /// <summary>
     /// Sales e-mail address
     /// </summary>
-    private const string SALES_MAIL = "sales@xperience.io";
+    private const string SALES_MAIL = "sales@kentico.com";
 
     #endregion
 
@@ -141,7 +141,7 @@ public class LicenseListControlExtender : ControlExtender<UniGrid>
                 var row = (DataRowView)parameter;
                 LicenseKeyInfo licenseInfo = new LicenseKeyInfo();
                 licenseInfo.LoadLicense(ValidationHelper.GetString(row["LicenseKey"], string.Empty), ValidationHelper.GetString(row["LicenseDomain"], string.Empty));
-                if (licenseInfo.LicenseGuid == null)
+                if (licenseInfo.LicenseGuid == null || licenseInfo.ExpirationDateReal == LicenseKeyInfo.TIME_UNLIMITED_LICENSE)
                 {
                     return ResHelper.GetString(Convert.ToString(row["LicenseExpiration"]));
                 }

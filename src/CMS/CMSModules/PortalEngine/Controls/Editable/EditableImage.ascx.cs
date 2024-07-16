@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections;
-
-using CMS.Base;
-using CMS.Base.Web.UI;
-using CMS.PortalEngine;
-
-using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 
-using CMS.DocumentEngine;
-using CMS.DocumentEngine.Web.UI;
+using CMS.Base;
+using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.Helpers;
-using CMS.Membership;
+using CMS.PortalEngine;
 using CMS.PortalEngine.Web.UI;
 using CMS.SiteProvider;
 using CMS.UIControls;
@@ -98,8 +93,8 @@ public partial class CMSModules_PortalEngine_Controls_Editable_EditableImage : C
         get;
         set;
     }
-    
-    
+
+
     /// <summary>
     /// Gets the url of the page which ensures editing of the web part's editable content in the On-Site editing mode.
     /// </summary>
@@ -523,7 +518,7 @@ public partial class CMSModules_PortalEngine_Controls_Editable_EditableImage : C
             {
                 ViewMode = ViewModeEnum.Preview;
             }
-                        
+
             // Create controls by actual page mode
             switch (ViewMode)
             {
@@ -665,6 +660,11 @@ public partial class CMSModules_PortalEngine_Controls_Editable_EditableImage : C
                     {
                         imgImage.Height = ImageHeight;
                         path = URLHelper.AddParameterToUrl(path, "height", ImageHeight.ToString());
+                    }
+
+                    if (ImageWidth > 0 || ImageHeight > 0)
+                    {
+                        path = Service.Resolve<IMediaProtectionService>().GetProtectedUrl(path, true);
                     }
 
                     // Use specific alternate text or default alternate text

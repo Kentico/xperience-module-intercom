@@ -29,6 +29,7 @@
 
             $scope.model = {
                 tiles: applications,
+                displayWelcomeTile: false,
                 isEditableMode: false,
                 sortableOptions: {
                     cancel: '[data-no-drag]',
@@ -60,6 +61,9 @@
                 },
                 applicationListIsExpanding: false
             };
+
+            // Toggle the visibility of the Welcome tile event handler
+            $scope.$on("toggleWelcomeTile", (e, value) => this.$scope.model.displayWelcomeTile = value );
 
             // Perform save of the current application list if changes were made, but not saved on server yet (due to throttling)
             $window.onbeforeunload = function () {

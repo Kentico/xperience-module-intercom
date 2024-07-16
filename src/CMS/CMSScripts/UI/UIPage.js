@@ -33,9 +33,19 @@ var ContentResizer = {
         this.Resize();
 
         // Bind events which might cause a need for the content area height correction
-        this.Header.bind("DOMSubtreeModified", function () {
-            ContentResizer.DelayedResize();
-        });
+        // NOTE: The Header element is not always present in the DOM, so we need to check for its existence
+        if (!!this.Header.get(0)) {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach(() => {
+                    ContentResizer.DelayedResize();
+                });
+            });
+
+            const config = { attributes: true, childList: true, characterData: true, subtree: true };
+
+            observer.observe(this.Header.get(0), config);
+        }
+
         $cmsj(window).resize(function () {
             ContentResizer.DelayedResize();
         });

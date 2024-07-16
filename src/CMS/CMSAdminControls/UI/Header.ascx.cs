@@ -19,6 +19,7 @@ using CMS.SiteProvider;
 using CMS.Synchronization;
 using CMS.UIControls;
 
+using static CMS.UIControls.Internal.VirtualContextAuthenticatorConstants;
 
 public partial class CMSAdminControls_UI_Header : CMSUserControl, ICallbackEventHandler
 {
@@ -27,9 +28,8 @@ public partial class CMSAdminControls_UI_Header : CMSUserControl, ICallbackEvent
     protected const string SESSION_KEY_TECH_PREVIEW = "WRNShowTechPreview";
     protected const string SESSION_KEY_TRIAL = "WRNShowTrial";
     protected const string SESSION_KEY_SUBSCRIPTION_LICENCES = "WRNShowSubscriptionLicences";
-    private const string VIRTUALCONTEXT_AUTHENTICATION_ROUTE = "/Kentico.VirtualContext/Authenticate?signInToken={0}";
+    private const string VIRTUALCONTEXT_AUTHENTICATION_IFRAME_URL = "/Kentico.VirtualContext/AuthenticationIframe";
     private const string SUBSCRIPTION_LICENSES_WARNING_ALREADY_CLOSED_TODAY = "Kentico.SubscriptionLicense.Closed";
-    private const string GET_MVC_AUTHENTICATION_CALLBACK = "GET_MVC_AUTHENTICATION_CALLBACK";
 
     private string callbackResult = null;
 
@@ -57,11 +57,12 @@ public partial class CMSAdminControls_UI_Header : CMSUserControl, ICallbackEvent
             ScriptHelper.RegisterModule(this, "CMS/VirtualContextAuthenticator", new
             {
                 authenticationFrameUrl = GetMvcAuthenticationFrameUrl(),
+                mvcSignInToken = new SecurityTokenManager<VirtualContextSignInConfiguration>().GetToken(CurrentUser),
                 refreshInterval = Convert.ToInt32(new VirtualContextAuthenticationConfiguration().Validity.TotalSeconds)
             });
 
-            var loadAuthenticationFrameCallback = Page.ClientScript.GetCallbackEventReference(this, "arg", "window.CMS.VirtualContextAuthenticator.loadAuthenticationFrame", "");
-            var callbackScript = $"function raiseGetAuthenticationFrameUrlCallback() {{  var arg = '{GET_MVC_AUTHENTICATION_CALLBACK}'; {loadAuthenticationFrameCallback}; }}";
+            var loadAuthenticationFrameCallback = Page.ClientScript.GetCallbackEventReference(this, "arg", "window.CMS.VirtualContextAuthenticator.getAuthenticationFrameDataCallback", "");
+            var callbackScript = $"function raiseGetAuthenticationFrameDataCallback(culture = '') {{ var arg = '{GET_MVC_AUTHENTICATION_CALLBACK}{CALLBACK_ARGS_SEPARATOR}' + culture; {loadAuthenticationFrameCallback}; }}";
             ScriptHelper.RegisterClientScriptBlock(Page, typeof(string), "loadAuthenticationFrameCallback", callbackScript, true);
         }
 
@@ -178,12 +179,14 @@ function CheckChanges() {
 
     #region "Methods"
 
-    private string GetMvcAuthenticationFrameUrl()
+    private string GetMvcAuthenticationFrameUrl(string culture = null)
     {
+        culture = culture ?? LocalizationContext.PreferredCultureCode;
+
         return URLHelper.CombinePath(
-                    string.Format(VIRTUALCONTEXT_AUTHENTICATION_ROUTE, new SecurityTokenManager<VirtualContextSignInConfiguration>().GetToken(CurrentUser)),
+                    VIRTUALCONTEXT_AUTHENTICATION_IFRAME_URL,
                     '/',
-                    new PresentationUrlRetriever().RetrieveForAdministration(SiteContext.CurrentSiteName, LocalizationContext.PreferredCultureCode),
+                    new PresentationUrlRetriever().RetrieveForAdministration(SiteContext.CurrentSiteName, culture),
                     null);
     }
 
@@ -250,7 +253,7 @@ function CheckChanges() {
 
             return LicenseKeyInfoProvider.GetLicenseKeys()
                                          .TypedResult
-                                         .Where(l => l.LicenseGuid != null);
+                                         .Where(l => l.LicenseGuid != null && l.ExpirationDateReal != LicenseKeyInfo.TIME_UNLIMITED_LICENSE);
 
         }, new CacheSettings(60, "Header", "AreSubscriptionLicensesValid"));
 
@@ -482,16 +485,15 @@ function CheckChanges() {
     /// <param name="eventArgument">Event argument</param>
     public void RaiseCallbackEvent(string eventArgument)
     {
-        switch (eventArgument)
+        if (eventArgument.StartsWith(GET_MVC_AUTHENTICATION_CALLBACK + CALLBACK_ARGS_SEPARATOR, StringComparison.Ordinal))
         {
-            case GET_MVC_AUTHENTICATION_CALLBACK:
-                callbackResult = GetMvcAuthenticationFrameUrl();
-                break;
-
-            default:
-                SessionHelper.SetValue(eventArgument, false);
-                break;
+            var culture = eventArgument.Split(new[] { CALLBACK_ARGS_SEPARATOR }, 2)[1];
+            // Authentication iframeUrl must be generated as well because site cultures can use different domains
+            callbackResult = GetMvcAuthenticationFrameUrl(culture) + CALLBACK_ARGS_SEPARATOR + new SecurityTokenManager<VirtualContextSignInConfiguration>().GetToken(CurrentUser);
+            return;
         }
+
+        SessionHelper.SetValue(eventArgument, false);
     }
 
     #endregion

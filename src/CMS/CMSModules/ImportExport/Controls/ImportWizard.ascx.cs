@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -442,7 +441,7 @@ function NextStepAction() {
             {
                 if (ImportSettings.IsUnsupportedVersion())
                 {
-                    SetWarningLabel(String.Format(GetString("siteimport.olderversionimportwarning"),ImportSettings.Version));
+                    SetWarningLabel(String.Format(GetString("siteimport.olderversionimportwarning"), ImportSettings.Version));
                 }
             }
 
@@ -750,16 +749,7 @@ function NextStepAction() {
     private static void EnsureLicenseFromPackage(SiteImportSettings settings)
     {
         // Clone import settings so they aren't changed by license import process
-        SiteImportSettings settingsCopy;
-
-        using (var stream = new IOExceptions.MemoryStream())
-        {
-            var formatter = new BinaryFormatter();
-            formatter.Serialize(stream, settings);
-
-            stream.Position = 0;
-            settingsCopy = (SiteImportSettings)formatter.Deserialize(stream);
-        }
+        var settingsCopy = (SiteImportSettings)settings.Clone();
 
         ImportProvider.ImportObjectType(settingsCopy, LicenseKeyInfo.OBJECT_TYPE, false, new TranslationHelper(), ProcessObjectEnum.Selected, new List<int>());
     }

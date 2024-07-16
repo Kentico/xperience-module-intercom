@@ -5,14 +5,12 @@
 <asp:Content ID="cntBody" ContentPlaceHolderID="plcContent" runat="server">
     <%-- Welcome tile --%>
     <script type="text/ng-template" id="welcomeTileTemplate.html">
-        <div class="tile" data-ng-show="model.visible">
-            <div class="welcome-tile">
-                <a href="javascript:void(0)" data-ng-click="model.hide()">
-                    <i aria-hidden="true" class="icon-modal-close"></i>
-                </a>
-                <h2>{{model.header}}</h2>
-                <p class="lead" data-ng-bind-html="model.description"></p>
-            </div>
+        <div class="welcome-tile">
+            <a href="javascript:void(0)" data-ng-click="model.hide()">
+                <i aria-hidden="true" class="icon-modal-close"></i>
+            </a>
+            <h2>{{model.header}}</h2>
+            <p class="lead" data-ng-bind-html="model.description"></p>
         </div>
     </script>
     
@@ -117,8 +115,8 @@
     <script type="text/ng-template" id="dashboard.html">
         <div class="dashboard">
             <div id="dashboard-drag-area" class="dashboard-inner" data-ng-class="{'edit-mode' : model.isEditableMode}">
-                <div data-welcometile></div>
                 <ul data-ui-sortable="model.sortableOptions" data-ng-model="model.tiles">
+                    <li data-welcometile data-ng-show="model.displayWelcomeTile" class="tile"></li>
                     <li class="tile" data-ng-repeat="tile in model.tiles" data-remove="model.removeTile($index)" data-ng-show="tile.IsVisible">
                         <div data-application-tile="tile" data-id="{{ tile.Id }}" class="tile-outer-wrapper" data-ng-if="(tile.TileModelType == 'ApplicationTileModel' || tile.TileModelType == 'ApplicationLiveTileModel') && tile.IsVisible" ></div>
                         <div data-single-object-tile="tile" data-id="{{ tile.Id }}" class="tile-outer-wrapper" data-ng-if="tile.TileModelType == 'SingleObjectTileModel' && tile.IsVisible" ></div>

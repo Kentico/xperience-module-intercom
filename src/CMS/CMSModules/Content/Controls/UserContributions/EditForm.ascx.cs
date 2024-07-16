@@ -332,7 +332,7 @@ public partial class CMSModules_Content_Controls_UserContributions_EditForm : CM
             ViewState["ValidationErrorMessage"] = value;
         }
     }
-    
+
 
     /// <summary>
     /// Owner ID.
@@ -654,7 +654,7 @@ public partial class CMSModules_Content_Controls_UserContributions_EditForm : CM
                                     .Where(whereCondition)
                                     .OrderBy("ClassID")
                                     .Columns("ClassName", "ClassDisplayName", "ClassID");
-                                
+
                                 ArrayList deleteRows = new ArrayList();
 
                                 if (!DataHelper.DataSourceIsEmpty(ds))
@@ -743,7 +743,7 @@ public partial class CMSModules_Content_Controls_UserContributions_EditForm : CM
                             formElem.CultureCode = CultureCode;
                             formElem.ValidationErrorMessage = HTMLHelper.HTMLEncode(ValidationErrorMessage);
                             formElem.IsLiveSite = IsLiveSite;
-                            
+
                             // Set the form mode
                             if (NewDocument)
                             {
@@ -846,7 +846,7 @@ public partial class CMSModules_Content_Controls_UserContributions_EditForm : CM
                             foreach (DataRow nodeCulture in nodes.Tables[0].Rows)
                             {
                                 ListItem li = new ListItem();
-                                li.Text = CultureInfo.Provider.Get(nodeCulture["DocumentCulture"].ToString()).CultureName;
+                                li.Text = HTMLHelper.HTMLEncode(CultureInfo.Provider.Get(nodeCulture["DocumentCulture"].ToString()).CultureName);
                                 li.Value = nodeCulture["DocumentID"].ToString();
                                 lstCultures.Items.Add(li);
                             }
@@ -1126,7 +1126,7 @@ public partial class CMSModules_Content_Controls_UserContributions_EditForm : CM
                                 IPAddress = RequestContext.UserHostAddress,
                                 SiteID = SiteContext.CurrentSiteID
                             };
-                            
+
                             Service.Resolve<IEventLogService>().LogEvent(logData);
                             AddAlert(GetString("ContentRequest.DeleteFailed") + ": " + ex.Message);
                             return;

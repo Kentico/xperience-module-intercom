@@ -798,6 +798,17 @@
             Creates urls of the persona images.
             </summary>
         </member>
+        <member name="M:CMS.Personas.PersonaPictureUrlCreator.#ctor">
+            <summary>
+            Initializes new instance of <see cref="T:CMS.Personas.PersonaPictureUrlCreator"/>
+            </summary>
+        </member>
+        <member name="M:CMS.Personas.PersonaPictureUrlCreator.#ctor(CMS.Core.IMediaProtectionService)">
+            <summary>
+            Initializes new instance of <see cref="T:CMS.Personas.PersonaPictureUrlCreator"/>
+            </summary>
+            <param name="mediaProtectionService">Media protection service.</param>
+        </member>
         <member name="F:CMS.Personas.PersonaPictureUrlCreator.defaultPictureGuid">
             <summary>
             Guid of the default image used when persona does not have picture selected.

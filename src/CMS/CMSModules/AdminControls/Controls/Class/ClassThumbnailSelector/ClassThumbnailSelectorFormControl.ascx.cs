@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 
 using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.DataEngine;
 using CMS.FormEngine.Web.UI;
 using CMS.Helpers;
@@ -27,7 +27,7 @@ public partial class CMSModules_AdminControls_Controls_Class_ClassThumbnailSelec
         {
             return;
         }
-        
+
         int classId = classInfo.ClassID;
         string modalUrl = ResolveUrl("~/CMSModules/AdminControls/Pages/ClassThumbnailSelector.aspx");
 
@@ -66,7 +66,7 @@ public partial class CMSModules_AdminControls_Controls_Class_ClassThumbnailSelec
     private void SetImageAttributes(BaseInfo baseInfo)
     {
         Guid imageGuid = ValidationHelper.GetGuid(Value, Guid.Empty);
-        
+
         if (imageGuid == Guid.Empty)
         {
             var manager = new DefaultClassThumbnail(baseInfo.TypeInfo.ObjectType);
@@ -75,6 +75,7 @@ public partial class CMSModules_AdminControls_Controls_Class_ClassThumbnailSelec
 
         string imageUrl = MetaFileURLProvider.GetMetaFileUrl(imageGuid, string.Empty);
         imageUrl = URLHelper.UpdateParameterInUrl(imageUrl, "maxsidesize", "256");
+        imageUrl = Service.Resolve<IMediaProtectionService>().GetProtectedUrl(imageUrl, true);
         imageUrl = URLHelper.ResolveUrl(imageUrl);
 
         imgPreview.Src = imageUrl;

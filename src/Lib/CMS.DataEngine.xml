@@ -3511,6 +3511,11 @@
             Class search settings
             </summary>
         </member>
+        <member name="P:CMS.DataEngine.DataClassInfoBase`1.ClassSearchIndexDataSource">
+            <summary>
+            Class search index data source
+            </summary>
+        </member>
         <member name="P:CMS.DataEngine.DataClassInfoBase`1.ClassInheritsFromClassID">
             <summary>
             Class inherits from class ID
@@ -5149,6 +5154,15 @@
             <summary>
             Creates a data adapter
             </summary>
+        </member>
+        <member name="M:CMS.DataEngine.AbstractDataConnection.ProcessOutParameters(System.Data.Common.DbParameterCollection,System.Collections.Generic.IEnumerable{CMS.DataEngine.DataParameter})">
+            <summary>
+            Ensures propagation of output (or inputoutput) parameters after the SQL command execution to the query parameters collection.
+            </summary>
+            <remarks>Processing of output parameters is ensured for the following methods (and their async variants if exist):
+            <see cref="M:CMS.DataEngine.AbstractDataConnection.ExecuteQuery(System.String,CMS.DataEngine.QueryDataParameters,CMS.DataEngine.QueryTypeEnum,System.Boolean)"/>, <see cref="M:CMS.DataEngine.AbstractDataConnection.ExecuteNonQuery(System.String,CMS.DataEngine.QueryDataParameters,CMS.DataEngine.QueryTypeEnum,System.Boolean)"/>, <see cref="M:CMS.DataEngine.AbstractDataConnection.ExecuteScalar(System.String,CMS.DataEngine.QueryDataParameters,CMS.DataEngine.QueryTypeEnum,System.Boolean)"/>.</remarks>
+            <param name="commandParams">SQL command parameters</param>
+            <param name="queryParams">Query parameters</param>
         </member>
         <member name="M:CMS.DataEngine.AbstractDataConnection.GetNestedConnection(System.String,System.Boolean)">
             <summary>
@@ -16391,7 +16405,7 @@
             <param name="nameColumn">Name of the column by which the order should be initialized (if not set, displayname column is used)</param>
             <param name="asc">If true the order will be ascending (default is true)</param>
         </member>
-        <member name="M:CMS.DataEngine.BaseInfo.InitObjectsOrderInternal(System.String,System.String,CMS.DataEngine.WhereCondition,System.Boolean)">
+        <member name="M:CMS.DataEngine.BaseInfo.InitObjectsOrderInternal(System.String,System.String,CMS.DataEngine.WhereCondition,System.Boolean,CMS.DataEngine.DataClassInfo)">
             <summary>
             Inits the proper order of the sibling objects so the order column is consistent.
             </summary>
@@ -16399,6 +16413,7 @@
             <param name="nameColumn">>Name of the column by which the order is to be set. <see cref="P:CMS.DataEngine.ObjectTypeInfo.DisplayNameColumn"/> is used if not set.</param>
             <param name="where">Where condition that defines all the objects that can be reordered.</param>
             <param name="ascending">Indicates whether the order is ascending or descending (ascending order is used by default).</param>
+            <param name="classInfo">Optional data class configuration.</param>
         </member>
         <member name="M:CMS.DataEngine.BaseInfo.CheckDependencies(System.Boolean)">
             <summary>
@@ -24533,6 +24548,27 @@
             </summary>
             <seealso cref="M:CMS.DataEngine.SearchFieldsHelper.IsIndexField(CMS.DataEngine.ISearchIndexInfo,CMS.DataEngine.SearchSettingsInfo)"/>
         </member>
+        <member name="T:CMS.DataEngine.IsTriggerFieldEventArgs">
+            <summary>
+            Argument of event represented by <see cref="T:CMS.DataEngine.IsTriggerFieldHandler"/>.
+            </summary>
+        </member>
+        <member name="P:CMS.DataEngine.IsTriggerFieldEventArgs.Result">
+            <summary>
+            Indicates whether field is index update trigger.
+            </summary>
+        </member>
+        <member name="P:CMS.DataEngine.IsTriggerFieldEventArgs.SearchSettings">
+            <summary>
+            Search settings representing field for which to detect whether it is an index update trigger.
+            </summary>
+        </member>
+        <member name="T:CMS.DataEngine.IsTriggerFieldHandler">
+            <summary>
+            Handler for event raised when field is being decided whether it is an index update trigger.
+            </summary>
+            <seealso cref="M:CMS.DataEngine.SearchFieldsHelper.IsTriggerField(CMS.DataEngine.SearchSettingsInfo)"/>
+        </member>
         <member name="T:CMS.DataEngine.CreateSearchFieldOption">
             <summary>
             Represents creation option of a system search field.
@@ -25196,6 +25232,13 @@
             By default, all fields having flag named <see cref="F:CMS.DataEngine.SearchSettings.SEARCHABLE"/> set to true are added.
             </summary>
         </member>
+        <member name="F:CMS.DataEngine.SearchFieldsHelper.IncludeTriggerField">
+            <summary>
+            An event raised upon <see cref="M:CMS.DataEngine.SearchFieldsHelper.IsTriggerField(CMS.DataEngine.SearchSettingsInfo)"/> execution. Based on the <see cref="P:CMS.DataEngine.IsTriggerFieldEventArgs.Result"/> the change of this field triggers index update.
+            By default, all fields having flag named <see cref="F:CMS.DataEngine.SearchSettings.INDEX_UPDATE_TRIGGER"/> triggers index update. For backward compatibility if the flag is not present
+            fallback is used and returns true if field is Content or Searchable field.
+            </summary>
+        </member>
         <member name="P:CMS.DataEngine.SearchFieldsHelper.Instance">
             <summary>
             Gets the <see cref="T:CMS.DataEngine.SearchFieldsHelper"/> instance.
@@ -25221,6 +25264,13 @@
             <param name="index">Index for which to detect whether field is a content field. Pass null to detect if field is an index field in any index type.</param>
             <param name="searchSettings">Search setting representing tested field.</param>
             <returns>True if field is an index field, false otherwise.</returns>
+        </member>
+        <member name="M:CMS.DataEngine.SearchFieldsHelper.IsTriggerField(CMS.DataEngine.SearchSettingsInfo)">
+            <summary>
+            Returns true if value of field represented by <paramref name="searchSettings"/> triggers index update upon change.
+            </summary>
+            <param name="searchSettings">Search setting representing tested field.</param>
+            <returns>True if field change should issue index update, false otherwise.</returns>
         </member>
         <member name="T:CMS.DataEngine.SearchIndexSettings">
             <summary>
@@ -25467,6 +25517,11 @@
             Name of flag indicating whether field is considered a content field in context of local indexes.
             </summary>
         </member>
+        <member name="F:CMS.DataEngine.SearchSettings.INDEX_UPDATE_TRIGGER">
+            <summary>
+            Name of flag indicating whether field change leads to index update when page is indexed by crawler.
+            </summary>
+        </member>
         <member name="P:CMS.DataEngine.SearchSettings.Items">
             <summary>
             Gets list of all settings items indexed by GUID.
@@ -25543,6 +25598,12 @@
             </summary>
             <param name="columns">Columns to check</param>
         </member>
+        <member name="M:CMS.DataEngine.SearchSettings.ContainsTriggerColumn(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Returns true if the any of the given columns triggers index update.
+            </summary>
+            <param name="columns">Columns to check</param>
+        </member>
         <member name="M:CMS.DataEngine.SearchSettings.CopyTo(CMS.DataEngine.SearchSettings,System.Func{CMS.DataEngine.SearchSettingsInfo,System.Boolean})">
             <summary>
             Copies selected fields to another search settings object
@@ -25596,6 +25657,7 @@
             <seealso cref="F:CMS.DataEngine.SearchSettings.CONTENT"/>
             <seealso cref="F:CMS.DataEngine.SearchSettings.SEARCHABLE"/>
             <seealso cref="F:CMS.DataEngine.SearchSettings.TOKENIZED"/>
+            <seealso cref="F:CMS.DataEngine.SearchSettings.INDEX_UPDATE_TRIGGER"/>
         </member>
         <member name="M:CMS.DataEngine.SearchSettingsInfo.SetFlag(System.String,System.Boolean)">
             <summary>
@@ -25606,6 +25668,7 @@
             <seealso cref="F:CMS.DataEngine.SearchSettings.CONTENT"/>
             <seealso cref="F:CMS.DataEngine.SearchSettings.SEARCHABLE"/>
             <seealso cref="F:CMS.DataEngine.SearchSettings.TOKENIZED"/>
+            <seealso cref="F:CMS.DataEngine.SearchSettings.INDEX_UPDATE_TRIGGER"/>
         </member>
         <member name="P:CMS.DataEngine.SearchSettingsInfo.Item(System.String)">
             <summary>
@@ -30096,6 +30159,29 @@
             Destroy permission.
             </summary>
         </member>
+        <member name="T:CMS.DataEngine.SearchIndexDataSourceEnum">
+            <summary>
+            Indicates type of the data source for indexed page.
+            </summary>
+            <remarks>
+            Data source applies only to page indexes.
+            </remarks>
+        </member>
+        <member name="F:CMS.DataEngine.SearchIndexDataSourceEnum.HTMLOutput">
+            <summary>
+            Page HTML output is source of index data (crawler).
+            </summary>
+        </member>
+        <member name="F:CMS.DataEngine.SearchIndexDataSourceEnum.ContentFields">
+            <summary>
+            Page content fields are source of index data.
+            </summary>
+        </member>
+        <member name="F:CMS.DataEngine.SearchIndexDataSourceEnum.Both">
+            <summary>
+            Both HTML output and content fields are source of index data.
+            </summary>
+        </member>
         <member name="T:CMS.DataEngine.UpdateResultEnum">
             <summary>
             Result of the update operation.
@@ -30398,6 +30484,24 @@
             <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
             <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
         </member>
+        <member name="T:CMS.DataEngine.XmlMaliciousContentException">
+            <summary>
+            XML media file contains potentially malicous content exception.
+            </summary>
+        </member>
+        <member name="M:CMS.DataEngine.XmlMaliciousContentException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes an instance of <see cref="T:CMS.DataEngine.XmlMaliciousContentException"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="M:CMS.DataEngine.XmlMaliciousContentException.#ctor(System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:CMS.DataEngine.XmlMaliciousContentException"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+        </member>
         <member name="T:CMS.DataEngine.CMSOutputMetaFile">
             <summary>
             Represents <see cref="T:CMS.DataEngine.MetaFileInfo"/> object used for response output.
@@ -30449,14 +30553,29 @@
             <summary>
             Ensures that the object contains the output data.
             </summary>
-            <param name="defaultData">Default data which should be loaded if data required</param>
+            <param name="defaultData">Default data which should be loaded if data required.</param>
+            <returns>Returns true if new data has been loaded</returns>
+        </member>
+        <member name="M:CMS.DataEngine.CMSOutputMetaFile.EnsureData(System.Byte[],System.Boolean)">
+            <summary>
+            Ensures that the object contains the output data.
+            </summary>
+            <param name="defaultData">Default data which should be loaded if data required.</param>
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
             <returns>Returns true if new data has been loaded</returns>
         </member>
         <member name="M:CMS.DataEngine.CMSOutputMetaFile.LoadData(System.Byte[])">
             <summary>
             Loads the data to the object.
             </summary>
-            <param name="data">New data</param>
+            <param name="data">New data.</param>
+        </member>
+        <member name="M:CMS.DataEngine.CMSOutputMetaFile.LoadData(System.Byte[],System.Boolean)">
+            <summary>
+            Loads the data to the object.
+            </summary>
+            <param name="data">New data.</param>
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
         </member>
         <member name="P:CMS.DataEngine.CMSOutputMetaFile.Item(System.String)">
             <summary>
@@ -31705,6 +31824,29 @@
             <param name="scopeFolder">Scope folder which is located under the parent folder</param>
             <param name="fileNumber">Temporary file number</param>
             <param name="fileExtension">Temporary file extension</param>
+        </member>
+        <member name="T:CMS.DataEngine.XmlVulnerabilityChecker">
+            <summary>
+            Checks whether xml file contains potentially malicious content that can be used for stored XSS.
+            </summary>
+        </member>
+        <member name="M:CMS.DataEngine.XmlVulnerabilityChecker.Check(CMS.Base.IUploadedFile)">
+            <summary>
+            Checks whether xml file contains potentially malicious content.
+            </summary>
+            <param name="uploadedFile">Uploaded file to check.</param>
+        </member>
+        <member name="M:CMS.DataEngine.XmlVulnerabilityChecker.Check(System.IO.Stream)">
+            <summary>
+            Checks whether xml file contains potentially malicious content.
+            </summary>
+            <param name="fileStream">Stream of the file to check.</param>
+        </member>
+        <member name="M:CMS.DataEngine.XmlVulnerabilityChecker.Check(System.String)">
+            <summary>
+            Checks whether xml file contains potentially malicious content.
+            </summary>
+            <param name="filePath">Path to the file to check.</param>
         </member>
         <member name="T:CMS.DataEngine.BulkDeleteEventArgs">
             <summary>
@@ -33885,6 +34027,11 @@
             Code name for newsletter email templates.
             </summary>
         </member>
+        <member name="F:CMS.DataEngine.PredefinedObjectType.NEWSLETTERWIDGET">
+            <summary>
+            Code name for newsletter email widgets.
+            </summary>
+        </member>
         <member name="F:CMS.DataEngine.PredefinedObjectType.NEWSLETTERUNSUBSCRIPTION">
             <summary>
             Code name for newsletter unsubscription.
@@ -34053,6 +34200,11 @@
         <member name="F:CMS.DataEngine.PredefinedObjectType.CONSENTAGREEMENT">
             <summary>
             Object type for consent agreement.
+            </summary>
+        </member>
+        <member name="F:CMS.DataEngine.PredefinedObjectType.EMAILTEMPLATE">
+            <summary>
+            Object type for email template.
             </summary>
         </member>
         <member name="T:CMS.DataEngine.AbstractQueryObject">
@@ -37015,6 +37167,12 @@
         <member name="P:CMS.DataEngine.DataParameter.Type">
             <summary>
             Parameter type.
+            </summary>
+        </member>
+        <member name="P:CMS.DataEngine.DataParameter.Direction">
+            <summary>
+            Gets or sets a value that indicates whether the parameter is input-only, output-only, bidirectional, or a stored procedure return value parameter.
+            The default is <see cref="F:System.Data.ParameterDirection.Input"/>.
             </summary>
         </member>
         <member name="P:CMS.DataEngine.DataParameter.ParamRegEx">
@@ -42646,6 +42804,15 @@
             </summary>
             <param name="message">Error message</param>
             <param name="ex">Database exception</param>
+        </member>
+        <member name="M:CMS.DataProviderSQL.DataConnection.ProcessOutParameters(System.Data.Common.DbParameterCollection,System.Collections.Generic.IEnumerable{CMS.DataEngine.DataParameter})">
+            <summary>
+            Ensures propagation of output (or input-output or stored procedure return value) parameters after the SQL command execution to the query parameters collection.
+            </summary>
+            <remarks>Processing of output parameters is ensured for the following methods (and their async variants if exist):
+            <see cref="M:CMS.DataEngine.AbstractDataConnection.ExecuteQuery(System.String,CMS.DataEngine.QueryDataParameters,CMS.DataEngine.QueryTypeEnum,System.Boolean)"/>, <see cref="M:CMS.DataEngine.AbstractDataConnection.ExecuteNonQuery(System.String,CMS.DataEngine.QueryDataParameters,CMS.DataEngine.QueryTypeEnum,System.Boolean)"/>, <see cref="M:CMS.DataEngine.AbstractDataConnection.ExecuteScalar(System.String,CMS.DataEngine.QueryDataParameters,CMS.DataEngine.QueryTypeEnum,System.Boolean)"/>.</remarks>
+            <param name="commandParams">SQL command parameters</param>
+            <param name="queryParams">Query parameters</param>
         </member>
         <member name="T:CMS.DataProviderSQL.DataProvider">
             <summary>

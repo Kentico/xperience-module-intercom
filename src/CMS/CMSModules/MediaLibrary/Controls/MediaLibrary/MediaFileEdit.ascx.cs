@@ -14,6 +14,7 @@ using CMS.Globalization;
 using CMS.Helpers;
 using CMS.IO;
 using CMS.MediaLibrary;
+using CMS.MediaLibrary.Internal;
 using CMS.Membership;
 using CMS.SiteProvider;
 using CMS.Synchronization;
@@ -231,6 +232,15 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
         }
     }
 
+
+    /// <summary>
+    /// Indicates whether or not the <see cref="CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit" /> is in library-wide search mode.
+    /// </summary>
+    public bool IsInSearchMode
+    {
+        get; set;
+    }
+
     #endregion
 
 
@@ -264,7 +274,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
 
             string fileName = AttachmentHelper.GetFullFileName(FileInfo.FileName, FileInfo.FileExtension);
             string permanentUrl = MediaFileURLProvider.GetMediaFileUrl(FileInfo.FileGUID, fileName);
-            permanentUrl = URLHelper.UpdateParameterInUrl(permanentUrl, "preview", "1");            
+            permanentUrl = URLHelper.UpdateParameterInUrl(permanentUrl, "preview", "1");
 
             lblPreviewPermaLink.Text = GetFileLinkHtml(permanentUrl, LibraryInfo.LibrarySiteID);
 
@@ -289,10 +299,70 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
         pnlUpdatePreviewDetails.Update();
 
         // Refresh versions tab if selected and reload was forced
-        if (mForceReload && (pnlTabs.SelectedTabIndex == tabVersions.Index))
+        if (mForceReload && IsVersionsTabSelected())
         {
             ScriptHelper.RegisterStartupScript(this, typeof(string), "ReloadVersionsTab", "$cmsj(\"#" + objectVersionList.RefreshButton.ClientID + "\").click();", true);
         }
+
+        // Load Usage tab data if tab is preselected
+        if (IsUsageTabSelected())
+        {
+            var usages = FileInfo != null
+                ? Service.Resolve<IMediaFileUsageRetriever>().Get(FileInfo)
+                : Enumerable.Empty<IMediaFileUsageSearchResult>();
+
+            lblUsageInfoMessage.Text = usages.Any()
+                ? GetString("medialibrary.dependencytracker.infomessage")
+                : GetString("medialibrary.dependencytracker.nodatafound");
+
+            fileUsage.Setup(usages);
+        }
+    }
+
+
+    private bool IsUsageTabSelected()
+    {
+        var index = pnlTabs.SelectedTabIndex;
+        if (!tabCustomFields.Visible)
+        {
+            index++;
+        }
+
+        if (!tabVersions.Visible)
+        {
+            index++;
+        }
+
+        return index == tabUsage.Index;
+    }
+
+
+    private int GetClientUsageTabIndex()
+    {
+        var index = 3;
+        if (tabCustomFields.Visible)
+        {
+            index++;
+        }
+
+        if (tabVersions.Visible)
+        {
+            index++;
+        }
+
+        return index;
+    }
+
+
+    private bool IsVersionsTabSelected()
+    {
+        var index = pnlTabs.SelectedTabIndex;
+        if (!tabCustomFields.Visible)
+        {
+            index++;
+        }
+
+        return index == tabVersions.Index;
     }
 
 
@@ -330,6 +400,14 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
         }
 
         fileUplPreview.StopProcessing = StopProcessing;
+
+        // Load Usage tab data if tab selected
+        pnlTabs.OnClientTabClick = $"if($cmsj('#{pnlTabs.ClientID}_SelectedTab').val() === '{GetClientUsageTabIndex()}') {{ $cmsj('#{btnUsageLoad.ClientID}').click(); }}";
+
+        btnShowUsageDialog.ToolTip = GetString("medialibrary.dependencytracker.opendialogtooltip");
+        var usageDialogUrl = "~/CMSModules/MediaLibrary/Controls/MediaLibrary/MediaFileUsageDialog.aspx?fileid=" + FileID;
+        usageDialogUrl = URLHelper.AddParameterToUrl(usageDialogUrl, "hash", QueryHelper.GetHash(usageDialogUrl, false));
+        btnShowUsageDialog.OnClientClick = "modalDialog('" + UrlResolver.ResolveUrl(usageDialogUrl) + "', 'MediaFileUsage', 1200, '75%'); return true;";
     }
 
 
@@ -432,13 +510,15 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
             if (ImageHelper.IsImage(FileInfo.FileExtension))
             {
                 // Ensure max side size 200
-                int[] maxsize = ImageHelper.EnsureImageDimensions(0, 0, 200, FileInfo.FileImageWidth, FileInfo.FileImageHeight);
+                int maxSideSize = 200;
+                int[] maxsize = ImageHelper.EnsureImageDimensions(0, 0, maxSideSize, FileInfo.FileImageWidth, FileInfo.FileImageHeight);
                 imagePreview.Width = maxsize[0];
                 imagePreview.Height = maxsize[1];
 
                 // If is Image show image properties
-                imagePreview.URL = URLHelper.AddParameterToUrl(permanentUrl, "maxsidesize", "200");
+                imagePreview.URL = URLHelper.AddParameterToUrl(permanentUrl, "maxsidesize", maxSideSize.ToString());
                 imagePreview.URL = URLHelper.AddParameterToUrl(imagePreview.URL, "chset", Guid.NewGuid().ToString());
+                imagePreview.URL = Service.Resolve<IMediaProtectionService>().GetProtectedUrl(imagePreview.URL, true);
                 plcImagePreview.Visible = true;
                 plcMediaPreview.Visible = false;
 
@@ -635,7 +715,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
     /// </summary>
     private void FillDimensionsField()
     {
-        if (ImageHelper.IsImage(FileInfo.FileExtension))
+        if (ImageHelper.IsEditableImage(FileInfo.FileExtension))
         {
             lblDimensionsVal.Text = FileInfo.FileImageWidth + " x " + FileInfo.FileImageHeight;
             plcDimensions.Visible = true;
@@ -812,6 +892,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
         tabEdit.HeaderText = GetString("general.edit");
         tabCustomFields.HeaderText = GetString("general.customfields");
         tabVersions.HeaderText = GetString("objectversioning.tabtitle");
+        tabUsage.HeaderText = GetString("general.usage");
 
         DisplayCustomFields();
 
@@ -1001,7 +1082,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaFileEdit
                 SetupVersions();
                 pnlUpdateVersions.Update();
 
-                RaiseOnAction("rehighlightitem", Path.GetFileName(FileInfo.FilePath));
+                RaiseOnAction("rehighlightitem", IsInSearchMode ? FileInfo.FileGUID.ToString() : Path.GetFileName(FileInfo.FilePath));
             }
         }
     }

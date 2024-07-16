@@ -1408,14 +1408,29 @@
             <summary>
             Ensures that the object contains the output data.
             </summary>
-            <param name="defaultData">Default data which should be loaded if data required</param>
-            <returns>Returns true if new data has been loaded</returns>
+            <param name="defaultData">Default data which should be loaded if data required.</param>
+            <returns>Returns true if new data has been loaded.</returns>
+        </member>
+        <member name="M:CMS.DocumentEngine.CMSOutputAttachment.EnsureData(System.Byte[],System.Boolean)">
+            <summary>
+            Ensures that the object contains the output data.
+            </summary>
+            <param name="defaultData">Default data which should be loaded if data required.</param>
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
+            <returns>Returns true if new data has been loaded.</returns>
         </member>
         <member name="M:CMS.DocumentEngine.CMSOutputAttachment.LoadData(System.Byte[])">
             <summary>
             Loads the data to the object.
             </summary>
             <param name="data">New data</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.CMSOutputAttachment.LoadData(System.Byte[],System.Boolean)">
+            <summary>
+            Loads the data to the object.
+            </summary>
+            <param name="data">New data.</param>
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
         </member>
         <member name="P:CMS.DocumentEngine.CMSOutputAttachment.Item(System.String)">
             <summary>
@@ -1785,6 +1800,60 @@
             Ensures binary data within the given attachment.
             </summary>
             <param name="sourceAttachment">Source attachment.</param>
+        </member>
+        <member name="T:CMS.DocumentEngine.Internal.ContentCategorizationConstants">
+            <summary>
+            Constants for the content categorization feature.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Internal.ContentCategorizationConstants.OPENAI_INTEGRATION_MODULE_NAME">
+            <summary>
+            Name of the Azure OpenAI integration module.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Internal.ContentCategorizationConstants.ENABLED_SETTINGS_KEY">
+            <summary>
+            Name of the setting which determines whether the content categorization is enabled.
+            </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.Internal.IPageCategorizationService">
+            <summary>
+            Represents a service responsible for categorization of pages.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Internal.IPageCategorizationService.CategorizePage(CMS.DocumentEngine.TreeNode,System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Categorizes the <paramref name="treeNode"/> based on the page data.
+            </summary>
+            <param name="treeNode">The page to be categorized.</param>
+            <param name="categoryIdentifiers">A collection of category IDs from which the categorization service should pick.</param>
+            <exception cref="T:System.ArgumentException">Thrown when <paramref name="categoryIdentifiers"/> is empty.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="treeNode"/> or <paramref name="categoryIdentifiers"/> are null.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when the API endpoint, key or deployment name are not configured.</exception>
+            <remarks>Only text data is used for categorization.</remarks>
+        </member>
+        <member name="T:CMS.DocumentEngine.Internal.PageCategorizationResult">
+            <summary>
+            Represents a result of the page categorization.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Internal.PageCategorizationResult.Categories">
+            <summary>
+            Categories that have been successfully identified. 
+            </summary>
+            <remarks>
+            Contains a subset of category identifiers which were provided as an input set to choose from,
+            when calling <see cref="M:CMS.DocumentEngine.Internal.IPageCategorizationService.CategorizePage(CMS.DocumentEngine.TreeNode,System.Collections.Generic.IEnumerable{System.Int32})"/>.
+            </remarks>
+        </member>
+        <member name="P:CMS.DocumentEngine.Internal.PageCategorizationResult.UnknownCategories">
+            <summary>
+            Category names that could not have been identified.
+            </summary>
+            <remarks>
+            Contains category names for which corresponding categories do not exist in the provided input set,
+            when calling <see cref="M:CMS.DocumentEngine.Internal.IPageCategorizationService.CategorizePage(CMS.DocumentEngine.TreeNode,System.Collections.Generic.IEnumerable{System.Int32})"/>.
+            </remarks>
         </member>
         <member name="T:CMS.DocumentEngine.Internal.DocumentCultureDataInfo">
             <summary>
@@ -2728,6 +2797,19 @@
             Declares members for <see cref="T:CMS.DocumentEngine.Internal.DocumentNodeDataInfo"/> management.
             </summary>
         </member>
+        <member name="T:CMS.DocumentEngine.Internal.PageTypeCategoriesRetriever">
+            <summary>
+            Retriever for allowed categories for a page type.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Internal.PageTypeCategoriesRetriever.Get(System.Int32,System.Int32)">
+            <summary>
+            Returns the allowed categories for the given site and page type.
+            </summary>
+            <param name="siteId">Site ID.</param>
+            <param name="pageTypeId">Page type ID.</param>
+            <exception cref="T:System.ArgumentException">Thrown when <paramref name="siteId"/> or <paramref name="pageTypeId"/> are not valid.</exception>
+        </member>
         <member name="T:CMS.DocumentEngine.Internal.AttachmentSendFileEventArgs">
             <summary>
             Attachment send file event arguments.
@@ -2861,11 +2943,10 @@
             Get search document parameters
             </summary>
         </member>
-        <member name="M:CMS.DocumentEngine.Internal.DocumentSearchablesRetriever.GetSearchDocuments(CMS.Search.SearchIndexInfo,CMS.DocumentEngine.Internal.DocumentSearchablesRetriever.GetSearchDocumentsParams,System.Int32@)">
+        <member name="M:CMS.DocumentEngine.Internal.DocumentSearchablesRetriever.GetSearchDocuments(CMS.DocumentEngine.Internal.DocumentSearchablesRetriever.GetSearchDocumentsParams,System.Int32@)">
             <summary>
             Returns list of <see cref="T:CMS.DataEngine.ISearchable"/> objects (documents) for given index and document parameters
             </summary>
-            <param name="indexInfo">Search index</param>
             <param name="documentsParameters">Search parameters</param>
             <param name="lastId">ID of last processed document</param>
         </member>
@@ -2874,11 +2955,6 @@
             Returns true of task type is related to document object
             </summary>
             <param name="taskType">Task type</param>
-        </member>
-        <member name="M:CMS.DocumentEngine.Internal.DocumentSearchablesRetriever.GetDocumentRelatedCondition">
-            <summary>
-            Returns the condition for all index types related to documents
-            </summary>
         </member>
         <member name="M:CMS.DocumentEngine.Internal.DocumentSearchablesRetriever.LogBatchStart(System.Int32,System.Int32,System.String,System.String,System.Boolean)">
             <summary>
@@ -2904,6 +2980,26 @@
             <summary>
             Fires when the attachment handler request is being processed before the attachment is being processed and served.
             </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.Internal.DocumentSearchTriggerFieldsHelper">
+            <summary>
+            Provides helper methods to determine if index update trigger field changed.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Internal.DocumentSearchTriggerFieldsHelper.TriggerFieldChanged(CMS.DocumentEngine.TreeNode,System.Collections.Generic.List{System.String})">
+            <summary>
+            Returns true if any field that should trigger index update is changed (checks fields defined in Class Search Settings).
+            </summary>
+            <param name="node">Document node</param>
+            <param name="changedColumns">List of changed columns</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Internal.DocumentSearchTriggerFieldsHelper.TriggerFieldChanged(CMS.DataEngine.BaseInfo,System.Collections.Generic.List{System.String},System.Boolean)">
+            <summary>
+            Returns true if any field that should trigger index update is changed (checks fields defined in Class Search Settings).
+            </summary>
+            <param name="info">Info object</param>
+            <param name="changedColumns">List of changed columns, if not provided, retrieves the list from the object</param>
+            <param name="checkSpecialFields">If true, the special fields like (ClassSearchTitleColumn, etc.) are checked for changes</param>
         </member>
         <member name="T:CMS.DocumentEngine.Internal.PageTemplateConfiguration">
             <summary>
@@ -3445,9 +3541,9 @@
             <param name="userGuid">User GUID to be stored in the preview link URL. If left empty, the user name is not stored in the generated URL.</param>
             <param name="queryString">Optional additional query string parameters.</param>
             <param name="cultureCode">Culture code for which the preview link should be generated.</param>
-            The <paramref name="cultureCode"/> can differ from the page culture in case of combine with default culture feature.
+            <paramref name="cultureCode"/> can differ from the page culture in case of combine with default culture feature.
             <remarks>
-            Preview link URL can be used by external users. This URL does not need additional authentization.
+            Preview link URL can be used by external users. This URL does not need additional authentication.
             </remarks>
         </member>
         <member name="M:CMS.DocumentEngine.Internal.PreviewLinkGenerator.DecorateUrlWithQueryStringParameters(System.String,System.Collections.Specialized.NameValueCollection)">
@@ -4437,6 +4533,14 @@
             <summary>
             Creates new combined collection for the data.
             </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.PageCategorizationService">
+            <summary>
+            Fallback implementation of the page categorization service.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.PageCategorizationService.CategorizePage(CMS.DocumentEngine.TreeNode,System.Collections.Generic.IEnumerable{System.Int32})">
+            <inheritdoc/>
         </member>
         <member name="T:CMS.DocumentEngine.ContentPublisher">
             <summary>
@@ -6067,12 +6171,8 @@
         <member name="M:CMS.DocumentEngine.DocumentHelper.IsSearchTaskCreationAllowed(CMS.DocumentEngine.TreeNode)">
             <summary>
             Returns true if the search task for given node should be created.
-            Returns true if
-             - search is allowed on general level AND
-             - search is allowed for document type of given node
-             - published version for given node exists AND
             </summary>
-            <param name="node">Node to check</param>
+            <param name="node">Node to check.</param>
         </member>
         <member name="M:CMS.DocumentEngine.DocumentHelper.ApplyLatestVersion(CMS.DocumentEngine.TreeNode,CMS.DocumentEngine.TreeProvider)">
             <summary>
@@ -6141,7 +6241,7 @@
             Return name of site that is assigned to the node.
             </summary>
         </member>
-        <member name="M:CMS.DocumentEngine.DocumentHelper.UpdateSearchIndexIfAllowed(CMS.DocumentEngine.TreeNode)">
+        <member name="M:CMS.DocumentEngine.DocumentHelper.LogUpdateSearchTask(CMS.DocumentEngine.TreeNode)">
             <summary>
             Updates search index if search task for given node should be created.
             </summary>
@@ -7429,6 +7529,11 @@
             Indicates to when the document should be published.
             </summary>
         </member>
+        <member name="P:CMS.DocumentEngine.TreeNode.DocumentUnpublishedRedirectUrl">
+            <summary>
+            URL to which visitors should be redirected when current document is unpublished.
+            </summary>
+        </member>
         <member name="P:CMS.DocumentEngine.TreeNode.DocumentTags">
             <summary>
             Document tags.
@@ -7970,7 +8075,7 @@
         </member>
         <member name="M:CMS.DocumentEngine.TreeNode.ChangeNodeDocumentType(CMS.DocumentEngine.TreeNode,System.String)">
             <summary>
-            Ensures changing the underlying database structure of a given document to its document type. 
+            Ensures changing the underlying database structure of a given document to its document type.
             Changes only the published data of the document type (CMS_Document and coupled data). Fills missing values with the data from given document node.
             </summary>
             <param name="node">Document node to change with new data</param>
@@ -7996,7 +8101,7 @@
             Copies the node data to the destination node according to the settings.
             </summary>
             <param name="destNode">Destination node</param>
-            <param name="settings">Copy settings</param> 
+            <param name="settings">Copy settings</param>
         </member>
         <member name="M:CMS.DocumentEngine.TreeNode.LoadInheritedValues(System.String[],System.Boolean)">
             <summary>
@@ -8240,7 +8345,7 @@
             Gets the parametrized query to get siblings of the document. Uses best matching culture and filters out all culture versions of the current document.
             </summary>
             <remarks>
-            The culture is taken preferably from the current node instance or default culture of the site or any other existing culture version. 
+            The culture is taken preferably from the current node instance or default culture of the site or any other existing culture version.
             </remarks>
             <param name="parameters">Parameters for the data retrieval</param>
         </member>
@@ -8281,7 +8386,7 @@
         <member name="M:CMS.DocumentEngine.TreeNode.GetSearchFields(CMS.DataEngine.ISearchIndexInfo,CMS.DataEngine.ISearchFields)">
             <summary>
             Returns search fields collection. When existing collection is passed as argument, fields will be added to that collection.
-            When collection is not passed, new collection will be created and return. 
+            When collection is not passed, new collection will be created and return.
             Collection will contain field values only when collection with StoreValues property set to true is passed to the method.
             When method creates new collection, it is created with StoreValues property set to false.
             </summary>
@@ -8292,7 +8397,7 @@
             <summary>
             Returns document with dependence on current object type and index.
             </summary>
-            <param name="index">Search index info</param>        
+            <param name="index">Search index info</param>
         </member>
         <member name="M:CMS.DocumentEngine.TreeNode.EnsureConsistency">
             <summary>
@@ -11267,6 +11372,20 @@
             Fires when the content of the document for searching is requested.
             </summary>
         </member>
+        <member name="F:CMS.DocumentEngine.DocumentEvents.CreateSearchFields">
+            <summary>
+            Fires when the local index search fields are gathered from all searchable page types. In this phase only field definitions are created and no value needs to be provided.
+            It is required to create custom field definition without value for the whole index using <see cref="F:CMS.DocumentEngine.DocumentEvents.CreateSearchFields"/> 
+            before creating the same field definition with value using <see cref="F:CMS.DocumentEngine.DocumentEvents.CreateSearchFieldsForPage"/> when indexing specific page.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.DocumentEvents.CreateSearchFieldsForPage">
+            <summary>
+            Fires when the local index search fields for specific page that is being indexed are created. In this phase field definition with value has to be provided.
+            It is required to create custom field definition without value for the whole index using <see cref="F:CMS.DocumentEngine.DocumentEvents.CreateSearchFields"/> 
+            before creating the same field definition with value using <see cref="F:CMS.DocumentEngine.DocumentEvents.CreateSearchFieldsForPage"/> when indexing specific page.
+            </summary>
+        </member>
         <member name="F:CMS.DocumentEngine.DocumentEvents.LogChange">
             <summary>
             Fires when document tasks are logged. You can disable tasks logging for staging, integration etc.
@@ -11558,6 +11677,95 @@
             </summary>
             <param name="parentHandler">Parent handler</param>
         </member>
+        <member name="T:CMS.DocumentEngine.CreateSearchFieldsEventArgs">
+            <summary>
+            Create search fields without values for whole local index event arguments.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsEventArgs.IndexInfo">
+            <summary>
+            Search index info.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsEventArgs.Fields">
+            <summary>
+            Search index fields.
+            </summary>
+            <remarks>Add your custom field into this collection.</remarks>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsEventArgs.SearchFields">
+            <summary>
+            List of search fields being processed to local search.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsEventArgs.IndexDataSource">
+            <summary>
+            Indicates type of the data source for indexed page.
+            </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.CreateSearchFieldsForPageEventArgs">
+            <summary>
+            Create search fields with values for specific page event arguments.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsForPageEventArgs.IndexInfo">
+            <summary>
+            Search index info.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsForPageEventArgs.Fields">
+            <summary>
+            Search index fields.
+            </summary>
+            <remarks>Add your custom field into this collection.</remarks>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsForPageEventArgs.SearchFields">
+            <summary>
+            List of search fields being processed to local search.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsForPageEventArgs.IndexDataSource">
+            <summary>
+            Indicates type of the data source for indexed page.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.CreateSearchFieldsForPageEventArgs.Page">
+            <summary>
+            Page for which the search field values are populated.
+            </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.CreateSearchFieldsForPageHandler">
+            <summary>
+            Create search fields with values for specific page handler.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.CreateSearchFieldsForPageHandler.#ctor">
+            <summary>
+            Creates instance of <see cref="T:CMS.DocumentEngine.CreateSearchFieldsForPageHandler"/>.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.CreateSearchFieldsForPageHandler.#ctor(CMS.DocumentEngine.CreateSearchFieldsForPageHandler)">
+            <summary>
+            Creates instance of <see cref="T:CMS.DocumentEngine.CreateSearchFieldsForPageHandler"/>.
+            </summary>
+            <param name="parentHandler">Parent handler.</param>
+        </member>
+        <member name="T:CMS.DocumentEngine.CreateSearchFieldsHandler">
+            <summary>
+            Create search fields without values for whole local index handler.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.CreateSearchFieldsHandler.#ctor">
+            <summary>
+            Creates instance of <see cref="T:CMS.DocumentEngine.CreateSearchFieldsHandler"/>.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.CreateSearchFieldsHandler.#ctor(CMS.DocumentEngine.CreateSearchFieldsHandler)">
+            <summary>
+            Creates instance of <see cref="T:CMS.DocumentEngine.CreateSearchFieldsHandler"/>.
+            </summary>
+            <param name="parentHandler">Parent handler.</param>
+        </member>
         <member name="T:CMS.DocumentEngine.DocumentSearchEventArgs">
             <summary>
             Document search event arguments
@@ -11591,6 +11799,11 @@
         <member name="P:CMS.DocumentEngine.DocumentSearchEventArgs.IsCrawler">
             <summary>
             If true, the content is indexed for a crawler
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.DocumentSearchEventArgs.IndexDataSource">
+            <summary>
+            Indicates type of the data source for indexed page.
             </summary>
         </member>
         <member name="T:CMS.DocumentEngine.DocumentSearchHandler">
@@ -12097,8 +12310,9 @@
         </member>
         <member name="P:CMS.DocumentEngine.PageResolvers.ContentResolver">
             <summary>
-            Macro resolver for resolving macros inside the content of current page.
+            Returns new instance of macro resolver for resolving macros inside the content of current page.
             </summary>
+            <remarks>Culture for resolving is based on the current culture.</remarks>
         </member>
         <member name="T:CMS.DocumentEngine.PageRoutingEnums">
             <summary>
@@ -12433,6 +12647,12 @@
             Indexer for document category
             </summary>
         </member>
+        <member name="M:CMS.DocumentEngine.DocumentCategorySearchIndexer.IsTaskProcessingAllowed(CMS.Search.SearchTaskInfo)">
+            <summary>
+            Indicates if task processing is allowed for given task.
+            </summary>
+            <param name="sti">Search task to process.</param>
+        </member>
         <member name="M:CMS.DocumentEngine.DocumentCategorySearchIndexer.ExecuteProcessTask(CMS.Search.SearchTaskInfo)">
             <summary>
             Indexes the document category
@@ -12492,6 +12712,12 @@
             Executes the search index update task
             </summary>
             <param name="sti">Search task</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.DocumentSearchIndexer.IsTaskProcessingAllowed(CMS.Search.SearchTaskInfo)">
+            <summary>
+            Indicates if task processing is allowed for given task.
+            </summary>
+            <param name="sti">Search task to process.</param>
         </member>
         <member name="M:CMS.DocumentEngine.DocumentSearchIndexer.SelectSearchDocument(System.Int32)">
             <summary>
@@ -15383,6 +15609,20 @@
             </summary>
             <param name="page">Page for which URL paths should be generated including the descending pages.</param>
         </member>
+        <member name="M:CMS.DocumentEngine.Routing.PageUrlPathCulturePathsGenerator.#ctor(CMS.DataEngine.SiteInfoIdentifier,CMS.DocumentEngine.Routing.Internal.IPageUrlPathCultureAliasesTableBuilder)">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.DocumentEngine.Routing.PageUrlPathCulturePathsGenerator"/> class.
+            </summary>
+            <param name="site">Site for which URL paths should be generated.</param>
+            <param name="culturesTableBuilder">PageUrlPathCulturesTable builder.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.PageUrlPathCulturePathsGenerator.#ctor(CMS.DocumentEngine.TreeNode,CMS.DocumentEngine.Routing.Internal.IPageUrlPathCultureAliasesTableBuilder)">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.DocumentEngine.Routing.PageUrlPathCulturePathsGenerator"/> class.
+            </summary>
+            <param name="page">Page for which URL paths should be generated including the descending pages.</param>
+            <param name="culturesTableBuilder">PageUrlPathCulturesTable builder.</param>
+        </member>
         <member name="M:CMS.DocumentEngine.Routing.PageUrlPathCulturePathsGenerator.Generate(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Generates page URL paths for given cultures.
@@ -15625,6 +15865,52 @@
             <param name="dataContext">If successful, contains page URL data context extracted from given data.</param>
             <returns>Returns <c>true</c> if the page URL data context is determined from the data.</returns>
         </member>
+        <member name="T:CMS.DocumentEngine.Routing.Internal.IPageUrlPathCultureAliasesTableBuilder">
+            <summary>
+            Interface for translation table from culture code to culture alias builder.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.IPageUrlPathCultureAliasesTableBuilder.Build">
+            <summary>
+            Build translation table from culture code to culture alias.
+            </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.Routing.Internal.PageRoutingUrlCultureFormatChangeModeEnum">
+            <summary>
+            Enumeration representing culture format change mode.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Routing.Internal.PageRoutingUrlCultureFormatChangeModeEnum.Remove">
+            <summary>
+            Remove language prefix from page URL paths.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Routing.Internal.PageRoutingUrlCultureFormatChangeModeEnum.Add">
+            <summary>
+            Add language prefix to page URL paths.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Routing.Internal.PageRoutingUrlCultureFormatChangeModeEnum.Modify">
+            <summary>
+            Modify language prefix in page URL paths.
+            </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureAliasesTableBuilder">
+            <summary>
+            Translation table from culture code to culture alias builder for given site.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureAliasesTableBuilder.#ctor(CMS.DataEngine.SiteInfoIdentifier)">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureAliasesTableBuilder"/> class.
+            </summary>
+            <param name="site">Site for which translation table should be built.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureAliasesTableBuilder.Build">
+            <summary>
+            Build translation table from culture code to culture alias.
+            </summary>
+        </member>
         <member name="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureFormatChanger">
             <summary>
             Changes URL culture format of page URL paths on given site.
@@ -15636,12 +15922,13 @@
             </summary>
             <param name="site">Site for which URL paths culture format should be changed.</param>
         </member>
-        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureFormatChanger.#ctor(CMS.DataEngine.SiteInfoIdentifier,CMS.DocumentEngine.Routing.IPageUrlPathsSynchronizationLogger)">
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureFormatChanger.#ctor(CMS.DataEngine.SiteInfoIdentifier,CMS.DocumentEngine.Routing.IPageUrlPathsSynchronizationLogger,CMS.DocumentEngine.Routing.Internal.IPageUrlPathCultureAliasesTableBuilder)">
             <summary>
             Initializes an instance of the <see cref="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureFormatChanger"/> class.
             </summary>
             <param name="site">Site for which URL paths culture format should be changed.</param>
             <param name="synchronizationLogger">Synchronization tasks logger.</param>
+            <param name="culturesTableBuilder">PageUrlPathCulturesTable builder.</param>
         </member>
         <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathCultureFormatChanger.Change(CMS.DocumentEngine.Routing.PageRoutingUrlCultureFormatEnum)">
             <summary>
@@ -15655,6 +15942,101 @@
             </summary>
             <param name="cultureCode">Culture code.</param>
             <param name="newFormat">New URL culture format.</param>
+        </member>
+        <member name="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeHelper">
+            <summary>
+            Helper class encapsulating common methods for the page URL format change action.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeHelper.GetWhereCondition(System.Int32,System.String)">
+            <summary>
+            Generates <see cref="T:CMS.DataEngine.WhereCondition"/> to restrict Page URL path by site ID and by culture code.
+            </summary>
+            <param name="siteId">Site ID.</param>
+            <param name="cultureCode">Culture code.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeHelper.GetChangeCulturePrefixesQueryName">
+            <summary>
+            Returns name of the update query.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeHelper.GetQueryParameters(CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters)">
+            <summary>
+            Provides SQL parameters for update.
+            </summary>
+            <param name="parameters">Parameters in object representation.</param>
+        </member>
+        <member name="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters">
+            <summary>
+            Object representation of the SQL procedure parameters.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters.Site">
+            <summary>
+            Site.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters.CultureCode">
+            <summary>
+            Culture code.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters.CultureFormatChangeMode">
+            <summary>
+            Culture format change mode.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters.DefaultCultureCode">
+            <summary>
+            Default culture code.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters.HidePrefixForDefaultCulture">
+            <summary>
+            Hide language prefix for default culture.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters.UseCultureAliasAsCulturePrefix">
+            <summary>
+            Use culture alias as language prefix.
+            </summary>
+        </member>
+        <member name="P:CMS.DocumentEngine.Routing.Internal.PageUrlPathFormatChangeParameters.CultureAliasesTable">
+            <summary>
+            Table with culture aliases.
+            </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathLanguagePrefixFormatChanger">
+            <summary>
+            Changes URL language prefix format of page URL paths on given site.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathLanguagePrefixFormatChanger.#ctor(CMS.DataEngine.SiteInfoIdentifier)">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathLanguagePrefixFormatChanger"/> class.
+            </summary>
+            <param name="site">Site for which URL paths culture format should be changed.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathLanguagePrefixFormatChanger.#ctor(CMS.DataEngine.SiteInfoIdentifier,CMS.DocumentEngine.Routing.IPageUrlPathsSynchronizationLogger,CMS.DocumentEngine.Routing.Internal.IPageUrlPathCultureAliasesTableBuilder)">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathLanguagePrefixFormatChanger"/> class.
+            </summary>
+            <param name="site">Site for which URL paths culture format should be changed.</param>
+            <param name="synchronizationLogger">Synchronization tasks logger.</param>
+            <param name="culturesTableBuilder">PageUrlPathCulturesTable builder.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathLanguagePrefixFormatChanger.Change(CMS.DocumentEngine.Routing.PageRoutingUrlLanguagePrefixFormatEnum)">
+            <summary>
+            Change URL language prefix format of page URL paths.
+            </summary>
+            <param name="newFormat">New URL language prefix format.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.Internal.PageUrlPathLanguagePrefixFormatChanger.ChangeForCulture(CMS.DocumentEngine.Routing.PageRoutingUrlLanguagePrefixFormatEnum,System.String)">
+            <summary>
+            Change URL language prefix format of page URL paths for given culture.
+            </summary>
+            <param name="newFormat">New URL language prefix format.</param>
+            <param name="cultureCode">Culture code.</param>
         </member>
         <member name="T:CMS.DocumentEngine.Routing.Internal.PageUrlPathSlugUpdater">
             <summary>
@@ -15789,13 +16171,20 @@
             Interface for synchronization tasks of page URL paths logger.
             </summary>
         </member>
-        <member name="M:CMS.DocumentEngine.Routing.IPageUrlPathsSynchronizationLogger.LogChangePathsFormatTask(CMS.DocumentEngine.Routing.PageRoutingUrlCultureFormatEnum,CMS.DataEngine.SiteInfoIdentifier,System.String)">
+        <member name="M:CMS.DocumentEngine.Routing.IPageUrlPathsSynchronizationLogger.LogChangeCultureFormatTask(CMS.DocumentEngine.Routing.PageRoutingUrlCultureFormatEnum,CMS.DataEngine.SiteInfoIdentifier,System.String)">
             <summary>
-            Logs task for page URL paths format change.
+            Logs task for page URL paths culture format change.
             </summary>
             <param name="newFormat">New format.</param>
             <param name="site">Site.</param>
             <param name="cultureCode">Culture code for which the paths should be changed.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.IPageUrlPathsSynchronizationLogger.LogChangeLanguagePrefixFormatTask(CMS.DocumentEngine.Routing.PageRoutingUrlLanguagePrefixFormatEnum,CMS.DataEngine.SiteInfoIdentifier)">
+            <summary>
+            Logs task for page URL paths language prefix format change.
+            </summary>
+            <param name="newFormat">New language prefix format.</param>
+            <param name="site">Site.</param>
         </member>
         <member name="M:CMS.DocumentEngine.Routing.IPageUrlPathsSynchronizationLogger.LogChangeSlugTask(CMS.DocumentEngine.TreeNode,System.String,System.String)">
             <summary>
@@ -15959,6 +16348,11 @@
             Settings key name for hiding the language prefix for default culture version.
             </summary>
         </member>
+        <member name="F:CMS.DocumentEngine.Routing.PageRoutingHelper.USE_CULTURE_ALIAS_AS_LANGUAGE_PREFIX_IN_URL">
+            <summary>
+            Settings key name for using culture alias as language prefix in URLs.
+            </summary>
+        </member>
         <member name="M:CMS.DocumentEngine.Routing.PageRoutingHelper.GetStoreFormerUrls(CMS.DataEngine.SiteInfoIdentifier)">
             <summary>
             Indicates if the former URLs should be stored.
@@ -16025,6 +16419,27 @@
             </summary>
             <param name="site">Site.</param>
         </member>
+        <member name="M:CMS.DocumentEngine.Routing.PageRoutingHelper.UseCultureAliasAsLanguagePrefixInUrl(CMS.DataEngine.SiteInfoIdentifier)">
+            <summary>
+            Indicates if culture alias is used as language prefix in URLs
+            </summary>
+            <param name="site">Site.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.PageRoutingHelper.GetPageUrlPath(CMS.Base.IDataContainer,System.String)">
+            <summary>
+            Gets the <see cref="T:CMS.DocumentEngine.Routing.Internal.PageUrlPath"/> from given data container.
+            </summary>
+            <param name="container">Data container with partial page data.</param>
+            <param name="cultureCode">If specified, the path for a culture version defined by the culture code is returned instead the one in the data container.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.PageRoutingHelper.GetPageUrlPathQueryInternal(System.Int32,System.String,System.String)">
+            <summary>
+            Gets the parametrized query for page URL path retrieval.
+            </summary>
+            <param name="nodeId">Page node ID.</param>
+            <param name="cultureCode">Culture code of the page.</param>
+            <param name="customCultureCode">Custom culture code.</param>
+        </member>
         <member name="T:CMS.DocumentEngine.Routing.PageRoutingModeEnum">
             <summary>
             Enumeration representing the page routing mode.
@@ -16055,18 +16470,35 @@
             Format using domain for culture detection.
             </summary>
         </member>
+        <member name="T:CMS.DocumentEngine.Routing.PageRoutingUrlLanguagePrefixFormatEnum">
+            <summary>
+            Enumeration representing the page URL language prefix format for content tree-based routing.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Routing.PageRoutingUrlLanguagePrefixFormatEnum.CultureCode">
+            <summary>
+            Format using culture code as language prefix.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Routing.PageRoutingUrlLanguagePrefixFormatEnum.CultureAlias">
+            <summary>
+            Format using culture alias as language prefix.
+            </summary>
+        </member>
         <member name="T:CMS.DocumentEngine.Routing.PageUrlDataContextExtractor">
             <summary>
             Extracts the page URL data context from data for the router module and ensures the caching layer for the result.
             </summary>
         </member>
-        <member name="M:CMS.DocumentEngine.Routing.PageUrlDataContextExtractor.#ctor(CMS.DocumentEngine.Internal.IDefaultPreferredCultureEvaluator,CMS.Base.ISiteService,CMS.SiteProvider.ISiteInfoProvider)">
+        <member name="M:CMS.DocumentEngine.Routing.PageUrlDataContextExtractor.#ctor(CMS.DocumentEngine.Internal.IDefaultPreferredCultureEvaluator,CMS.Base.ISiteService,CMS.SiteProvider.ISiteInfoProvider,CMS.DocumentEngine.IBrowserPreferredCultureRetriever,CMS.Core.IAppSettingsService)">
             <summary>
             Creates an instance of <see cref="T:CMS.DocumentEngine.Routing.PageUrlDataContextExtractor"/> class.
             </summary>
             <param name="cultureEvaluator">Evaluator of preferred culture.</param>
             <param name="siteService">Service to retrieve the site context.</param>
             <param name="siteInfoProvider">Provider for <see cref="T:CMS.SiteProvider.SiteInfo"/> management.</param>
+            <param name="browserPreferredCultureRetriever">Provider for the browser preferred culture.</param>
+            <param name="appSettingsService">Application settings service.</param>
         </member>
         <member name="M:CMS.DocumentEngine.Routing.PageUrlDataContextExtractor.TryExtract(System.Uri,CMS.DocumentEngine.Internal.NormalizedUrlPath,System.Boolean,CMS.DocumentEngine.Internal.PageUrlDataContext@)">
             <summary>
@@ -16126,8 +16558,11 @@
             <typeparam name="TObject">Actual type of TreeNode instance.</typeparam>
             <param name="query">Document query which is being extended.</param>
             <param name="withPageUrlPaths">If set to <c>false</c> the result is without URL paths.</param>
-            <remarks>The method joins <see cref="T:CMS.DocumentEngine.PageUrlPathInfo"/> data, if the routing mode is set to <see cref="F:CMS.DocumentEngine.Routing.PageRoutingModeEnum.BasedOnContentTree"/>.
-            In case of <see cref="F:CMS.DocumentEngine.Routing.PageRoutingModeEnum.Custom"/> routing mode, no data are joined to the result.</remarks>
+            <remarks>
+            <para>The method joins <see cref="T:CMS.DocumentEngine.PageUrlPathInfo"/> data, if the routing mode is set to <see cref="F:CMS.DocumentEngine.Routing.PageRoutingModeEnum.BasedOnContentTree"/>.
+            In case of <see cref="F:CMS.DocumentEngine.Routing.PageRoutingModeEnum.Custom"/> routing mode, no data are joined to the result.</para>
+            <para>Has to be called before <see cref="M:CMS.DataEngine.DataQueryBase`1.Source(System.Action{CMS.DataEngine.QuerySource})"/> method if used together in one query.</para>
+            </remarks>
         </member>
         <member name="T:CMS.DocumentEngine.Routing.PageUrlPathsGenerator">
             <summary>
@@ -16186,9 +16621,14 @@
             Logger for synchronization tasks of page URL paths.
             </summary>
         </member>
-        <member name="F:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.UPDATE_TASK_FORMAT">
+        <member name="F:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.UPDATE_TASK_CULTURE_FORMAT">
             <summary>
-            Type of the update page URL paths task.
+            Update page URL culture format task type.
+            </summary>
+        </member>
+        <member name="F:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.UPDATE_TASK_PREFIX_FORMAT">
+            <summary>
+            Update page URL language prefix format task type.
             </summary>
         </member>
         <member name="F:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.TYPE_PARAM_NAME">
@@ -16211,13 +16651,20 @@
             New slug parameter key.
             </summary>
         </member>
-        <member name="M:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.LogChangePathsFormatTask(CMS.DocumentEngine.Routing.PageRoutingUrlCultureFormatEnum,CMS.DataEngine.SiteInfoIdentifier,System.String)">
+        <member name="M:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.LogChangeCultureFormatTask(CMS.DocumentEngine.Routing.PageRoutingUrlCultureFormatEnum,CMS.DataEngine.SiteInfoIdentifier,System.String)">
             <summary>
-            Logs task for page URL paths format change.
+            Logs task for page URL paths culture format change.
             </summary>
             <param name="newFormat">New format.</param>
             <param name="site">Site.</param>
             <param name="cultureCode">Culture code for which the paths should be changed.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.LogChangeLanguagePrefixFormatTask(CMS.DocumentEngine.Routing.PageRoutingUrlLanguagePrefixFormatEnum,CMS.DataEngine.SiteInfoIdentifier)">
+            <summary>
+            Logs task for page URL paths language prefix format change.
+            </summary>
+            <param name="newFormat">New language prefix format.</param>
+            <param name="site">Site.</param>
         </member>
         <member name="M:CMS.DocumentEngine.Routing.PageUrlPathsSynchronizationLogger.LogGeneratePathsTask(CMS.DataEngine.SiteInfoIdentifier,System.String)">
             <summary>
@@ -16277,25 +16724,19 @@
             </summary>
             <param name="page">Page.</param>
         </member>
-        <member name="M:CMS.DocumentEngine.Routing.TreeNodeRoutingExtensions.GetPageUrlPathQueryInternal(CMS.Base.ITreeNode,System.String)">
-            <summary>
-            Gets the parametrized query for page URL path retrieval.
-            </summary>
-            <param name="page">Page.</param>
-            <param name="customCultureCode">Custom culture code.</param>
-        </member>
         <member name="T:CMS.DocumentEngine.Search.CrawlerSearchContentProvider">
             <summary>
             Encapsulates functionality that is responsible for downloading a content of the particular 
             page for the purpose of searching.
             </summary>
         </member>
-        <member name="M:CMS.DocumentEngine.Search.CrawlerSearchContentProvider.#ctor(CMS.DocumentEngine.TreeNode,CMS.Search.ISearchCrawler)">
+        <member name="M:CMS.DocumentEngine.Search.CrawlerSearchContentProvider.#ctor(CMS.DocumentEngine.TreeNode,CMS.Search.ISearchCrawler,CMS.Search.ISearchCrawlerContentProcessor)">
             <summary>
             Initializes a new instance of the <see cref="T:CMS.DocumentEngine.Search.CrawlerSearchContentProvider"/> class.
             </summary>
             <param name="treeNode">Tree node.</param>
             <param name="crawler">Crawler used for downloading of the page content.</param>
+            <param name="contentProcessor">Processor of the HTML content to be indexed.</param>
             <exception cref="T:System.ArgumentNullException">Is thrown when parameters <paramref name="treeNode"/> or <paramref name="crawler"/> is <c>null</c>.</exception>
         </member>
         <member name="M:CMS.DocumentEngine.Search.CrawlerSearchContentProvider.GetContent(CMS.DataEngine.ISearchIndexInfo)">
@@ -16482,6 +16923,29 @@
             <summary>
             Creates search document.
             </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.SearchExtensions">
+            <summary>
+            Extension methods for the pages smart search
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.SearchExtensions.TriggerFieldChanged(CMS.DataEngine.DataClassInfo,System.Collections.Generic.List{System.String},System.Boolean)">
+            <summary>
+            Returns true if any field included in the search changed (checks fields defined in Class Search Settings).
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.SearchExtensions.SearchTriggerFieldChanged(CMS.DocumentEngine.TreeNode,System.Collections.Generic.List{System.String})">
+            <summary>
+            Returns true if any field that should trigger index update is changed (checks fields defined in Class Search Settings).
+            </summary>
+            <param name="page">Page.</param>
+            <param name="changedColumns">List of changed columns.</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.SearchExtensions.GetCreationDate(CMS.DocumentEngine.TreeNode)">
+            <summary>
+            Returns date of creation for given page.
+            </summary>
+            <param name="page">Page.</param>
         </member>
         <member name="T:CMS.DocumentEngine.AclInfo">
             <summary>
@@ -19313,23 +19777,37 @@
             <param name="task">Container with task information</param>
             <returns>Textual description of task run's failure if any.</returns>
         </member>
+        <member name="T:CMS.DocumentEngine.BrowserPreferredCultureRetriever">
+            <summary>
+            Retrieves the user preferred culture for the current request.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.BrowserPreferredCultureRetriever.#ctor(CMS.Base.Internal.IHttpContextRetriever)">
+            <summary>
+            Initializes an instance of <see cref="T:CMS.DocumentEngine.DefaultPreferredCultureEvaluator"/> class.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.BrowserPreferredCultureRetriever.Get(CMS.SiteProvider.SiteInfo)">
+            <summary>
+            Returns the best matching preferred user culture code. Culture is obtained with the following priorities:
+                - Browser culture
+            </summary>
+        </member>
         <member name="T:CMS.DocumentEngine.DefaultPreferredCultureEvaluator">
             <summary>
             Evaluates the default preferred culture for current request.
             </summary>
         </member>
-        <member name="M:CMS.DocumentEngine.DefaultPreferredCultureEvaluator.#ctor(CMS.Base.Internal.IHttpContextRetriever)">
+        <member name="M:CMS.DocumentEngine.DefaultPreferredCultureEvaluator.#ctor(CMS.DocumentEngine.IBrowserPreferredCultureRetriever)">
             <summary>
             Initializes an instance of <see cref="T:CMS.DocumentEngine.DefaultPreferredCultureEvaluator"/> class.
             </summary>
-            <param name="contextRetriever">Retriever for HTTP context.</param>
         </member>
         <member name="M:CMS.DocumentEngine.DefaultPreferredCultureEvaluator.Evaluate">
             <summary>
             Evaluates the best matching preferred culture code. Culture is obtained with following priorities:
                 - Site domain alias visitor culture
                 - Site default visitor culture
-                - User preferred content culture
                 - Browser culture
                 - Default culture (from application settings)
             </summary>
@@ -19485,6 +19963,16 @@
         <member name="T:CMS.DocumentEngine.IAlternativeUrlInfoProvider">
             <summary>
             Declares members for <see cref="T:CMS.DocumentEngine.AlternativeUrlInfo"/> management.
+            </summary>
+        </member>
+        <member name="T:CMS.DocumentEngine.IBrowserPreferredCultureRetriever">
+            <summary>
+            Interface for browser preferred culture for the current request.
+            </summary>
+        </member>
+        <member name="M:CMS.DocumentEngine.IBrowserPreferredCultureRetriever.Get(CMS.SiteProvider.SiteInfo)">
+            <summary>
+            Returns the best matching preferred browser culture code.
             </summary>
         </member>
         <member name="T:CMS.DocumentEngine.IPageFormerUrlPathInfoProvider">
@@ -19788,6 +20276,11 @@
             </summary>
             <param name="dr">DataRow with the object data.</param>
         </member>
+        <member name="M:CMS.DocumentEngine.PageUrlPathInfo.GetExistingWhereCondition">
+            <summary>
+            Gets a where condition to find an existing object based on current object
+            </summary>
+        </member>
         <member name="M:CMS.DocumentEngine.PageUrlPathInfo.GetCacheDependenciesInternal">
             <summary>
             Gets collection of dependency keys to be touched when modifying the current object.
@@ -19930,6 +20423,11 @@
             <param name="siteName">Site name</param>
             <param name="parentNodeId">Parent node ID</param>
             <param name="currentNodeId">Current node ID</param>
+        </member>
+        <member name="M:CMS.DocumentEngine.TreePathUtils.TrimEndReplacementCharacter(System.String,System.String)">
+            <summary>
+            Returns node alias without trailing forbidden character replacement.
+            </summary>
         </member>
         <member name="M:CMS.DocumentEngine.TreePathUtils.GetAliasPathCondition(System.String,System.Boolean,System.Boolean)">
             <summary>

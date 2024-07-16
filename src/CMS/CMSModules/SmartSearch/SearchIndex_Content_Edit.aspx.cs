@@ -42,7 +42,6 @@ public partial class CMSModules_SmartSearch_SearchIndex_Content_Edit : GlobalAdm
         switch (indexType)
         {
             case TreeNode.OBJECT_TYPE:
-            case SearchHelper.DOCUMENTS_CRAWLER_INDEX:
                 {
                     // Document index
                     ContentEdit.ItemID = indexId;
@@ -62,7 +61,7 @@ public partial class CMSModules_SmartSearch_SearchIndex_Content_Edit : GlobalAdm
                 }
                 break;
 
-            case PredefinedObjectType.BIZFORM:
+            case SearchHelper.ONLINEFORMINDEX:
                 {
                     // Custom table index
                     onLineFormEdit.ItemID = indexId;
@@ -146,7 +145,7 @@ public partial class CMSModules_SmartSearch_SearchIndex_Content_Edit : GlobalAdm
                 control = customTableEdit;
                 break;
 
-            case PredefinedObjectType.BIZFORM:
+            case SearchHelper.ONLINEFORMINDEX:
                 control = onLineFormEdit;
                 break;
 
