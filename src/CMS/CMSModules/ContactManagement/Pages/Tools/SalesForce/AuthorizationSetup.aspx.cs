@@ -35,6 +35,7 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
     private string mSourceUrlScheme;
     private int mSourceUrlPort;
     private string mSourceSiteName;
+    private PkceProperties mPkceProperties;
 
     #endregion
 
@@ -89,6 +90,14 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
         }
     }
 
+    protected PkceProperties PkceProperties
+    {
+        get
+        {
+            return mPkceProperties;
+        }
+    }
+    
     protected string RedirectUrl
     {
         get
@@ -176,13 +185,14 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
                 string authorizationCode = QueryHelper.GetString("code", null);
                 if (!String.IsNullOrEmpty(authorizationCode))
                 {
-                    SalesForceAuthorizationHelper authorizationHelper = new SalesForceAuthorizationHelper(Credentials.ClientId, Credentials.ClientSecret, RedirectUrl);
+                    SalesForceAuthorizationHelper authorizationHelper = new SalesForceAuthorizationHelper(Credentials.ClientId, Credentials.ClientSecret, RedirectUrl, PkceProperties);
                     GetAuthenticationTokensResponse response = authorizationHelper.GetAuthenticationTokens(authorizationCode);
                     Identity identity = authorizationHelper.GetIdentity(response);
                     Credentials.RefreshToken = response.RefreshToken;
                     Credentials.OrganizationBaseUrl = response.InstanceBaseUrl;
                     Credentials.UserName = identity.UserName;
                     Credentials.OrganizationName = GetOrganizationName(Credentials, identity.OrganizationId);
+                    ClearPkceProperties();
                     StoreParameters();
                     if (RequestContext.CurrentScheme != SourceUrlScheme)
                     {
@@ -208,7 +218,7 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
             HandleError(exception);
         }
     }
-
+    
     #endregion
 
 
@@ -224,10 +234,11 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
         {
             Credentials.ClientId = ClientIdentifierTextBox.Text;
             Credentials.ClientSecret = ClientSecretTextBox.Text;
+            mPkceProperties = PkcePropertiesGenerator.GeneratePkceProperties();
             try
             {
                 StoreParameters();
-                SalesForceAuthorizationHelper authorizationHelper = new SalesForceAuthorizationHelper(Credentials.ClientId, Credentials.ClientSecret, RedirectUrl);
+                SalesForceAuthorizationHelper authorizationHelper = new SalesForceAuthorizationHelper(Credentials.ClientId, Credentials.ClientSecret, RedirectUrl, PkceProperties);
                 string authorizationUrl = authorizationHelper.GetAuthorizationUrl(ParametersId);
                 URLHelper.ResponseRedirect(authorizationUrl, false);
             }
@@ -282,6 +293,17 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
         return builder.ToString();
     }
 
+    private void ClearPkceProperties()
+    {
+        if (PkceProperties == null)
+        {
+            return;
+        }
+
+        mPkceProperties = null;
+        WindowHelper.Remove(nameof(PkceProperties));
+    }
+
     private void StoreParameters()
     {
         Hashtable parameters = WindowHelper.GetItem(ParametersId) as Hashtable;
@@ -289,6 +311,11 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
         parameters["Credentials"] = EncryptionHelper.EncryptData(OrganizationCredentials.Serialize(Credentials));
 #pragma warning restore 618
         WindowHelper.Add(ParametersId, parameters);
+        
+        if (PkceProperties != null)
+        {
+            WindowHelper.Add(nameof(PkceProperties), PkceProperties);
+        }
     }
 
     private void RestoreParameters()
@@ -324,6 +351,8 @@ public partial class CMSModules_ContactManagement_Pages_Tools_SalesForce_Authori
         mSourceUrlScheme = ValidationHelper.GetString(parameters["UrlScheme"], String.Empty);
         mSourceUrlPort = ValidationHelper.GetInteger(parameters["UrlPort"], -1);
         mSourceSiteName = ValidationHelper.GetString(parameters["SiteName"], String.Empty);
+        
+        mPkceProperties = WindowHelper.GetItem(nameof(PkceProperties)) as PkceProperties;
     }
 
     private void RedirectToScheme(string scheme, int port)

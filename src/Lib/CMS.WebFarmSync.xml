@@ -1103,6 +1103,11 @@
             Target path of file transported by task.
             </summary>
         </member>
+        <member name="P:CMS.WebFarmSync.WebFarmTaskInfo.TaskDataIsJson">
+            <summary>
+            Indicates if task data and target is saved as JSON.
+            </summary>
+        </member>
         <member name="M:CMS.WebFarmSync.WebFarmTaskInfo.DeleteObject">
             <summary>
             Deletes the object using appropriate provider.
@@ -1684,6 +1689,13 @@
             </summary>
             <param name="target">Target to parse for separated tasks</param>
             <param name="data">Data to parse for separated tasks</param>
+        </member>
+        <member name="M:CMS.WebFarmSync.WebFarmTaskProcessor.ParseTaskJsonData(System.String,System.String)">
+            <summary>
+            Parses the task JSON data to deserialize grouped tasks.
+            </summary>
+            <param name="target">The target to parse for separated tasks.</param>
+            <param name="data">The data to parse for separated tasks.</param>
         </member>
         <member name="T:CMS.WebFarmSync.WebFarmContext">
             <summary>

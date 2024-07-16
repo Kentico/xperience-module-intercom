@@ -1,6 +1,6 @@
 ﻿/**
- * Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ * Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ * CKEditor 4 LTS ("Long Term Support") is available under the terms of the Extended Support Model.
  */
 
 // This file contains style definitions that can be used by CKEditor plugins.
@@ -56,6 +56,7 @@ CKEDITOR.stylesSet.add( 'default', [
 	{ name: 'Emphasis',			element: 'em'	, overrides: 'i' },
 	{ name: 'Underline',		element: 'u' },
 	*/
+
 	{ name: 'Strikethrough',	element: 'strike' },
 	{ name: 'Subscript',		element: 'sub' },
 	{ name: 'Superscript',		element: 'sup' },

@@ -175,6 +175,10 @@ public partial class CMSModules_Categories_Controls_Categories : CMSAdminEditCon
             {
                 catEdit.StopProcessing = value;
             }
+            if (catEditPageTypes != null)
+            {
+                catEditPageTypes.StopProcessing = value;
+            }
             if (catNew != null)
             {
                 catNew.StopProcessing = value;
@@ -396,15 +400,18 @@ public partial class CMSModules_Categories_Controls_Categories : CMSAdminEditCon
 
         // Prepare tabs headings
         tabGeneral.HeaderText = GetString("general.general");
+        tabAllowedPageTypes.HeaderText = GetString("Category_Edit.AllowedPageTypes");
         tabDocuments.HeaderText = GetString("Category_Edit.Documents");
         tabCategories.HeaderText = GetString("Development.Categories");
 
         // Init editing controls
         catNew.EditingForm.OnAfterSave += NewEditingForm_OnAfterSave;
         catEdit.EditingForm.OnAfterSave += EditingForm_OnAfterSave;
+        catEditPageTypes.EditingForm.OnAfterSave += EditingForm_OnAfterSave;
 
         catNew.IsLiveSite = IsLiveSite;
         catEdit.IsLiveSite = IsLiveSite;
+        catEditPageTypes.IsLiveSite = IsLiveSite;
 
         // Plant some trees
         treeElemG.OnNodeCreated += treeElem_OnNodeCreated;
@@ -433,6 +440,9 @@ public partial class CMSModules_Categories_Controls_Categories : CMSAdminEditCon
         {
             catEdit.UserID = catNew.Category.CategoryUserID;
             catEdit.CategoryID = catNew.Category.CategoryID;
+
+            catEditPageTypes.UserID = catNew.Category.CategoryUserID;
+            catEditPageTypes.CategoryID = catNew.Category.CategoryID;
 
             SwitchToEdit(true);
         }
@@ -523,6 +533,9 @@ public partial class CMSModules_Categories_Controls_Categories : CMSAdminEditCon
             {
                 catEdit.UserID = SelectedCategory.CategoryUserID;
                 catEdit.Category = SelectedCategory;
+
+                catEditPageTypes.UserID = SelectedCategory.CategoryUserID;
+                catEditPageTypes.Category = SelectedCategory;
 
                 catNew.UserID = SelectedCategory.CategoryUserID;
                 catNew.ParentCategoryID = SelectedCategory.CategoryID;
@@ -1055,6 +1068,16 @@ function NodeSelected(elementId, parentId, isEdit) {
         catEdit.StopProcessing = false;
         catEdit.ReloadData();
 
+        if (SelectedCategory.CategoryIsPersonal)
+        {
+            tabAllowedPageTypes.Visible = false;
+        }
+        else
+        {
+            catEditPageTypes.StopProcessing = false;
+            catEditPageTypes.ReloadData();
+        }
+
         gridDocuments.UniGrid.StopProcessing = false;
         gridDocuments.UniGrid.FilterForm.StopProcessing = false;
         gridDocuments.UniGrid.Visible = true;
@@ -1084,6 +1107,7 @@ function NodeSelected(elementId, parentId, isEdit) {
         plcNew.Visible = true;
 
         catEdit.StopProcessing = true;
+        catEditPageTypes.StopProcessing = true;
 
         catNew.StopProcessing = false;
         catNew.ReloadData();
@@ -1099,6 +1123,7 @@ function NodeSelected(elementId, parentId, isEdit) {
         IsEditing = false;
 
         catEdit.StopProcessing = true;
+        catEditPageTypes.StopProcessing = true;
         catNew.StopProcessing = true;
     }
 
@@ -1314,6 +1339,9 @@ function NodeSelected(elementId, parentId, isEdit) {
                 // Switch to editing of parent category
                 catEdit.UserID = parentCategory.CategoryUserID;
                 catEdit.Category = parentCategory;
+
+                catEditPageTypes.UserID = parentCategory.CategoryUserID;
+                catEditPageTypes.Category = parentCategory;
 
                 SwitchToEdit(reload);
                 PreselectCategory(parentCategory, false);

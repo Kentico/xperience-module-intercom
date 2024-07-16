@@ -2,7 +2,7 @@
 <%@ Register Src="~/CMSAdminControls/UI/PageElements/HeaderActions.ascx" TagName="HeaderActions"
     TagPrefix="cms" %>
 <asp:PlaceHolder ID="plcMenu" runat="server">
-    <cms:CMSPanel ID="pnlContainer" ShortID="pC" CssClass="cms-edit-menu" runat="server">
+    <cms:CMSPanel ID="pnlContainer" ShortID="pC" CssClass="cms-edit-menu cms-automation-menu" runat="server">
         <asp:Panel ID="pnlMenu" runat="server">
             <cms:HeaderActions ID="menu" runat="server" />
         </asp:Panel>

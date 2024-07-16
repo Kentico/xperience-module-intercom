@@ -4,6 +4,8 @@
     TagPrefix="cms" %>
 <%@ Register Src="~/CMSModules/Categories/Controls/CategoryEdit.ascx" TagName="CategoryEdit"
     TagPrefix="cms" %>
+<%@ Register Src="~/CMSModules/Categories/Controls/CategoryAllowedPageTypes.ascx" TagName="CategoryEditBindings"
+    TagPrefix="cms" %>
 <%@ Register Src="~/CMSModules/AdminControls/Controls/Documents/Documents.ascx" TagName="Documents"
     TagPrefix="cms" %>
 <%@ Register Src="~/CMSFormControls/Filters/DocumentFilter.ascx" TagName="DocumentFilter"
@@ -125,6 +127,12 @@
                                 <ContentTemplate>
                                     <cms:CategoryEdit ID="catEdit" runat="server" Visible="true" AllowDisabledParents="true"
                                         PanelCssClass="PageContent" ComponentName="CategoryEdit" />
+                                </ContentTemplate>
+                            </cms:JQueryTab>
+                            <cms:JQueryTab ID="tabAllowedPageTypes" runat="server">
+                                <ContentTemplate>
+                                    <cms:CategoryEditBindings ID="catEditPageTypes" runat="server" Visible="true"
+                                        PanelCssClass="PageContent" ComponentName="CategoryEditBindings" />
                                 </ContentTemplate>
                             </cms:JQueryTab>
                             <cms:JQueryTab ID="tabDocuments" runat="server">

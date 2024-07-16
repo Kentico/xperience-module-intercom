@@ -82,15 +82,15 @@ public partial class CMSModules_Content_Controls_LanguageMenu : CMSUserControl
             CultureInfo ci = CultureInfo.Provider.Get(SelectedCulture);
 
             imgLanguage.ImageUrl = GetFlagIconUrl(SelectedCulture, "16x16");
-            imgLanguage.AlternateText = imgLanguage.ToolTip = ResHelper.LocalizeString(ci.CultureName);
-            lblLanguageName.Text = HTMLHelper.HTMLEncode(ResHelper.LocalizeString(ci.CultureShortName));
+            imgLanguage.AlternateText = imgLanguage.ToolTip = ResHelper.LocalizeString(ci.CultureName, encode: true);
+            lblLanguageName.Text = ResHelper.LocalizeString(ci.CultureShortName, encode: true);
 
             // Generate sub-menu only if more cultures to choose from
             StringBuilder sb = new StringBuilder();
             foreach (var culture in cultures)
             {
                 string cultureCode = culture.CultureCode;
-                string cultureName = HTMLHelper.HTMLEncode(ResHelper.LocalizeString(culture.CultureName));
+                string cultureName = ResHelper.LocalizeString(culture.CultureName, encode: true);
 
                 if (CMSString.Compare(cultureCode, defaultCulture, true) == 0)
                 {
@@ -116,7 +116,7 @@ public partial class CMSModules_Content_Controls_LanguageMenu : CMSUserControl
             else
             {
                 btnCompare.RemoveCssClass("active");
-            }            
+            }
         }
         else
         {

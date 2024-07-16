@@ -9,8 +9,9 @@
 
 
 
-public partial class CMSModules_Categories_Controls_Categories {
-    
+public partial class CMSModules_Categories_Controls_Categories
+{
+
     /// <summary>
     /// ltlScript control.
     /// </summary>
@@ -19,7 +20,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Literal ltlScript;
-    
+
     /// <summary>
     /// pnlUpdateHidden control.
     /// </summary>
@@ -28,7 +29,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSUpdatePanel pnlUpdateHidden;
-    
+
     /// <summary>
     /// hidSelectedElem control.
     /// </summary>
@@ -37,7 +38,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField hidSelectedElem;
-    
+
     /// <summary>
     /// hdnButton control.
     /// </summary>
@@ -46,7 +47,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Button hdnButton;
-    
+
     /// <summary>
     /// pnlLeftContent control.
     /// </summary>
@@ -55,7 +56,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Panel pnlLeftContent;
-    
+
     /// <summary>
     /// plcSelectSite control.
     /// </summary>
@@ -64,7 +65,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.PlaceHolder plcSelectSite;
-    
+
     /// <summary>
     /// lblSite control.
     /// </summary>
@@ -73,7 +74,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.LocalizedLabel lblSite;
-    
+
     /// <summary>
     /// SelectSite control.
     /// </summary>
@@ -82,7 +83,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSFormControls_Sites_SiteSelector SelectSite;
-    
+
     /// <summary>
     /// pnlUpdateActions control.
     /// </summary>
@@ -91,7 +92,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSUpdatePanel pnlUpdateActions;
-    
+
     /// <summary>
     /// btnNew control.
     /// </summary>
@@ -100,7 +101,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSAccessibleButton btnNew;
-    
+
     /// <summary>
     /// btnDelete control.
     /// </summary>
@@ -109,7 +110,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSAccessibleButton btnDelete;
-    
+
     /// <summary>
     /// btnUp control.
     /// </summary>
@@ -118,7 +119,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSAccessibleButton btnUp;
-    
+
     /// <summary>
     /// btnDown control.
     /// </summary>
@@ -127,7 +128,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSAccessibleButton btnDown;
-    
+
     /// <summary>
     /// pnlTree control.
     /// </summary>
@@ -136,7 +137,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Panel pnlTree;
-    
+
     /// <summary>
     /// pnlUpdateTree control.
     /// </summary>
@@ -145,7 +146,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSUpdatePanel pnlUpdateTree;
-    
+
     /// <summary>
     /// treeElemG control.
     /// </summary>
@@ -154,7 +155,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSAdminControls_UI_Trees_UniTree treeElemG;
-    
+
     /// <summary>
     /// treeElemP control.
     /// </summary>
@@ -163,7 +164,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSAdminControls_UI_Trees_UniTree treeElemP;
-    
+
     /// <summary>
     /// pnlRightContent control.
     /// </summary>
@@ -172,7 +173,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Panel pnlRightContent;
-    
+
     /// <summary>
     /// pnlUpdateContent control.
     /// </summary>
@@ -181,7 +182,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.CMSUpdatePanel pnlUpdateContent;
-    
+
     /// <summary>
     /// pnlHeader control.
     /// </summary>
@@ -190,7 +191,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Panel pnlHeader;
-    
+
     /// <summary>
     /// titleElem control.
     /// </summary>
@@ -199,7 +200,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSAdminControls_UI_PageElements_PageTitle titleElem;
-    
+
     /// <summary>
     /// divDialogView control.
     /// </summary>
@@ -208,7 +209,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDialogView;
-    
+
     /// <summary>
     /// plcEdit control.
     /// </summary>
@@ -217,7 +218,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.PlaceHolder plcEdit;
-    
+
     /// <summary>
     /// pnlTabs control.
     /// </summary>
@@ -226,7 +227,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.JQueryTabContainer pnlTabs;
-    
+
     /// <summary>
     /// tabCategories control.
     /// </summary>
@@ -235,7 +236,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.JQueryTab tabCategories;
-    
+
     /// <summary>
     /// gridSubCategories control.
     /// </summary>
@@ -244,7 +245,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSAdminControls_UI_UniGrid_UniGrid gridSubCategories;
-    
+
     /// <summary>
     /// tabGeneral control.
     /// </summary>
@@ -253,7 +254,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.JQueryTab tabGeneral;
-    
+
     /// <summary>
     /// catEdit control.
     /// </summary>
@@ -262,7 +263,25 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSModules_Categories_Controls_CategoryEdit catEdit;
-    
+
+    /// <summary>
+    /// tabAllowedPageTypes control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMS.Base.Web.UI.JQueryTab tabAllowedPageTypes;
+
+    /// <summary>
+    /// catEditPageTypes control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::CMSModules_Categories_Controls_CategoryAllowedPageTypes catEditPageTypes;
+
     /// <summary>
     /// tabDocuments control.
     /// </summary>
@@ -271,7 +290,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.JQueryTab tabDocuments;
-    
+
     /// <summary>
     /// plcFilter control.
     /// </summary>
@@ -280,7 +299,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.PlaceHolder plcFilter;
-    
+
     /// <summary>
     /// filterDocuments control.
     /// </summary>
@@ -289,7 +308,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSFormControls_Filters_DocumentFilter filterDocuments;
-    
+
     /// <summary>
     /// headTitle control.
     /// </summary>
@@ -298,7 +317,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMS.Base.Web.UI.LocalizedHeading headTitle;
-    
+
     /// <summary>
     /// gridDocuments control.
     /// </summary>
@@ -307,7 +326,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSModules_AdminControls_Controls_Documents_Documents gridDocuments;
-    
+
     /// <summary>
     /// plcNew control.
     /// </summary>
@@ -316,7 +335,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.PlaceHolder plcNew;
-    
+
     /// <summary>
     /// catNew control.
     /// </summary>
@@ -325,7 +344,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::CMSModules_Categories_Controls_CategoryEdit catNew;
-    
+
     /// <summary>
     /// plcInfo control.
     /// </summary>
@@ -334,7 +353,7 @@ public partial class CMSModules_Categories_Controls_Categories {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.PlaceHolder plcInfo;
-    
+
     /// <summary>
     /// lblInfo control.
     /// </summary>

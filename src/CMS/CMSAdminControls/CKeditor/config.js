@@ -8,6 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.enterMode = CKEDITOR.ENTER_BR;
     config.shiftEnterMode = CKEDITOR.ENTER_P;
     config.entities_latin = false;
+	config.licenseKey = 'WW5ZelpUVklPVk4yWTJoSk5rdHhlVGcxY0hneWIzcHdjdz09LU56WXpNemM1T0Rjek5UZzFOelEx';
 
     var sourceName = config.useInlineMode ? 'Sourcedialog' : 'Source';
 

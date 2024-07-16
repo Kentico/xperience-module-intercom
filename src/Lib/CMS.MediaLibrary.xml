@@ -85,12 +85,26 @@
             <summary>
             Ensures that the object contains the output data.
             </summary>
-            <param name="defaultData">Default data which should be loaded if data required</param>
+            <param name="defaultData">Default data which should be loaded if data required.</param>
+            <returns>Returns true if new data has been loaded.</returns>
+        </member>
+        <member name="M:CMS.MediaLibrary.CMSOutputMediaFile.EnsureData(System.Byte[],System.Boolean)">
+            <summary>
+            Ensures that the object contains the output data.
+            </summary>
+            <param name="defaultData">Default data which should be loaded if data required.</param>
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
             <returns>Returns true if new data has been loaded</returns>
         </member>
         <member name="M:CMS.MediaLibrary.CMSOutputMediaFile.LoadData">
             <summary>
             Loads the data to the object.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.CMSOutputMediaFile.LoadData(System.Boolean)">
+            <summary>
+            Loads the data to the object.
+            <param name="canResize">Indicates if image can be resized. Using a true value directly can result in the generation of a resized file.</param>
             </summary>
         </member>
         <member name="M:CMS.MediaLibrary.CMSOutputMediaFile.LoadPreview">
@@ -1309,6 +1323,11 @@
             Object type for abstract media folder.
             </summary>
         </member>
+        <member name="F:CMS.MediaLibrary.MediaLibraryHelper.URL_PARAMETER_USE_THUMBNAIL_FOR_NON_RESIZABLE_IMAGE">
+            <summary>
+            This parameter is added to the url to retrieve thumbnail of non-editable image for which we cannot get dimensions (e.g. webp or svg files).
+            </summary>
+        </member>
         <member name="P:CMS.MediaLibrary.MediaLibraryHelper.SuffixRegex">
             <summary>
             Suffix regex for files and folders.
@@ -1722,6 +1741,11 @@
         <member name="P:CMS.MediaLibrary.MediaLibraryInfo.LibraryTeaserGuid">
             <summary>
             Library teaser guid.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.MediaLibraryInfo.LibraryUseDirectPathForContent">
+            <summary>
+            Indicates if the media files of this library should use direct path when referenced from a content.
             </summary>
         </member>
         <member name="M:CMS.MediaLibrary.MediaLibraryInfo.DeleteObject">
@@ -3074,6 +3098,214 @@
             </summary>
             <param name="mfi">Media file info</param>
             <param name="data">Output MediaFile data</param>
+        </member>
+        <member name="T:CMS.MediaLibrary.CustomTableItemSearchDocumentManager">
+            <summary>
+            Manages search documents for custom table item that should be indexed in media files usage search index.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.CustomTableItemSearchDocumentManager.GetPrimaryKeyColumnName(System.String)">
+            <summary>
+            Gets the primary key column name.
+            </summary>
+            <param name="objectType">Custom table object type name.</param>
+            <remarks>Throws exception if <paramref name="objectType"/> not found.</remarks>
+        </member>
+        <member name="T:CMS.MediaLibrary.Internal.IMediaFileUsageRetriever">
+            <summary>
+            Interface for service providing usages of media files.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.Internal.IMediaFileUsageRetriever.Get(CMS.MediaLibrary.MediaFileInfo)">
+            <summary>
+            Retrieves usages of given media file.
+            </summary>
+            <param name="mediaFile">Media file for which the usages are returned.</param>
+        </member>
+        <member name="T:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult">
+            <summary>
+            Represents result of search in Media files usage system index.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult.Location">
+            <summary>
+            Location of the found item.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult.ObjectDisplayName">
+            <summary>
+            Display name of the found item.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult.ObjectID">
+            <summary>
+            Object ID of the found item.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult.ObjectType">
+            <summary>
+            Object type of the found item.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult.ObjectSiteID">
+            <summary>
+            Object site ID of the found item.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult.Version">
+            <summary>
+            Version of the found item.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.Internal.IMediaFileUsageSearchResult.GetObjectEditRelativePath">
+            <summary>
+            Returns relative path to edit the object.
+            </summary>
+        </member>
+        <member name="T:CMS.MediaLibrary.Internal.MediaFilesUsageRetriever">
+            <summary>
+            Media files usage retriever.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.Internal.MediaFilesUsageRetriever.Get(CMS.MediaLibrary.MediaFileInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:CMS.MediaLibrary.MediaFilesUsageSearchIndexer">
+            <summary>
+            Manages the search index for searching asset usages across the system.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.MediaFilesUsageSearchIndexer.ExecuteTask(CMS.Search.SearchTaskInfo)">
+            <summary>
+            Executes specified search task.
+            </summary>
+            <param name="searchTask">Search task to execute.</param>
+        </member>
+        <member name="M:CMS.MediaLibrary.MediaFilesUsageSearchIndexer.IsObjectTypeIndexed(System.String)">
+            <summary>
+            Indicates if given object type is covered by the index.
+            </summary>
+            <param name="objectType">Object type.</param>
+        </member>
+        <member name="M:CMS.MediaLibrary.MediaFilesUsageSearchIndexer.GetObjectSearchId(System.String,System.Int32)">
+            <summary>
+            Gets search ID for an object.
+            </summary>
+        </member>
+        <member name="T:CMS.MediaLibrary.MediaFilesUsageSearchResultsConverter">
+            <summary>
+            Converts Lucene search results to desired model.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.MediaFilesUsageSearchResultsConverter.Convert(System.Collections.Generic.IEnumerable{CMS.Search.ISystemIndexSearchResult},CMS.Search.SystemIndexSearchParameters)">
+            <inheritdoc/>
+        </member>
+        <member name="T:CMS.MediaLibrary.MediaFileUsageLocationEnum">
+            <summary>
+            Type of location on page where media file is used.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageLocationEnum.PageBuilderWidgets">
+            <summary>
+            Page builder location.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageLocationEnum.PageStructuredContent">
+            <summary>
+            Structured content location.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageLocationEnum.PageProductFields">
+            <summary>
+            Product location.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageLocationEnum.PageCustomFields">
+            <summary>
+            Page custom data location.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageLocationEnum.ObjectFields">
+            <summary>
+            Object fields location.
+            </summary>
+        </member>
+        <member name="T:CMS.MediaLibrary.MediaFileUsageSearchResultBase">
+            <summary>
+            Base class for result of search in Media files usage system index.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.MediaFileUsageSearchResultBase.Location">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.MediaLibrary.MediaFileUsageSearchResultBase.ObjectDisplayName">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.MediaLibrary.MediaFileUsageSearchResultBase.ObjectID">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.MediaLibrary.MediaFileUsageSearchResultBase.ObjectType">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.MediaLibrary.MediaFileUsageSearchResultBase.ObjectSiteID">
+            <inheritdoc/>
+        </member>
+        <member name="P:CMS.MediaLibrary.MediaFileUsageSearchResultBase.Version">
+            <inheritdoc/>
+        </member>
+        <member name="M:CMS.MediaLibrary.MediaFileUsageSearchResultBase.GetObjectEditRelativePath">
+            <inheritdoc/>
+        </member>
+        <member name="T:CMS.MediaLibrary.MediaFileUsageVersionEnum">
+            <summary>
+            Represents version of object indexed in media file usages system index.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageVersionEnum.Published">
+            <summary>
+            Published version.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageVersionEnum.Latest">
+            <summary>
+            Latest version.
+            </summary>
+        </member>
+        <member name="F:CMS.MediaLibrary.MediaFileUsageVersionEnum.NonVersioned">
+            <summary>
+            Used for objects where version is not relevant.
+            </summary>
+        </member>
+        <member name="T:CMS.MediaLibrary.ObjectMediaFileUsageSearchResult">
+            <summary>
+            Represents object result of search in Media files usage system index.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.ObjectMediaFileUsageSearchResult.GetObjectEditRelativePath">
+            <inheritdoc/>
+        </member>
+        <member name="T:CMS.MediaLibrary.PageMediaFileUsageSearchResult">
+            <summary>
+            Represents page result of search in Media files usage system index.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.PageMediaFileUsageSearchResult.DocumentCulture">
+            <summary>
+            Document culture code.
+            </summary>
+        </member>
+        <member name="P:CMS.MediaLibrary.PageMediaFileUsageSearchResult.NodeID">
+            <summary>
+            Node ID of the found item.
+            </summary>
+        </member>
+        <member name="M:CMS.MediaLibrary.PageMediaFileUsageSearchResult.GetObjectEditRelativePath">
+            <inheritdoc/>
+        </member>
+        <member name="T:CMS.MediaLibrary.PageSearchDocumentManager">
+            <summary>
+            Manages search documents for page that should be indexed in media files usage search index.
+            </summary>
         </member>
     </members>
 </doc>

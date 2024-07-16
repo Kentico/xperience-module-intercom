@@ -227,7 +227,7 @@ function DF_Redir(nodeId, culture, translated, url) {
                 string versionNumber = null;
                 string className = null;
                 TranslationStatusEnum status = TranslationStatusEnum.NotAvailable;
-                string cultureName = DataHelper.GetStringValue(dr, "CultureName", "-");
+                string cultureName = HTMLHelper.EncodeForHtmlAttribute(DataHelper.GetStringValue(dr, "CultureName", "-"));
                 string cultureCode = DataHelper.GetStringValue(dr, "CultureCode", "-");
 
                 // Get document for given culture

@@ -3407,6 +3407,11 @@
             </summary>
             <exception cref="T:System.NotSupportedException">Thrown when <paramref name="info"/> is not instance of <see cref="T:CMS.DataEngine.SettingsKeyInfo"/></exception>
         </member>
+        <member name="M:CMS.ContinuousIntegration.Internal.GlobalSettingsRepositoryConfigurationEvaluator.IsObjectIncludedByCodenameFilter(CMS.DataEngine.SettingsKeyInfo,CMS.ContinuousIntegration.Internal.FileSystemRepositoryConfiguration)">
+            <summary>
+            Checks if object's codename meets the codename filter specified by repository configuration.
+            </summary>
+        </member>
         <member name="T:CMS.ContinuousIntegration.Internal.SettingDataClassRepositoryConfigurationEvaluator">
             <summary>
             Evaluator for <see cref="T:CMS.DataEngine.DataClassInfo"/> related to setting objects.

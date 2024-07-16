@@ -83,7 +83,7 @@ public partial class CMSModules_AdminControls_Controls_UIControls_MetaFileList :
         }
 
         IEnumerable<string> allowedExtensionsFromSettings = SettingsKeyInfoProvider.GetValue(SiteContext.CurrentSiteName + ".CMSUploadExtensions").Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-        IEnumerable<string> imageExtensions = new[] { "gif", "png", "bmp", "jpg", "jpeg", "webp", "tiff", };
+        IEnumerable<string> imageExtensions = new[] { "gif", "png", "bmp", "jpg", "jpeg", "webp", "tiff"};
 
         // Allow only image types which are also allowed system wide (by setting CMSUploadExtensions) to be uploaded. If there are no extensions specified in settings, allow all image types.
         IEnumerable<string> allowedExtensions = allowedExtensionsFromSettings.Any() ? allowedExtensionsFromSettings.Intersect(imageExtensions) : imageExtensions;

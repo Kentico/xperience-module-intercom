@@ -7,6 +7,7 @@ using WebControls = System.Web.UI.WebControls;
 
 using CMS.Base;
 using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.DataEngine;
 using CMS.DocumentEngine;
 using CMS.DocumentEngine.Internal;
@@ -18,7 +19,6 @@ using CMS.SiteProvider;
 using CMS.UIControls;
 using CMS.UIControls.Internal;
 using CMS.WorkflowEngine;
-
 
 public partial class CMSModules_Content_Controls_Dialogs_Selectors_LinkMediaSelector_LinkMediaSelector : ContentLinkMediaSelector
 {
@@ -246,6 +246,12 @@ public partial class CMSModules_Content_Controls_Dialogs_Selectors_LinkMediaSele
         set;
     }
 
+
+    /// <summary>
+    /// Gets or sets key for persisting UI layout dimensions.
+    /// </summary>
+    public string UILayoutKey { get; internal set; }
+
     #endregion
 
 
@@ -329,6 +335,27 @@ public partial class CMSModules_Content_Controls_Dialogs_Selectors_LinkMediaSele
         if (IsCopyMoveLinkDialog)
         {
             DisplayMediaElements();
+        }
+
+        var source = QueryHelper.GetString("source", string.Empty);
+        if (!RequestHelper.IsPostBack() && !RequestHelper.IsCallback() && !String.Equals("docattachments", source, StringComparison.OrdinalIgnoreCase))
+        {
+            var width = UILayoutHelper.GetLayoutWidth(UILayoutKey);
+            if (width.HasValue)
+            {
+                pnlLeftContent.Attributes["style"] = $"width: {width}px";
+                pnlTreeArea.Attributes["style"] = $"width: {width}px";
+                pnlRightContent.Attributes["style"] = $"margin-left: {width}px";
+                resizer.Attributes["style"] = $"left: {width}px";
+            }
+
+            var collapsed = UILayoutHelper.IsVerticalResizerCollapsed(UILayoutKey);
+            if (collapsed == true)
+            {
+                var existingClass = resizerV.Attributes["class"];
+                existingClass += " ResizerDown";
+                resizerV.Attributes["class"] = existingClass;
+            }
         }
     }
 
@@ -1216,7 +1243,7 @@ function RaiseHiddenPostBack(){{
         bool avoidPropUpdate = false;
 
         // Remember last selected attachment GUID
-        Guid attGuid;
+        Guid attGuid = Guid.Empty;
         switch (SourceType)
         {
             case MediaSourceEnum.DocumentAttachments:
@@ -1269,7 +1296,9 @@ function RaiseHiddenPostBack(){{
                 }
             }
 
-            MediaItem item = InitializeMediaItem(name, ext, imageWidth, imageHeight, size, url, null, versionHistoryId, nodeID, aliasPath);
+            int siteId = ValidationHelper.GetInteger(argTable["siteid"], 0);
+            string description = ImageHelper.IsImage(ext) ? GetImageAttachmentDescription(attGuid, SiteInfoProvider.GetSiteName(siteId)) : String.Empty;
+            MediaItem item = InitializeMediaItem(name, ext, imageWidth, imageHeight, size, url, null, versionHistoryId, nodeID, aliasPath, description);
 
             SelectMediaItem(item);
         }
@@ -1278,6 +1307,53 @@ function RaiseHiddenPostBack(){{
             // Select item
             SelectMediaItem(name, ext, imageWidth, imageHeight, size, url, null, nodeID, aliasPath);
         }
+    }
+
+
+    /// <summary>
+    /// Returns an image attachment description from the Azure Computer Vision API.
+    /// </summary>
+    private string GetImageAttachmentDescription(Guid attachmentGuid, string siteName)
+    {
+        string description = String.Empty;
+
+        if (IsComputerVisionEnabled())
+        {
+            var attachment = DocumentHelper.GetAttachment(attachmentGuid, siteName);
+            if (attachment != null)
+            {
+                try
+                {
+                    using (var stream = GetAttachmentStream(attachment))
+                    {
+                        description = GetImageDescriptionFromComputerVision(stream);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Service.Resolve<IEventLogService>().LogException("LinkMediaSelector", "ImageDescriptionRetrieval", ex);
+                }
+            }
+        }
+
+        return description;
+    }
+
+
+    /// <summary>
+    /// Gets the binary data of an attachment regardless of their storage location.
+    /// </summary>
+    private System.IO.Stream GetAttachmentStream(DocumentAttachment attachment)
+    {
+        if (attachment.AttachmentBinary == null)
+        {
+            // Fetch the attachment binary data from a file system
+            var attachmentFile = AttachmentInfo.Provider.Get(attachment.AttachmentGUID, attachment.AttachmentSiteID);
+            return attachmentFile.Generalized.GetBinaryData().SourceStream;
+        }
+
+        // Fetch the attachment binary data from a database
+        return new System.IO.MemoryStream(attachment.AttachmentBinary);
     }
 
 
@@ -2087,7 +2163,8 @@ function RaiseHiddenPostBack(){{
                         ItemToColorize = (SourceType == MediaSourceEnum.DocumentAttachments) ? attachmentGuid : TreeNodeObj.NodeGUID;
                     }
 
-                    var item = InitializeMediaItem(ai.AttachmentName, ai.AttachmentExtension, ai.AttachmentImageWidth, ai.AttachmentImageHeight, ai.AttachmentSize, url, null, versionHistoryId, 0, "");
+                    string description = ImageHelper.IsImage(ai.AttachmentExtension) ? GetImageAttachmentDescription(ai.AttachmentGUID, si.SiteName) : String.Empty;
+                    var item = InitializeMediaItem(ai.AttachmentName, ai.AttachmentExtension, ai.AttachmentImageWidth, ai.AttachmentImageHeight, ai.AttachmentSize, url, null, versionHistoryId, 0, "", description);
 
                     SelectMediaItem(item);
                 }
@@ -2547,7 +2624,9 @@ function RaiseHiddenPostBack(){{
             case "insertitem":
                 GetSelectedItem();
                 break;
-
+            case "selectroot":
+                HandleSearchAction(string.Empty);
+                break;
             case "search":
                 HandleSearchAction(CurrentArgument);
                 break;

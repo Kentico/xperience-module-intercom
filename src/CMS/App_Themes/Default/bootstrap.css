@@ -3201,6 +3201,9 @@ body.cms-bootstrap,
 .cms-bootstrap .icon-file-sln:before {
   content: "\e6ff";
 }
+.cms-bootstrap .icon-file-svg:before {
+  content: "\e633";
+}
 .cms-bootstrap .icon-file-swf:before {
   content: "\e636";
 }
@@ -3221,6 +3224,9 @@ body.cms-bootstrap,
 }
 .cms-bootstrap .icon-file-webm:before {
   content: "\e636";
+}
+.cms-bootstrap .icon-file-webp:before {
+  content: "\e633";
 }
 .cms-bootstrap .icon-file-wma:before {
   content: "\e71c";
@@ -3437,6 +3443,12 @@ body.cms-bootstrap,
 }
 .cms-bootstrap .icon-engage-users:before {
   content: "\e920";
+}
+.cms-bootstrap .icon-timed-box:before {
+  content: "\e921";
+}
+.cms-bootstrap .icon-magnifier-emoticon:before {
+  content: "\e922";
 }
 .cms-bootstrap .icon-crosshair {
   position: relative;
@@ -4777,7 +4789,6 @@ body.cms-bootstrap,
 .cms-bootstrap .table .unigrid-selection {
   min-width: 8px;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
 }
@@ -5548,6 +5559,9 @@ body.cms-bootstrap,
     float: left;
   }
 }
+.cms-bootstrap .scheduled-task-days .checkbox-list-vertical > br {
+  display: none;
+}
 .cms-bootstrap .settings-group-inline {
   display: block;
   word-spacing: -4px;
@@ -6175,6 +6189,8 @@ textarea.cms-bootstrap .input-lg {
   display: flex;
   -ms-flex-direction: row;
       flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 .cms-bootstrap .radio-list-horizontal .radio,
 .cms-bootstrap .checkbox-list-horizontal .radio,
@@ -6882,7 +6898,6 @@ textarea.cms-bootstrap .input-lg {
   border-radius: 16px;
   white-space: nowrap;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   text-shadow: none;
@@ -7666,7 +7681,6 @@ textarea.cms-bootstrap .input-lg {
   height: 32px;
   outline: none;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   border: 2px solid #A1A9B6;
@@ -7717,9 +7731,8 @@ textarea.cms-bootstrap .input-lg {
 }
 .cms-bootstrap .select2-results__option {
   padding: 4px;
-  -moz-user-select: none;
-   -ms-user-select: none;
-       user-select: none;
+  -ms-user-select: none;
+      user-select: none;
   -webkit-user-select: none;
 }
 .cms-bootstrap .select2-results__option[aria-selected] {
@@ -7990,6 +8003,10 @@ textarea.cms-bootstrap .input-lg {
 }
 .cms-bootstrap .btn-group > .btn:not(:last-child):not(.dropdown-toggle).active {
   border-right: 1px solid #283F8A;
+}
+.cms-bootstrap .btn-group-split .btn > .icon-ellipsis {
+  margin-top: 8px;
+  margin-right: 2px;
 }
 .cms-bootstrap .btn-group-split.open > .btn.dropdown-toggle {
   background-color: #C2C7CF;
@@ -12097,7 +12114,6 @@ td.cms-bootstrap .visible-print {
   border-radius: 16px;
   white-space: nowrap;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   text-shadow: none;
@@ -12276,7 +12292,6 @@ td.cms-bootstrap .visible-print {
   border-radius: 16px;
   white-space: nowrap;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   text-shadow: none;
@@ -13755,7 +13770,6 @@ td.cms-bootstrap .visible-print {
 .cms-bootstrap .mfp-preloader,
 .cms-bootstrap .mfp-counter {
   -webkit-user-select: none;
-  -moz-user-select: none;
   -ms-user-select: none;
       user-select: none;
 }
@@ -14264,6 +14278,9 @@ td.cms-bootstrap .visible-print {
 .cms-bootstrap div.automation-header div.automation-header-icon .disabled {
   color: #000000;
 }
+.cms-bootstrap div.automation-header .process-state-label {
+  padding-right: 8px;
+}
 .cms-bootstrap .automation-wrapper {
   display: -ms-flexbox;
   display: flex;
@@ -14312,7 +14329,6 @@ td.cms-bootstrap .visible-print {
 }
 .cms-bootstrap .automation-toolbar-wrapper .automation-steps-container .collapsible-div .anchor {
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   margin-bottom: 0;
@@ -14566,6 +14582,9 @@ td.cms-bootstrap .visible-print {
 }
 .cms-bootstrap .automation-sidepanel-content .control-label {
   padding-bottom: 3px;
+}
+.cms-bootstrap .cms-automation-menu .jspPane .dropdown-menu-inner-wrap {
+  overflow: visible;
 }
 .cms-bootstrap .widget-properties-sidebar {
   height: inherit;
@@ -15041,6 +15060,22 @@ td.cms-bootstrap .visible-print {
 }
 .cms-bootstrap .map .amcharts-balloon-bg {
   fill: #ffffff;
+}
+@media screen and (min-width: 660px) {
+  .cms-bootstrap .url-input {
+    width: 80%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .cms-bootstrap .url-input {
+    width: 60%;
+  }
+}
+.cms-bootstrap .content-form-element {
+  padding-bottom: 16px;
+}
+.cms-bootstrap .url-label {
+  font-weight: bold;
 }
 .cms-bootstrap .dialog-header {
   background: #262524;
@@ -15652,6 +15687,9 @@ td.cms-bootstrap .visible-print {
 }
 .cms-bootstrap .tree-language-menu {
   margin: 16px !important;
+}
+.cms-bootstrap .tree-language-menu .dropdown-menu-inner-wrap {
+  overflow: visible;
 }
 .cms-bootstrap .macro-tree [class^="icon-"] {
   padding-right: 8px;
@@ -16830,7 +16868,6 @@ td.cms-bootstrap .visible-print {
   position: relative;
   overflow: hidden;
   -webkit-user-select: none;
-     -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
   vertical-align: middle;
@@ -17584,7 +17621,7 @@ td.cms-bootstrap .visible-print {
   background: #D1D9F5;
 }
 .cms-bootstrap .datetime-ui-range-header.datetime-ui-range-div .datetime-ui-widget-content {
-  background: none;
+  background: #ffffff;
 }
 .cms-bootstrap .datetime-ui-datepicker {
   background: #F3F4F5;
@@ -18232,12 +18269,12 @@ td.cms-bootstrap .visible-print {
 .cms-bootstrap .single-file-import-overflow {
   overflow: auto;
 }
-.cms-bootstrap .MediaProperties .nav-tabs {
+.cms-bootstrap .media-properties .nav-tabs {
   padding-top: 8px;
 }
 .cms-bootstrap .media-file-edit {
-  overflow: auto;
-  max-height: 208px;
+  overflow: hidden;
+  padding: 0px !important;
 }
 .cms-bootstrap .media-file-versions {
   overflow: auto;
@@ -18280,6 +18317,13 @@ td.cms-bootstrap .visible-print {
   padding: 0;
   margin: 0;
   height: 100%;
+}
+.cms-bootstrap .media-library-properties {
+  height: 340px;
+  width: 100%;
+}
+.cms-bootstrap .media-library-properties .form-group {
+  margin-bottom: 10px;
 }
 .cms-bootstrap .class-thumbnail-selector-content button {
   margin-top: 8px;

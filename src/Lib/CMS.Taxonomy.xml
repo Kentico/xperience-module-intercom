@@ -4,6 +4,138 @@
         <name>CMS.Taxonomy</name>
     </assembly>
     <members>
+        <member name="T:CMS.Taxonomy.CategoryClassInfo">
+            <summary>
+            Data container class for <see cref="T:CMS.Taxonomy.CategoryClassInfo"/>.
+            </summary>
+        </member>
+        <member name="F:CMS.Taxonomy.CategoryClassInfo.OBJECT_TYPE">
+            <summary>
+            Object type.
+            </summary>
+        </member>
+        <member name="F:CMS.Taxonomy.CategoryClassInfo.TYPEINFO">
+            <summary>
+            Type information.
+            </summary>
+        </member>
+        <member name="P:CMS.Taxonomy.CategoryClassInfo.CategoryID">
+            <summary>
+            Category ID
+            </summary>
+        </member>
+        <member name="P:CMS.Taxonomy.CategoryClassInfo.ClassID">
+            <summary>
+            Class ID
+            </summary>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfo.DeleteObject">
+            <summary>
+            Deletes the object using appropriate provider.
+            </summary>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfo.SetObject">
+            <summary>
+            Updates the object using appropriate provider.
+            </summary>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfo.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Constructor for de-serialization.
+            </summary>
+            <param name="info">Serialization info.</param>
+            <param name="context">Streaming context.</param>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfo.#ctor">
+            <summary>
+            Creates an empty instance of the <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfo.#ctor(System.Data.DataRow)">
+            <summary>
+            Creates a new instance of the <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> class from the given <see cref="T:System.Data.DataRow"/>.
+            </summary>
+            <param name="dr">DataRow with the object data.</param>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfo.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="categoryId">Category identifier</param>
+            <param name="classId">Document type class identifier</param>
+        </member>
+        <member name="T:CMS.Taxonomy.CategoryClassInfoProvider">
+            <summary>
+            Class providing <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> management.
+            </summary>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfoProvider.Get(System.Int32,System.Int32)">
+            <summary>
+            Gets an instance of the <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding structure.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+            <returns>Returns an instance of <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> corresponding to given identifiers or null.</returns>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfoProvider.GetAsync(System.Int32,System.Int32,System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Asynchronously gets an instance of the <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding structure.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+            <param name="cancellationToken">The cancellation instruction.</param>
+            <returns>Returns a task returning either an instance of <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> corresponding to given identifiers or null.</returns>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfoProvider.Remove(System.Int32,System.Int32)">
+            <summary>
+            Deletes <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryClassInfoProvider.Add(System.Int32,System.Int32)">
+            <summary>
+            Creates <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+        </member>
+        <member name="T:CMS.Taxonomy.ICategoryClassInfoProvider">
+            <summary>
+            Declares members for <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> management.
+            </summary>
+        </member>
+        <member name="M:CMS.Taxonomy.ICategoryClassInfoProvider.Get(System.Int32,System.Int32)">
+            <summary>
+            Gets an instance of the <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding structure.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+            <returns>Returns an instance of <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> corresponding to given identifiers or null.</returns>
+        </member>
+        <member name="M:CMS.Taxonomy.ICategoryClassInfoProvider.GetAsync(System.Int32,System.Int32,System.Nullable{System.Threading.CancellationToken})">
+            <summary>
+            Asynchronously gets an instance of the <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding structure.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+            <param name="cancellationToken">The cancellation instruction.</param>
+            <returns>Returns a task returning either an instance of <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> corresponding to given identifiers or null.</returns>
+        </member>
+        <member name="M:CMS.Taxonomy.ICategoryClassInfoProvider.Remove(System.Int32,System.Int32)">
+            <summary>
+            Deletes <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+        </member>
+        <member name="M:CMS.Taxonomy.ICategoryClassInfoProvider.Add(System.Int32,System.Int32)">
+            <summary>
+            Creates <see cref="T:CMS.Taxonomy.CategoryClassInfo"/> binding.
+            </summary>
+            <param name="categoryId">Content category ID.</param>
+            <param name="classId">Class ID.</param>
+        </member>
         <member name="T:CMS.Taxonomy.CategoryInfo">
             <summary>
             CategoryInfo data container class.
@@ -104,6 +236,11 @@
             Order of the category.
             </summary>
         </member>
+        <member name="P:CMS.Taxonomy.CategoryInfo.CategoryAllowAllTypes">
+            <summary>
+            Indicates if category is allowed for all document types.
+            </summary>
+        </member>
         <member name="P:CMS.Taxonomy.CategoryInfo.CategoryIsGlobal">
             <summary>
             Indicates whether category is global.
@@ -185,6 +322,11 @@
             <param name="settings">Cloning settings</param>
             <param name="result">Cloning result</param>
             <param name="originalObject">Original source BaseInfo (object being cloned)</param>
+        </member>
+        <member name="M:CMS.Taxonomy.CategoryInfo.LoadDefaultData">
+            <summary>
+            Loads the default data to the object.
+            </summary>
         </member>
         <member name="T:CMS.Taxonomy.CategoryInfoProvider">
             <summary>

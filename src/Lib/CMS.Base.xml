@@ -619,6 +619,11 @@
             Base class for objects implementing <see cref="T:CMS.Base.Internal.IWebPathMapper"/> interface.
             </summary>
         </member>
+        <member name="F:CMS.Base.Internal.WebPathMapperBase.DirectorySeparator">
+            <summary>
+            Platform specific directory separator.
+            </summary>
+        </member>
         <member name="F:CMS.Base.Internal.WebPathMapperBase.TILDA_FORWARDSLASH">
             <summary>~/</summary>
         </member>
@@ -1320,6 +1325,18 @@
             <summary>
             Returns the number of posted file objects within the request.
             </summary>
+        </member>
+        <member name="T:CMS.Base.Internal.ISiteStaticFileService">
+            <summary>
+            Provides methods for working with site static files.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Internal.ISiteStaticFileService.FileExists(System.String)">
+            <summary>
+            Checks if a site static file is available on the specified relative path.
+            </summary>
+            <param name="relativePath">The relative path of the site static file.</param>
+            <returns><c>true</c> if static file is available on the path; <c>false</c> otherwise</returns>
         </member>
         <member name="T:CMS.Base.Internal.IWebPathMapper">
             <summary>
@@ -4480,6 +4497,12 @@
             Indicates whether the changes made to the object instance should be reseted.
             </summary>
         </member>
+        <member name="P:CMS.Base.CMSActionContext.DisableRecursionDetection">
+            <summary>
+            Disabled recursion detection.
+            </summary>
+            <seealso cref="T:CMS.Base.RecursionControl"/>
+        </member>
         <member name="P:CMS.Base.CMSActionContext.EmptyDataForInvalidLicense">
             <summary>
             Indicates whether a get data queries for object that are not allowed under current license returns empty data set or throw an error.
@@ -4649,6 +4672,12 @@
             <summary>
             Indicates if object serialization within continuous integration is allowed in the given context
             </summary>
+        </member>
+        <member name="P:CMS.Base.CMSActionContext.CurrentDisableRecursionDetection">
+            <summary>
+            Indicates whether the recursion check is disabled.
+            </summary>
+            <seealso cref="T:CMS.Base.RecursionControl"/>
         </member>
         <member name="M:CMS.Base.CMSActionContext.#ctor">
             <summary>
@@ -4919,6 +4948,51 @@
             Implicit conversion from the property to its value
             </summary>
             <param name="property">Property to convert</param>
+        </member>
+        <member name="T:CMS.Base.DebugConstants">
+            <summary>
+            Debug related constants.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.SQL_QUERIES_DEBUG_NAME">
+            <summary>
+            Name of the SQL queries debug.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.HANDLERS_DEBUG_NAME">
+            <summary>
+            Name of the event handlers debug.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.CACHE_ACCESS_DEBUG_NAME">
+            <summary>
+            Name of the cache access debug.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.SECURITY_DEBUG_NAME">
+            <summary>
+            Name of the security debug.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.FILE_DEBUG_NAME">
+            <summary>
+            Name of the IO debug.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.MACRO_DEBUG_NAME">
+            <summary>
+            Name of the macro debug.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.WEB_FARM_DEBUG_NAME">
+            <summary>
+            Name of the web farm debug.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.DebugConstants.DEBUG_SECURITY_TOKEN">
+            <summary>
+            Name of the request header entry for debug security token.
+            </summary>
         </member>
         <member name="T:CMS.Base.DebugContext">
             <summary>
@@ -5526,6 +5600,11 @@
             Current thread stack
             </summary>
         </member>
+        <member name="M:CMS.Base.RequestLog.#ctor">
+            <summary>
+            Constructor used by deserialization.
+            </summary>
+        </member>
         <member name="M:CMS.Base.RequestLog.#ctor(CMS.Base.RequestLogs,System.Data.DataTable,CMS.Base.DebugSettings)">
             <summary>
             Constructor.
@@ -5780,6 +5859,20 @@
             Creates a new instance of <see cref="T:CMS.Base.RequestSettings"/> 
             and initialize the <see cref="P:CMS.Base.RequestSettings.Flags"/> with shallow copy of current <see cref="P:CMS.Base.RequestSettings.Flags"/>.
             </summary>
+        </member>
+        <member name="T:CMS.Base.DefaultSiteStaticFileService">
+            <summary>
+            Fallback implementation if <see cref="T:CMS.Base.Internal.ISiteStaticFileService"/>.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.DefaultSiteStaticFileService.FileExists(System.String)">
+            <summary>
+            Checks if a site static file is available on the specified relative path.
+            </summary>
+            <param name="relativePath">The relative path of the site static file.</param>
+            <returns>
+              always <c>false</c>
+            </returns>
         </member>
         <member name="T:CMS.Base.DefaultWebPathMapper">
             <summary>
@@ -9393,6 +9486,22 @@
             <param name="userName">name of given user</param>
             <returns>user info of given user</returns>
         </member>
+        <member name="T:CMS.Base.IImageProcessingService">
+            <summary>
+            Interface for image processing service
+            </summary>
+        </member>
+        <member name="M:CMS.Base.IImageProcessingService.TryResize(System.Byte[],System.Int32,System.Int32,System.Int32,System.Byte[]@)">
+            <summary>
+            Resizes the specified image.
+            </summary>
+            <param name="image">The image to resize in binary data form.</param>
+            <param name="width">The width to resize the image to.</param>
+            <param name="height">The height to resize the image to.</param>
+            <param name="quality">The quality of the resized image.</param>
+            <param name="resizedImage">Binary data of resized image if resize is successful. Otherwise <c>null</c>.</param>
+            <returns><c>true</c> if the image was resized. Otherwise <c>false</c>.</returns>
+        </member>
         <member name="T:CMS.Base.ISiteService">
             <summary>
             Interface for site service
@@ -10365,6 +10474,12 @@
             <summary>
             Sets the <see langword="Cache-Control: no-store"/> HTTP header.
             </summary>
+        </member>
+        <member name="P:CMS.Base.Routing.CMSActionResult.ForceCaching">
+            <summary>
+            Indicates if caching should be forced.
+            </summary>
+            <remarks>Overwrites the <see langword="Cache-Control: no-store"/> HTTP header to false, cacheability to <see cref="F:CMS.Base.Internal.HttpCacheability.Public"/> and revalidation to <see cref="F:CMS.Base.Internal.HttpCacheRevalidation.AllCaches"/> in the current request response.</remarks>
         </member>
         <member name="M:CMS.Base.Routing.CMSActionResult.#ctor">
             <summary>
@@ -11509,7 +11624,7 @@
             The thread is aborted but <seealso cref="T:System.Threading.ThreadAbortException"/> is not logged.
             </para>
             <para>
-            In case of <seealso cref="F:CMS.Base.ThreadModeEnum.Sync"/> mode this method only stops this and child synchronous threads. 
+            In case of <seealso cref="F:CMS.Base.ThreadModeEnum.Sync"/> mode this method only stops this and child synchronous threads.
             </para>
             <para>
             Parent threads running under same InnerThread will continue running.
@@ -11591,7 +11706,7 @@
         </member>
         <member name="M:CMS.Base.CMSThread.Execute(System.Action,CMS.Base.ThreadContext,System.Delegate)">
             <summary>
-            Executes the given code as it was executed in a context of CMSThread. Use this method to wrap a code, that runs from anonymous thread that you have no control over. 
+            Executes the given code as it was executed in a context of CMSThread. Use this method to wrap a code, that runs from anonymous thread that you have no control over.
             </summary>
             <param name="action">Action to execute</param>
             <param name="sourceContext">Source context of the originating thread</param>
@@ -11599,7 +11714,7 @@
         </member>
         <member name="M:CMS.Base.CMSThread.ExecuteFunc``1(System.Func{``0},CMS.Base.ThreadContext,System.Delegate)">
             <summary>
-            Executes the given function as it was executed in a context of CMSThread. Use this method to wrap a code, that runs from anonymous thread that you have no control over. 
+            Executes the given function as it was executed in a context of CMSThread. Use this method to wrap a code, that runs from anonymous thread that you have no control over.
             </summary>
             <param name="action">Action to execute</param>
             <param name="sourceContext">Source context items of the originating thread</param>
@@ -12329,6 +12444,70 @@
             <summary>
             Indicates whether <see cref="M:CMS.Base.ThreadQueueWorker`2.Enqueue(`0,System.Boolean)"/> method can put items in a queue for asynchronous processing. True by default. Work items are processed synchronously when set to false.
             </summary>
+        </member>
+        <member name="T:CMS.Base.ContextUtils">
+            <summary>
+            Contains utility methods for capturing system's ambient context and propagating it to methods which are executed asynchronously or in parallel.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.ContextUtils.PropagateCurrent(System.Action)">
+            <summary>
+            Captures the current system's ambient context and wraps <paramref name="action"/> so that the context is propagated to it upon its invocation.
+            </summary>
+            <param name="action">Action to which the current context is to be propagated.</param>
+            <returns>Returns <paramref name="action"/> wrapped so that current context is propagated to it upon invocation.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="action"/> is null.</exception>
+            <remarks>
+            Use this method to wrap actions before passing them to <see cref="M:System.Threading.Tasks.Task.Run(System.Action)"/> or <see cref="M:System.Threading.Tasks.Task.Run(System.Action,System.Threading.CancellationToken)"/>
+            to ensure the current context is captured and propagated to the executed action.
+            </remarks>
+        </member>
+        <member name="M:CMS.Base.ContextUtils.PropagateCurrent``1(System.Func{``0})">
+            <summary>
+            Captures the current system's ambient context and wraps <paramref name="function"/> so that the context is propagated to it upon its invocation.
+            </summary>
+            <typeparam name="TResult">Type of <paramref name="function"/>'s result.</typeparam>
+            <param name="function">Function to which the current context is to be propagated.</param>
+            <returns>Returns <paramref name="function"/> wrapped so that current context is propagated to it upon invocation.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="function"/> is null.</exception>
+            <remarks>
+            Use this method to wrap functions before passing them to <see cref="M:System.Threading.Tasks.Task.Run``1(System.Func{``0})"/> or <see cref="M:System.Threading.Tasks.Task.Run``1(System.Func{``0},System.Threading.CancellationToken)"/>
+            to ensure the current context is captured and propagated to the executed function.
+            </remarks>
+        </member>
+        <member name="M:CMS.Base.ContextUtils.PropagateCurrent(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Captures the current system's ambient context and wraps <paramref name="function"/> so that the context is propagated to it upon its invocation.
+            </summary>
+            <param name="function">Asynchronous action to which the current context is to be propagated.</param>
+            <returns>Returns <paramref name="function"/> wrapped so that current context is propagated to it upon invocation.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="function"/> is null.</exception>
+            <remarks>
+            Use this method to wrap asynchronous actions before passing them to <see cref="M:System.Threading.Tasks.Task.Run(System.Func{System.Threading.Tasks.Task})"/> or <see cref="M:System.Threading.Tasks.Task.Run(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)"/>
+            to ensure the current context is captured and propagated to the executed action.
+            </remarks>
+        </member>
+        <member name="M:CMS.Base.ContextUtils.PropagateCurrent``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            Captures the current system's ambient context and wraps <paramref name="function"/> so that the context is propagated to it upon its invocation.
+            </summary>
+            <typeparam name="TResult">Type of <paramref name="function"/>'s result.</typeparam>
+            <param name="function">Asynchronous function to which the current context is to be propagated.</param>
+            <returns>Returns <paramref name="function"/> wrapped so that current context is propagated to it upon invocation.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="function"/> is null.</exception>
+            <remarks>
+            Use this method to wrap asynchronous functions before passing them to <see cref="M:System.Threading.Tasks.Task.Run``1(System.Func{System.Threading.Tasks.Task{``0}})"/> or <see cref="M:System.Threading.Tasks.Task.Run``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)"/>
+            to ensure the current context is captured and propagated to the executed function.
+            </remarks>
+        </member>
+        <member name="M:CMS.Base.ContextUtils.ResetCurrent">
+            <summary>
+            Resets the current system's ambient context.
+            </summary>
+            <remarks>
+            Use this method within an action when the context was not explicitly captured and passed
+            (e.g. when running on the thread pool where residual context from previous code might linger).
+            </remarks>
         </member>
         <member name="T:CMS.Base.IValidationError">
             <summary>

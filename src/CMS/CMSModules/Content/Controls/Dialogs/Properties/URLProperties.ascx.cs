@@ -5,6 +5,8 @@ using System.Web.UI;
 
 using CMS.Base;
 using CMS.Base.Web.UI;
+using CMS.Core;
+using CMS.Core.Internal;
 using CMS.DataEngine;
 using CMS.Helpers;
 using CMS.UIControls;
@@ -187,6 +189,22 @@ public partial class CMSModules_Content_Controls_Dialogs_Properties_URLPropertie
 
 
     /// <summary>
+    /// Indicates whether the current item is an editable image.
+    /// </summary>
+    private bool CurrentIsEditableImage
+    {
+        get
+        {
+            return ValidationHelper.GetBoolean(ViewState["CurrentIsEditableImage"], false);
+        }
+        set
+        {
+            ViewState["CurrentIsEditableImage"] = value;
+        }
+    }
+
+
+    /// <summary>
     /// Indicates whether the current item is audio/video.
     /// </summary>
     private bool CurrentIsMedia
@@ -316,7 +334,7 @@ public partial class CMSModules_Content_Controls_Dialogs_Properties_URLPropertie
         if (!RequestHelper.IsPostBack())
         {
             widthHeightElem.Locked = true;
-            
+
             if (plcAltText.Visible)
             {
                 ScriptHelper.RegisterWOpenerScript(Page);
@@ -392,14 +410,14 @@ if (wopener) {
         widthHeightElem.Height = DefaultHeight;
 
         // Remove width & height parameters from url
-        string url = URLHelper.RemoveParameterFromUrl(URLHelper.RemoveParameterFromUrl(OriginalUrl, "width"), "height");
+        string url = URLHelper.RemoveParametersFromUrl(OriginalUrl, new string[] { "width", "height", MediaProtectionConstants.MEDIA_PROTECTION_HASH_QUERY_KEY });
 
         // If media selector - insert dimensions to the URL
         if (IsMediaSelector)
         {
             url = EnsureMediaSelector(url);
         }
-        
+
         txtUrl.Text = url;
 
         LoadPreview();
@@ -674,6 +692,7 @@ if (wopener) {
             // Display size selector only if required or image
             string ext = ValidationHelper.GetString(properties[DialogParameters.URL_EXT], "");
             CurrentIsImage = ImageHelper.IsImage(ext);
+            CurrentIsEditableImage = ImageHelper.IsEditableImage(ext);
             CurrentIsMedia = !CurrentIsImage && MediaHelper.IsAudioVideo(ext);
             ShowSizeControls = DisplaySizeSelector();
 
@@ -798,7 +817,7 @@ if (wopener) {
     private bool DisplaySizeSelector()
     {
         // Start with media selector
-        bool result = (IsMediaSelector && (CurrentIsImage || CurrentIsMedia));
+        bool result = (IsMediaSelector && (CurrentIsEditableImage || CurrentIsMedia));
 
         // Is image selector ?
         result = result || ((Config.OutputFormat == OutputFormatEnum.URL) && (Config.SelectableContent == SelectableContentEnum.OnlyImages));
@@ -855,6 +874,7 @@ if (wopener) {
                         url = URLHelper.AddParameterToUrl(url, "width", widthHeightElem.Width.ToString());
                     }
                 }
+
                 if (widthHeightElem.Height < DefaultHeight)
                 {
                     retval[DialogParameters.IMG_HEIGHT] = widthHeightElem.Height;
@@ -864,8 +884,11 @@ if (wopener) {
                     }
                 }
 
-                
-                
+                if (sizeToUrl && ((widthHeightElem.Width < DefaultWidth) || (widthHeightElem.Height < DefaultHeight)))
+                {
+                    url = Service.Resolve<IMediaProtectionService>().GetProtectedUrl(url, true);
+                }
+
                 retval[DialogParameters.IMG_URL] = (resolveUrl ? UrlResolver.ResolveUrl(imgUrl) : imgUrl);
                 retval[DialogParameters.IMG_EXT] = ValidationHelper.GetString(ViewState[DialogParameters.URL_EXT], "");
                 retval[DialogParameters.IMG_SIZETOURL] = sizeToUrl;

@@ -15818,11 +15818,11 @@
             Constant for custom search index for documents related to an SKU.
             </summary>
         </member>
-        <member name="M:CMS.Ecommerce.SKUSearchIndexer.ExecuteUpdateTask(CMS.Search.SearchTaskInfo)">
+        <member name="M:CMS.Ecommerce.SKUSearchIndexer.IsTaskProcessingAllowed(CMS.Search.SearchTaskInfo)">
             <summary>
-            Update search index of nodes depending on the SKU.
+            Indicates if task processing is allowed for given task.
             </summary>
-            <param name="sti">Search task info object.</param>
+            <param name="sti">Search task to process.</param>
         </member>
         <member name="T:CMS.Ecommerce.AddressType">
             <summary>

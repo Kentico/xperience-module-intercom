@@ -1350,10 +1350,14 @@ public partial class CMSModules_AdminControls_Controls_Class_NewClassWizard : CM
         // Get and load form definition
         var fi = FormHelper.GetFormInfo(DataClassInfo.ClassName, false);
 
-        // System columns for a document type can be added in the field editor, which do not have separate database representation and should not count
-        var includeSystem = Mode != NewClassWizardModeEnum.DocumentType;
+        var isDocument = Mode == NewClassWizardModeEnum.DocumentType;
 
-        if (fi.GetFields(true, true, includeSystem: includeSystem, includeDummyFields: false).Count() < 2)
+        // System columns for a document type can be added in the field editor, which do not have separate database representation and should not count
+        var includeSystem = !isDocument;
+
+        var minimumRequiredFields = isDocument ? 1 : 2;
+
+        if (fi.GetFields(true, true, includeSystem: includeSystem, includeDummyFields: false).Count() < minimumRequiredFields)
         {
             e.Cancel = true;
             FieldEditor.ShowError(GetString("DocumentType_New_Step3.TableMustHaveCustomField"));
@@ -1500,10 +1504,30 @@ public partial class CMSModules_AdminControls_Controls_Class_NewClassWizard : CM
 
     private void SetSearchSettings()
     {
+        SetPageTypeSearchDataSource();
+
         DataClassInfo.ClassSearchEnabled = true;
         DataClassInfo.ClassSearchSettings = SearchHelper.GetDefaultSearchSettings(DataClassInfo);
         SearchHelper.SetDefaultClassSearchColumns(DataClassInfo);
         DataClassInfo.Generalized.SetObject();
+    }
+
+
+    private void SetPageTypeSearchDataSource()
+    {
+        if (Mode != NewClassWizardModeEnum.DocumentType)
+        {
+            return;
+        }
+
+        if (!DataClassInfo.ClassIsCoupledClass)
+        {
+            DataClassInfo.ClassSearchIndexDataSource = SearchIndexDataSourceEnum.HTMLOutput;
+        }
+        else
+        {
+            DataClassInfo.ClassSearchIndexDataSource = DataClassInfo.ClassUsesPageBuilder ? SearchIndexDataSourceEnum.Both : SearchIndexDataSourceEnum.ContentFields;
+        }
     }
 
 

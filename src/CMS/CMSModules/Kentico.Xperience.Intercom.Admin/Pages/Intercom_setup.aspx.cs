@@ -79,7 +79,7 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
         // Register the dialog script
         ScriptHelper.RegisterDialogScript(Page);
     }
-    
+
 
     protected override void OnPreRender(EventArgs e)
     {
@@ -142,7 +142,7 @@ public partial class CMSModules_Intercom_Pages_Setup : CMSPage
         {
             consentSelector.Value = consentName;
         }
-        
+
         plcConsentSelector.Controls.Clear();
         plcConsentSelector.Controls.Add(consentSelector);
     }

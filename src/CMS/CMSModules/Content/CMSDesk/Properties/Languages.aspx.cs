@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Data;
-
-using CMS.Base;
-
 using System.Linq;
 using System.Web.UI.WebControls;
 
+using CMS.Base;
 using CMS.Base.Web.UI;
 using CMS.DataEngine;
 using CMS.DocumentEngine;
@@ -288,7 +286,7 @@ public partial class CMSModules_Content_CMSDesk_Properties_Languages : CMSProper
 
         columns = SqlHelper.MergeColumns(SqlHelper.MergeColumns(DocumentColumnLists.SELECTNODES_REQUIRED_COLUMNS, columns), "DocumentModifiedWhen, DocumentLastVersionNumber, DocumentLastPublished, DocumentIsWaitingForTranslation");
 
-        var query = 
+        var query =
             DocumentHelper.GetDocuments()
                 .OnSite(currentSiteName)
                 .Path(Node.NodeAliasPath)
@@ -301,7 +299,7 @@ public partial class CMSModules_Content_CMSDesk_Properties_Languages : CMSProper
         query.Properties.ExcludedVersionedColumns = new[] { "DocumentPublishFrom", "DocumentPublishTo" };
 
         var data = query.Result;
-           
+
         if (DataHelper.DataSourceIsEmpty(data))
         {
             return null;
@@ -330,7 +328,7 @@ public partial class CMSModules_Content_CMSDesk_Properties_Languages : CMSProper
             DataRow[] cultureRow = allSiteCultures.Tables[0].Select("DocumentCulture='" + cultureCode + "'");
             if (cultureRow.Length > 0)
             {
-                cultDR["DocumentCultureDisplayName"] = cultureRow[0]["CultureName"].ToString();
+                cultDR["DocumentCultureDisplayName"] = HTMLHelper.HTMLEncode(cultureRow[0]["CultureName"].ToString());
             }
         }
 

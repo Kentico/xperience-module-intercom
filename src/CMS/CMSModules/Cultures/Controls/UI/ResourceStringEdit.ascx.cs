@@ -210,7 +210,7 @@ public partial class CMSModules_Cultures_Controls_UI_ResourceStringEdit : CMSAdm
 
         foreach (DataRow dr in cultures.Tables[0].Rows)
         {
-            string cultureName = ValidationHelper.GetString(dr["CultureName"], String.Empty);
+            string cultureName = HTMLHelper.HTMLEncode(ValidationHelper.GetString(dr["CultureName"], String.Empty));
             string cultureCode = ValidationHelper.GetString(dr["CultureCode"], String.Empty);
 
             TableRow row = GetRow(cultureName, cultureCode);
@@ -250,7 +250,7 @@ public partial class CMSModules_Cultures_Controls_UI_ResourceStringEdit : CMSAdm
         if (DefaultTranslationRequired)
         {
             string defaultTranslation = mTranslations[CultureHelper.DefaultUICultureCode.ToLowerInvariant()].Text.Trim();
-            string defaultCultureName = CultureInfo.Provider.Get(CultureHelper.DefaultUICultureCode).CultureName;
+            string defaultCultureName = HTMLHelper.HTMLEncode(CultureInfo.Provider.Get(CultureHelper.DefaultUICultureCode).CultureName);
             if (String.IsNullOrEmpty(defaultTranslation))
             {
                 base.ShowError(ResHelper.GetStringFormat("localizable.deletedefault", defaultCultureName));

@@ -5,8 +5,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.DataEngine;
-using CMS.DocumentEngine;
 using CMS.Helpers;
 using CMS.IO;
 using CMS.MediaLibrary;
@@ -74,6 +74,12 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
             base.IsLiveSite = value;
         }
     }
+
+
+    /// <summary>
+    /// Key to retrieve layout width.
+    /// </summary>
+    public string UILayoutKey { get; internal set; }
 
     #endregion
 
@@ -382,12 +388,39 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
             LoadData();
         }
 
+        if (mediaView.Visible && !string.IsNullOrEmpty(LastSearchedValue))
+        {
+            ScriptHelper.RegisterStartupScript(Page, typeof(string), "LinkMediaSelector_TreeDeselectAfterSearch", ScriptHelper.GetScript("DeselectCurrentFolder && DeselectCurrentFolder();"));
+            ScriptHelper.RegisterStartupScript(Page, typeof(string), "LinkMediaSelector_UploadDisableAfterSearch", ScriptHelper.GetScript("DisableNewFileBtn && DisableNewFileBtn();"));
+        }
+
         librarySelector.LoadLibraryData();
 
         // Make sure properties are hidden for non-existing library
         if (LibraryInfo == null)
         {
             ShowError(GetString("dialogs.libraries.nolibrary"));
+        }
+
+        var source = QueryHelper.GetString("source", string.Empty);
+        if (!RequestHelper.IsPostBack() && !RequestHelper.IsCallback() && !String.Equals("docattachments", source, StringComparison.OrdinalIgnoreCase))
+        {
+            var width = UILayoutHelper.GetLayoutWidth(UILayoutKey);
+            if (width.HasValue)
+            {
+                pnlLeftContent.Attributes["style"] = $"width: {width}px";
+                pnlTreeArea.Attributes["style"] = $"width: {width}px";
+                pnlRightContent.Attributes["style"] = $"margin-left: {width}px";
+                resizer.Attributes["style"] = $"left: {width}px";
+            }
+
+            var collapsed = UILayoutHelper.IsVerticalResizerCollapsed(UILayoutKey);
+            if (collapsed == true)
+            {
+                var existingClass = resizerV.Attributes["class"];
+                existingClass += " ResizerDown";
+                resizerV.Attributes["class"] = existingClass;
+            }
         }
 
         base.OnPreRender(e);
@@ -398,6 +431,9 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
     {
         if (!StopProcessing)
         {
+            ScriptHelper.RegisterJQuery(Page);
+            ScriptHelper.RegisterJQueryUI(Page);
+
             SetupControls();
 
             SetupProperties();
@@ -579,7 +615,14 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
                 int imageWidth = ValidationHelper.GetInteger(argTable["fileimagewidth"], 0);
                 int imageHeight = ValidationHelper.GetInteger(argTable["fileimageheight"], 0);
                 long fileSize = ValidationHelper.GetLong(argTable["filesize"], 0);
+                string description = argTable["filedescription"].ToString();
                 string fileUrl = argTable["url"].ToString();
+
+                if (String.IsNullOrEmpty(description) && ImageHelper.IsImage(fileExt))
+                {
+                    int fileId = ValidationHelper.GetInteger(argTable["fileid"], 0);
+                    description = GetImageDescription(fileId);
+                }
 
                 string fileNameWithouExtension = fileName;
                 fileName = AttachmentHelper.GetFullFileName(fileName, fileExt);
@@ -603,10 +646,52 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
 
                 if (!avoidPropUpdate)
                 {
-                    SelectMediaItem(fileNameWithouExtension, fileExt, imageWidth, imageHeight, fileSize, fileUrl, filePermanentUrl);
+                    SelectMediaItem(fileNameWithouExtension, fileExt, imageWidth, imageHeight, fileSize, fileUrl, filePermanentUrl, 0, "", description);
                 }
             }
         }
+    }
+
+
+    /// <summary>
+    /// Returns an image media file description from the Azure Computer Vision API.
+    /// </summary>
+    private string GetImageDescription(int fileId)
+    {
+        var fileInfo = MediaFileInfo.Provider.Get(fileId);
+        return GetImageDescription(fileInfo);
+    }
+
+
+    /// <summary>
+    /// Returns an image media file description from the Azure Computer Vision API.
+    /// </summary>
+    private string GetImageDescription(MediaFileInfo mediafile)
+    {
+        if (mediafile == null)
+        {
+            return String.Empty;
+        }
+
+        string description = String.Empty;
+
+        if (IsComputerVisionEnabled())
+        {
+            var filePath = MediaFileInfoProvider.GetMediaFilePath(mediafile.FileLibraryID, mediafile.FilePath);
+            try
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    description = GetImageDescriptionFromComputerVision(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                Service.Resolve<IEventLogService>().LogException("LinkMediaSelector", "ImageDescriptionRetrieval", ex);
+            }
+        }
+
+        return description;
     }
 
     #endregion
@@ -768,6 +853,7 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
     private void ResetSearchFilter()
     {
         mediaView.ResetSearch();
+        mediaView.ResetPageIndex();
         LastSearchedValue = string.Empty;
     }
 
@@ -1125,33 +1211,41 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
             string path = (dialogConfig.ContainsColumn("media.path") ? (string)dialogConfig["media.path"] : string.Empty);
             string siteName = (dialogConfig.ContainsColumn("media.sitename") ? (string)dialogConfig["media.sitename"] : string.Empty);
 
-            // Set user dialogs configuration only if all sites available in selector or selected site is equal to users
-            if ((librarySelector.Sites == AvailableSitesEnum.All) || (librarySelector.SelectedSiteName == siteName))
+            // Set user dialogs configuration only if all sites available in selector or selected site is equal to users.
+            if (librarySelector.Sites != AvailableSitesEnum.All && librarySelector.SelectedSiteName != siteName)
             {
-                if ((libraryName != string.Empty) && (siteName != string.Empty))
+                return;
+            }
+
+            // Set user dialogs configuration only if all libraries available in selector or selected library is equal to users.
+            if (librarySelector.GlobalLibraries != AvailableLibrariesEnum.All && librarySelector.GlobalLibraryName != libraryName)
+            {
+                return;
+            }
+
+            if (libraryName != string.Empty && siteName != string.Empty)
+            {
+                MediaLibraryInfo mli = MediaLibraryInfo.Provider.Get(libraryName, SiteInfoProvider.GetSiteID(siteName));
+                if (mli != null)
                 {
-                    MediaLibraryInfo mli = MediaLibraryInfo.Provider.Get(libraryName, SiteInfoProvider.GetSiteID(siteName));
-                    if (mli != null)
-                    {
-                        librarySelector.SelectedSiteName = siteName;
-                        librarySelector.SelectedLibraryID = mli.LibraryID;
-                    }
+                    librarySelector.SelectedSiteName = siteName;
+                    librarySelector.SelectedLibraryID = mli.LibraryID;
+                }
+            }
+
+            if (path != string.Empty)
+            {
+                FolderPath = path;
+
+                if (StartingPath != string.Empty)
+                {
+                    path = GetFilePath(path);
                 }
 
-                if (path != string.Empty)
-                {
-                    FolderPath = path;
+                folderTree.PathToSelect = path;
 
-                    if (StartingPath != string.Empty)
-                    {
-                        path = GetFilePath(path);
-                    }
-
-                    folderTree.PathToSelect = path;
-
-                    // Save value to request
-                    RequestStockHelper.AddToStorage(LINK_MEDIA_SELECTOR_STORAGE_KEY, "FolderPath", FolderPath);
-                }
+                // Save value to request
+                RequestStockHelper.AddToStorage(LINK_MEDIA_SELECTOR_STORAGE_KEY, "FolderPath", FolderPath);
             }
         }
     }
@@ -1182,12 +1276,20 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
             }
 
             string closeLink = String.Format("<span class=\"ListingClose\" style=\"cursor: pointer;\" onclick=\"SetAction('closelisting', ''); RaiseHiddenPostBack(); return false;\">{0}</span>", GetString("general.close"));
-            string docNamePath = String.Format("<span class=\"ListingPath\">{0}</span>", GetFullFilePath(folderPath));
 
-            string listingMsg = string.Format(GetString("media.libraryui.listingInfo"), docNamePath, closeLink);
-            mediaView.DisplayListingInfo(listingMsg);
+            if (string.IsNullOrEmpty(LastSearchedValue))
+            {
+                string docNamePath = string.Format("<span class=\"ListingPath\">{0}</span>", GetFullFilePath(LastFolderPath));
+                string listingMsg = string.Format(GetString("media.libraryui.listingInfo"), docNamePath, closeLink);
+                mediaView.DisplayListingInfo(listingMsg);
+            }
+            else
+            {
+                string listingMsg = string.Format(GetString("media.libraryui.listingInfo.search"), closeLink);
+                mediaView.DisplayListingInfo(listingMsg);
+            }
         }
-        menuElem.ShowParentButton = (IsFullListingMode && (GetCompletePath(LastFolderPath) != GetFullFilePath(StartingPath)));
+        menuElem.ShowParentButton = IsFullListingMode && (GetCompletePath(LastFolderPath) != GetFullFilePath(StartingPath)) && string.IsNullOrEmpty(LastSearchedValue);
         pnlUpdateMenu.Update();
     }
 
@@ -1279,7 +1381,7 @@ public partial class CMSModules_MediaLibrary_Controls_Dialogs_LinkMediaSelector 
         mediaView.LibraryID = LibraryID;
         mediaView.IsLiveSite = IsLiveSite;
 
-        UsePermanentUrls = true;
+        UsePermanentUrls = !(LibraryInfo?.LibraryUseDirectPathForContent ?? false);
         mediaView.UsePermanentUrls = UsePermanentUrls;
 
         mediaView.ListViewControl.OnBeforeSorting += ListViewControl_OnBeforeSorting;
@@ -1471,6 +1573,7 @@ function imageEdit_Refresh(guid){{
         mediaView.StopProcessing = false;
 
         LoadDataSource(LastSearchedValue);
+
         mediaView.Reload(forceSetup);
 
         wasLoaded = true;
@@ -1491,14 +1594,16 @@ function imageEdit_Refresh(guid){{
             {
                 string filePath = (StartingPath + Path.EnsureForwardSlashes(FolderPath)).Trim('/');
                 filePath = SqlHelper.EscapeLikeText(SqlHelper.EscapeQuotes(filePath));
-
-                // Create WHERE condition
-                string where = String.Format("FilePath LIKE N'{0}%' AND FilePath NOT LIKE N'{1}_%/%' AND FileLibraryID = {2}", (String.IsNullOrEmpty(filePath) ? string.Empty : filePath + "/"), filePath, LibraryID);
-
                 bool searchEnabled = !string.IsNullOrEmpty(searchText);
+
+                string where;
                 if (searchEnabled)
                 {
-                    where = SqlHelper.AddWhereCondition(where, String.Format("(FileName LIKE N'%{0}%') OR (FileExtension LIKE N'%{0}%')", SqlHelper.EscapeLikeText(SqlHelper.EscapeQuotes(searchText))));
+                    where = string.Format("FileLibraryID = {0} AND ((FileName LIKE N'%{1}%') OR (FileExtension LIKE N'%{1}%') OR (FileTitle LIKE N'%{1}%') OR (FileDescription LIKE N'%{1}%'))", LibraryID, SqlHelper.EscapeLikeText(SqlHelper.EscapeQuotes(searchText)));
+                }
+                else
+                {
+                    where = string.Format("FilePath LIKE N'{0}%' AND FilePath NOT LIKE N'{1}_%/%' AND FileLibraryID = {2}", (String.IsNullOrEmpty(filePath) ? string.Empty : filePath + "/"), filePath, LibraryID);
                 }
 
                 // Don't use offset and page size for when searching (works only for first page)
@@ -1678,6 +1783,7 @@ function imageEdit_Refresh(guid){{
     private void HandleSearchAction(string argument)
     {
         LastSearchedValue = argument;
+        mediaView.ResetPageIndex();
 
         // Load new data filtered by searched text and reload view control's content
         LoadData();
@@ -1775,9 +1881,10 @@ function imageEdit_Refresh(guid){{
                     // Get file URL
                     string fileUrl = mediaView.GetItemUrl(LibrarySiteInfo, fileInfo.FileGUID, fileInfo.FileName, fileInfo.FileExtension, fileInfo.FilePath, false, 0, 0, 0);
                     string permUrl = mediaView.GetItemUrl(LibrarySiteInfo, fileInfo.FileGUID, fileInfo.FileName, fileInfo.FileExtension, fileInfo.FilePath, true, 0, 0, 0);
+                    string description = ImageHelper.IsImage(fileInfo.FileExtension) ? GetImageDescription(fileInfo) : String.Empty;
 
                     SelectMediaItem(fileInfo.FileName, fileInfo.FileExtension, fileInfo.FileImageWidth,
-                                    fileInfo.FileImageHeight, fileInfo.FileSize, fileUrl, permUrl);
+                                    fileInfo.FileImageHeight, fileInfo.FileSize, fileUrl, permUrl, description: description);
 
                     ItemToColorize = fileInfo.FileGUID;
                 }
@@ -1850,7 +1957,13 @@ function imageEdit_Refresh(guid){{
             case "libraryfilecreated":
                 HandleFileCreatedAction(argument);
                 break;
-
+            case "selectroot":
+                if (LibraryInfo != null)
+                {
+                    ResetSearchFilter();
+                    HandleFolderAction(LibraryInfo?.LibraryFolder, false);
+                }
+                break;
             case "folderselect":
                 ResetSearchFilter();
                 argument = argument.Replace('|', '/');

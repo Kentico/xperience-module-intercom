@@ -57,6 +57,7 @@
     </asp:Panel>
     <cms:CMSUpdatePanel runat="server" ID="pnlUpdate" UpdateMode="Conditional">
         <ContentTemplate>
+            <cms:MessagesPlaceHolder ID="plcMess" runat="server"/>
             <asp:Panel runat="server" ID="pnlContent">
                 <div class="ContentTree">
                     <cms:CMSUpdatePanel ID="pnlUpdateTrees" runat="server" UpdateMode="Conditional">

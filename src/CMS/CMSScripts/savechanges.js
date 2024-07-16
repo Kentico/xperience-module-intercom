@@ -22,6 +22,7 @@ var CMSContentManager = {
     checkChangedFields: null,
     eventManager: null,
     fullFormScope: true,
+    editorsReset: false,
    
 
     // Functions
@@ -183,7 +184,15 @@ var CMSContentManager = {
                             var oldText = this._fullTrim(prevValue);
 
                             var newText = this._fullTrim(oEditor.getData());
-                            if (oldText != newText) {
+                            if (oldText !== newText) {
+                                return true;
+                            }
+                        } else if (!this.editorsReset) {
+                            // Replace functions ensure correct encoding of string parameters in macro expressions
+                            oldText = this._fullTrim(document.getElementById(name).innerText).replace(/(\(|,)\"/gi, "$1&quot;").replace(/\"(\)|,)/gi, "&quot;$1")
+                                .replace(/(\(|,)\'/gi, "$1&#39;").replace(/\'(\)|,)/gi, "&#39;$1");
+                            newText = this._fullTrim(oEditor.getData());
+                            if (oldText !== newText) {
                                 return true;
                             }
                         }
@@ -209,6 +218,9 @@ var CMSContentManager = {
                     }
                 }
             }
+
+            // The flag prevents from redundant checking of unsaved changes.
+            this.editorsReset = true;
         }
         catch (ex) {
         }

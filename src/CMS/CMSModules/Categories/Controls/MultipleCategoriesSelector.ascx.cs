@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 using CMS.Base;
 using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.DataEngine;
 using CMS.DocumentEngine;
+using CMS.DocumentEngine.Internal;
 using CMS.Helpers;
 using CMS.Membership;
 using CMS.SiteProvider;
@@ -23,6 +26,7 @@ public partial class CMSModules_Categories_Controls_MultipleCategoriesSelector :
     private bool isSaved;
     private bool mDisplaySavedMessage = true;
     private string mCurrentValues = "";
+    private int[] mAllowedCategoryIDs;
 
     #endregion
 
@@ -170,6 +174,26 @@ public partial class CMSModules_Categories_Controls_MultipleCategoriesSelector :
         }
     }
 
+
+    /// <summary>
+    /// A collection of allowed category IDs for the current page.
+    /// </summary>
+    private int[] AllowedCategoryIDs
+    {
+        get
+        {
+            if (mAllowedCategoryIDs == null && Node != null)
+            {
+                var pageTypeInfo = DataClassInfoProvider.GetDataClassInfo(Node.NodeClassName);
+                mAllowedCategoryIDs = new PageTypeCategoriesRetriever().Get(Node.NodeSiteID, pageTypeInfo.ClassID)
+                    .Select(c => c.CategoryID)
+                    .ToArray();
+            }
+
+            return mAllowedCategoryIDs;
+        }
+    }
+
     #endregion
 
 
@@ -201,8 +225,14 @@ public partial class CMSModules_Categories_Controls_MultipleCategoriesSelector :
             selectCategory.UniGrid.OnAfterRetrieveData += UniGrid_OnAfterRetrieveData;
             selectCategory.ItemsPerPage = 25;
 
+            var isContentCategorizationEnabled = IsContentCategorizationEnabled();
+            selectCategory.DialogWindowWidth = !IsLiveSite && isContentCategorizationEnabled ? 950 : 800;
+
             // Select appropriate dialog window
             selectCategory.SelectItemPageUrl = IsLiveSite ? "~/CMSModules/Categories/CMSPages/LiveCategorySelection.aspx" : "~/CMSModules/Categories/Dialogs/CategorySelection.aspx";
+
+            selectCategory.SetValue("CurrentDocumentID", Node.DocumentID);
+            selectCategory.SetValue("ShowAutoSelect", isContentCategorizationEnabled);
 
             if (!RequestHelper.IsPostBack())
             {
@@ -362,7 +392,7 @@ public partial class CMSModules_Categories_Controls_MultipleCategoriesSelector :
                 int categoryId = ValidationHelper.GetInteger(item, 0);
                 DocumentCategoryInfo.Provider.Remove(Node.DocumentID, categoryId);
             }
-            
+
             logUpdateTask = true;
         }
 
@@ -376,8 +406,8 @@ public partial class CMSModules_Categories_Controls_MultipleCategoriesSelector :
             {
                 int categoryId = ValidationHelper.GetInteger(item, 0);
 
-                // Make sure, that category still exists
-                if (CategoryInfo.Provider.Get(categoryId) != null)
+                // Make sure, that category still exists and is allowed for the page type of the current page
+                if (CategoryInfo.Provider.Get(categoryId) != null && AllowedCategoryIDs.Contains(categoryId))
                 {
                     DocumentCategoryInfo.Provider.Add(Node.DocumentID, categoryId);
                 }
@@ -457,6 +487,17 @@ public partial class CMSModules_Categories_Controls_MultipleCategoriesSelector :
         }
 
         return string.Format("({0})", where);
+    }
+
+
+    private bool IsContentCategorizationEnabled()
+    {
+        if (ModuleEntryManager.IsModuleLoaded(ContentCategorizationConstants.OPENAI_INTEGRATION_MODULE_NAME))
+        {
+            return SettingsKeyInfoProvider.GetBoolValue($"{SiteContext.CurrentSiteName}.{ContentCategorizationConstants.ENABLED_SETTINGS_KEY}");
+        }
+
+        return false;
     }
 
     #endregion

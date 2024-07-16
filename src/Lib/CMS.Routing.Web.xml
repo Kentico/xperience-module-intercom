@@ -309,6 +309,12 @@
             Reads <paramref name="filePath"/> and returns bytes array.
             </summary>
         </member>
+        <member name="M:CMS.Routing.Web.AdvancedGetFileService.CanResizeProtectedImage(System.String)">
+            <summary>
+            Indicates if the given file can be resized.
+            </summary>
+            <param name="fileIdentifier">Identifier of the file.</param>
+        </member>
         <member name="T:CMS.Routing.Web.ExternalFile">
             <summary>
             Represents a file stored on external storage.

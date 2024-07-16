@@ -357,6 +357,12 @@ select[size] {
     .make-column-offset(@screen-desktop; 2);
 }
 
+.scheduled-task-days {
+    .checkbox-list-vertical > br {
+        display: none;
+    }
+}
+
 .settings-group-inline {
     display: block;
     .fix-white-space();
@@ -948,6 +954,7 @@ input[type='radio'] {
 .checkbox-list-horizontal {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 
     .radio,
     .checkbox {

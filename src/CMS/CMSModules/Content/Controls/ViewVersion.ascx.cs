@@ -667,7 +667,7 @@ public partial class CMSModules_Content_Controls_ViewVersion : VersionHistoryCon
                         first = false;
                     }
 
-                    leftValueCell.Text = $"{slug.Slug} ({CultureInfo.Provider.Get(slug.CultureCode)?.CultureName})";
+                    leftValueCell.Text = $"{slug.Slug} ({HTMLHelper.HTMLEncode(CultureInfo.Provider.Get(slug.CultureCode)?.CultureName)})";
 
                     AddRow(labelCell, leftValueCell);
                 }
@@ -1312,7 +1312,11 @@ public partial class CMSModules_Content_Controls_ViewVersion : VersionHistoryCon
             {
                 attachmentWidth = 300;
             }
-            tooltip = "onmouseout=\"UnTip()\" onmouseover=\"TipImage(" + attachmentWidth + ", '" + URLHelper.AddParameterToUrl(attachmentUrl, "width", "300") + "', " + ScriptHelper.GetString(HTMLHelper.HTMLEncode(attachmentName)) + ")\"";
+
+            string url = URLHelper.AddParameterToUrl(attachmentUrl, "width", attachmentWidth.ToString());
+            url = Service.Resolve<IMediaProtectionService>().GetProtectedUrl(url, true);
+
+            tooltip = "onmouseout=\"UnTip()\" onmouseover=\"TipImage(" + attachmentWidth + ", '" + url + "', " + ScriptHelper.GetString(HTMLHelper.HTMLEncode(attachmentName)) + ")\"";
         }
 
         string attachmentSize = DataHelper.GetSizeString(ValidationHelper.GetLong(dc.GetValue("AttachmentSize"), 0));

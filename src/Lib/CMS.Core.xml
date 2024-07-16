@@ -129,6 +129,73 @@
             </summary>
             <returns>Set of module names omitted from initialization. Returns null if all installable modules are omitted from initialization.</returns>
         </member>
+        <member name="T:CMS.Core.Internal.IMediaProtectionHelper">
+            <summary>
+            Interface for hashing the resize parameters in URL.
+            </summary>
+        </member>
+        <member name="M:CMS.Core.Internal.IMediaProtectionHelper.GetHash(System.String,System.String)">
+            <summary>
+            Creates a hash of the resize parameters in URL and provided file identifier.
+            </summary>
+            <param name="fileIdentifier">File identifier to hash.</param>
+            <param name="url">URL containing the resize parameters to hash.</param>
+        </member>
+        <member name="M:CMS.Core.Internal.IMediaProtectionHelper.ValidateHash(System.String,System.String)">
+            <summary>
+            Validates if the hash of the resize parameters in URL is correct.
+            </summary>
+            <param name="fileIdentifier">File identifier used for hash.</param>
+            <param name="url">URL with the hash parameter.</param>
+        </member>
+        <member name="M:CMS.Core.Internal.IMediaProtectionHelper.ContainsResizeParameters(System.String)">
+            <summary>
+            Validates if the URL contains resize parameters.
+            </summary>
+            <param name="url">URL to validate.</param>
+        </member>
+        <member name="T:CMS.Core.Internal.IMediaProtectionUrlValidator">
+            <summary>
+            Validator for URLs with resize-able media content.
+            </summary>
+        </member>
+        <member name="M:CMS.Core.Internal.IMediaProtectionUrlValidator.IsValid(System.String,System.String)">
+            <summary>
+            Validates if the given URL is valid for the given file identifier when media resize protection is enabled.
+            </summary>
+            <param name="fileIdentifier">Identifier of the file.</param>
+            <param name="url">URL to validate.</param>
+        </member>
+        <member name="T:CMS.Core.Internal.IUserPrivilegeLevelEvaluator">
+            <summary>
+            Validates if the current user is editor in admin interface.
+            </summary>
+        </member>
+        <member name="M:CMS.Core.Internal.IUserPrivilegeLevelEvaluator.IsEditor">
+            <summary>
+            Returns true if the current user is editor in admin interface.
+            </summary>
+        </member>
+        <member name="T:CMS.Core.Internal.MediaProtectionConstants">
+            <summary>
+            Media protections constants.
+            </summary>
+        </member>
+        <member name="F:CMS.Core.Internal.MediaProtectionConstants.MEDIA_PROTECTION_PURPOSE">
+            <summary>
+            Hash purpose used when URL parameters are being hashed.
+            </summary>
+        </member>
+        <member name="F:CMS.Core.Internal.MediaProtectionConstants.MEDIA_PROTECTION_HASH_QUERY_KEY">
+            <summary>
+            Query string key under which the hash is stored in query string.
+            </summary>
+        </member>
+        <member name="F:CMS.Core.Internal.MediaProtectionConstants.MEDIA_PROTECTION_SETTINGS_KEY">
+            <summary>
+            Settings key name of the media protection.
+            </summary>
+        </member>
         <member name="T:CMS.Core.RegistrationPriority">
             <summary>
             Enumeration of possible priorities for implementation registration.
@@ -2853,6 +2920,19 @@
             <summary>
             Target path of file transported by task.
             </summary>
+        </member>
+        <member name="T:CMS.Core.IMediaProtectionService">
+            <summary>
+            Defines interface for service allowing the protection of URLs with resize-able media content.
+            </summary>
+        </member>
+        <member name="M:CMS.Core.IMediaProtectionService.GetProtectedUrl(System.String,System.Boolean)">
+            <summary>
+            Protects the given URL against unwanted resizing with hash. URL must be pointing to Kentico endpoint for serving media files.
+            </summary>
+            <param name="urlToProtect">URL to protect. Can be both absolute and relative.</param>
+            <param name="checkSettingValue">Indicates if the value of the <see cref="F:CMS.Core.Internal.MediaProtectionConstants.MEDIA_PROTECTION_SETTINGS_KEY"/> settings
+            key should be checked when creating protected URL. If true the hash is added only when setting is enabled.</param>
         </member>
         <member name="T:CMS.Core.BinaryData">
             <summary>

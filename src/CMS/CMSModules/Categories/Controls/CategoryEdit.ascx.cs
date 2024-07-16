@@ -41,7 +41,7 @@ public partial class CMSModules_Categories_Controls_CategoryEdit : CMSAdminEditC
 
 
     /// <summary>
-    /// Component name
+    /// Component name.
     /// </summary>
     public override string ComponentName
     {
@@ -58,7 +58,7 @@ public partial class CMSModules_Categories_Controls_CategoryEdit : CMSAdminEditC
 
 
     /// <summary>
-    /// Header actions control
+    /// Header actions control.
     /// </summary>
     public override HeaderActions HeaderActions
     {
@@ -70,7 +70,7 @@ public partial class CMSModules_Categories_Controls_CategoryEdit : CMSAdminEditC
 
 
     /// <summary>
-    /// Messages placeholder
+    /// Messages placeholder.
     /// </summary>
     public override MessagesPlaceHolder MessagesPlaceHolder
     {

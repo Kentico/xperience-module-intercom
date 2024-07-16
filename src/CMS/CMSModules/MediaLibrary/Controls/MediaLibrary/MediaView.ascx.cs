@@ -2,18 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-
-using CMS.Base;
-
 using System.Text;
 
+using CMS.Base;
 using CMS.Base.Web.UI;
+using CMS.Core;
 using CMS.Helpers;
 using CMS.MediaLibrary;
 using CMS.SiteProvider;
 using CMS.UIControls;
-using CMS.Core;
-using CMS.DocumentEngine;
 
 public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaView : MediaView
 {
@@ -197,6 +194,21 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaView : M
         }
     }
 
+    /// <summary>
+    /// Indicates whether or not the <see cref="ContentInnerMediaView"/> is in search mode.
+    /// </summary>
+    public bool IsInSearchMode
+    {
+        get
+        {
+            return innermedia.IsInSearchMode;
+        }
+        set
+        {
+            innermedia.IsInSearchMode = value;
+        }
+    }
+
 
     /// <summary>
     /// Gets list of names of selected files.
@@ -257,6 +269,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaView : M
 
         innermedia.ViewMode = ViewMode;
         innermedia.IsLiveSite = IsLiveSite;
+        innermedia.LibraryFolder = LibraryInfo?.LibraryFolder;
     }
 
     #endregion
@@ -299,6 +312,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaView : M
         innermedia.ResizeToHeight = ResizeToHeight;
         innermedia.ResizeToMaxSideSize = ResizeToMaxSideSize;
         innermedia.ResizeToWidth = ResizeToWidth;
+        innermedia.LibraryFolder = LibraryInfo?.LibraryFolder;
 
         // Set inner control binding columns
         innermedia.FileIdColumn = "FileGUID";
@@ -307,6 +321,7 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaView : M
         innermedia.FileSizeColumn = "FileSize";
         innermedia.FileWidthColumn = "FileImageWidth";
         innermedia.FileHeightColumn = "FileImageHeight";
+        innermedia.FilePath = "FilePath";
 
         // Register for inner media events
         innermedia.GetArgumentSet += innermedia_GetArgumentSet;
@@ -314,6 +329,11 @@ public partial class CMSModules_MediaLibrary_Controls_MediaLibrary_MediaView : M
         innermedia.GetThumbsItemUrl += innermedia_GetThumbsItemUrl;
         innermedia.GetInformation += innermedia_GetInformation;
         innermedia.GetModifyPermission += innermedia_GetModifyPermission;
+
+        if (SourceType == MediaSourceEnum.MediaLibraries && !IsCopyMoveLinkDialog)
+        {
+            dialogSearch.SetWatermarkText(GetString("dialogs.view.searchbynametitledesc"));
+        }
     }
 
 
@@ -662,6 +682,11 @@ function SetParentAction(argument) {
         if (width > 0)
         {
             mediaFileUrl = URLHelper.AddParameterToUrl(mediaFileUrl, "width", width.ToString());
+        }        
+
+        if (resize || height > 0 || width > 0)
+        {
+            mediaFileUrl = Service.Resolve<IMediaProtectionService>().GetProtectedUrl(mediaFileUrl, true);
         }
 
         // Media selector should returns non-resolved URL in all cases
@@ -697,6 +722,7 @@ function SetParentAction(argument) {
             sb.Append("|FileImageWidth|" + CMSDialogHelper.EscapeArgument(data.GetValue("FileImageWidth")));
             sb.Append("|FileImageHeight|" + CMSDialogHelper.EscapeArgument(data.GetValue("FileImageHeight")));
             sb.Append("|FileTitle|" + CMSDialogHelper.EscapeArgument(data.GetValue("FileTitle")));
+            sb.Append("|FileDescription|" + CMSDialogHelper.EscapeArgument(data.GetValue("FileDescription")));
             sb.Append("|FileSize|" + CMSDialogHelper.EscapeArgument(data.GetValue("FileSize")));
             sb.Append("|FileID|" + CMSDialogHelper.EscapeArgument(data.GetValue("FileID")));
         }
@@ -722,7 +748,7 @@ function SetParentAction(argument) {
 
         string[] argArr = argument.Split('|');
         // Fill table
-        for (int i = 0; i < argArr.Length; i = i + 2)
+        for (int i = 0; i < argArr.Length; i += 2)
         {
             table[argArr[i].ToLowerCSafe()] = CMSDialogHelper.UnEscapeArgument(argArr[i + 1]);
         }
@@ -798,12 +824,7 @@ function SetParentAction(argument) {
         else
         {
             // Check if file has a preview
-            if (!ImageHelper.IsSupportedByImageEditor(extension))
-            {
-                // File isn't image and no preview exists - get the default file icon
-                parameters.IconClass = UIHelper.GetFileIconClass(extension);
-            }
-            else
+            if (ImageHelper.IsImage(extension))
             {
                 // Files are obtained from the FS
                 if (!data.ContainsColumn("FileURL"))
@@ -814,6 +835,11 @@ function SetParentAction(argument) {
                 {
                     parameters.IconClass = UIHelper.GetFileIconClass(extension);
                 }
+            }
+            else
+            {
+                // File isn't image and no preview exists - get the default file icon
+                parameters.IconClass = UIHelper.GetFileIconClass(extension);
             }
         }
 

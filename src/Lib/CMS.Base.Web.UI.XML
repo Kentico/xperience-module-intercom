@@ -1946,72 +1946,6 @@
             </summary>
             <param name="applicationId">Application identifier such as <see cref="P:CMS.Modules.UIElementInfo.ElementGUID"/>.</param>
         </member>
-        <member name="T:CMS.Base.Web.UI.Internal.ClientLocalizationProvider">
-            <summary>
-            Provides method for obtaining all the localized strings required by given module.
-            </summary>
-        </member>
-        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.#ctor(CMS.Core.ILocalizationService)">
-            <summary>
-            Instantiates new instance of <see cref="T:CMS.Base.Web.UI.Internal.ClientLocalizationProvider" />.
-            </summary>
-            <param name="localizationService">Provides method for string localization</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.#ctor(CMS.Core.ILocalizationService,CMS.IO.AbstractStorageProvider)">
-            <summary>
-            Instantiates new instance of <see cref="T:CMS.Base.Web.UI.Internal.ClientLocalizationProvider"/>.
-            </summary>
-            <param name="localizationService">Provides method for string localization</param>
-            <param name="abstractStorageProvider">Abstraction of the file storage</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.GetClientLocalization(System.String)">
-            <summary>
-            Resolves all localization string for the given <paramref name="moduleName" />. This method assumes there exists
-            localization file in the module folder.
-            </summary>
-            <param name="moduleName">Module name</param>
-            <exception cref="T:System.ArgumentException"><paramref name="moduleName" /> is <c>null</c> or empty</exception>
-            <returns>Collection of all strings obtained from the localization file localized to the current preferred UI culture</returns>
-        </member>
-        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.BuildResourceDictionary(System.String)">
-            <summary>
-            Builds resource dictionary containing all the resource strings and their translations for the given <paramref name="moduleName"/>.
-            </summary>
-            <param name="moduleName">Name of the module used for the resource file identification</param>
-            <returns>Resource dictionary containing all the resource strings and their translations</returns>
-        </member>
-        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.GetLocalizationFilePath(System.String)">
-            <summary>
-            Gets path of the localization file specified for the given <paramref name="moduleName" />.
-            </summary>
-            <param name="moduleName">Name of the module</param>
-            <returns>Location of the localization file</returns>
-        </member>
-        <member name="T:CMS.Base.Web.UI.Internal.IClientLocalizationProvider">
-            <summary>
-            Provides method for obtaining all the localized strings.
-            </summary>
-        </member>
-        <member name="M:CMS.Base.Web.UI.Internal.IClientLocalizationProvider.GetClientLocalization(System.String)">
-            <summary>
-            Resolves all localization string for the given <paramref name="moduleName" />. This method assumes there exists
-            localization file in the module folder.
-            </summary>
-            <param name="moduleName">Module name</param>
-            <returns>Collection of all strings obtained from the localization file localized to the current preferred UI culture</returns>
-        </member>
-        <member name="M:CMS.Base.Web.UI.Internal.UIMacroMethods.TextEncodings(CMS.MacroEngine.EvaluationContext,System.Object[])">
-            <summary>
-            Gets the collection of text encodings available in system.
-            </summary>
-            <param name="context">Evaluation context with child resolver</param>
-            <param name="parameters">Method parameters</param>
-        </member>
-        <member name="T:CMS.Base.Web.UI.Internal.SystemUINamespace">
-            <summary>
-            Wrapper class to provide hidden UI namespace in the MacroEngine.
-            </summary>
-        </member>
         <member name="T:CMS.Base.Web.UI.ISelectorController`1">
             <summary>
             Generic interface for WebAPI controllers, which provide data for angular Smart Drop-down list directive.
@@ -2044,6 +1978,65 @@
             <returns>
             List of view models with <c>id</c> and <c>text</c> properties.
             </returns>
+        </member>
+        <member name="T:CMS.Base.Web.UI.SentimentAnalysisController">
+            <summary>
+            Provides endpoint for sentiment analysis component.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.SentimentAnalysisController.#ctor">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.Base.Web.UI.SentimentAnalysisController"/> class.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.SentimentAnalysisController.#ctor(CMS.Base.ISiteService,CMS.TextAnalytics.Azure.ISentimentAnalysisService,CMS.Core.IEventLogService)">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.Base.Web.UI.SentimentAnalysisController"/> class.
+            </summary>
+            <param name="siteService">Basic site info service.</param>
+            <param name="sentimentAnalysisService">Service supplying sentiment analysis connection.</param>
+            <param name="eventLogService">Service handling event logging.</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.SentimentAnalysisController.Analyze(CMS.Base.Web.UI.SentimentAnalysisRequestData)">
+            <summary>
+            Provides endpoint for fetching sentiment analysis of supplied text.
+            </summary>
+            <param name="requestData">Request data containing text to analyze and its culture (which defaults to 'en').</param>
+        </member>
+        <member name="T:CMS.Base.Web.UI.SentimentAnalysisRequestData">
+            <summary>
+            Represents request body for sentiment analysis controller.
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.SentimentAnalysisRequestData.Text">
+            <summary>
+            Text to analyze.
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.SentimentAnalysisRequestData.Culture">
+            <summary>
+            Culture code of the provided text.
+            </summary>
+        </member>
+        <member name="T:CMS.Base.Web.UI.SentimentAnalysisResponseData">
+            <summary>
+            Represents response body from sentiment analysis controller.
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.SentimentAnalysisResponseData.Success">
+            <summary>
+            Whether request was successful or not.
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.SentimentAnalysisResponseData.ErrorMessage">
+            <summary>
+            Error message, when request was not successful.
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.SentimentAnalysisResponseData.Results">
+            <summary>
+            Analysis results, when request was successful.
+            </summary>
         </member>
         <member name="T:CMS.Base.Web.UI.SmartTipController">
             <summary>
@@ -2847,6 +2840,90 @@
             <summary>
             Init event handler.
             </summary>
+        </member>
+        <member name="T:CMS.Base.Web.UI.Internal.ClientLocalizationProvider">
+            <summary>
+            Provides method for obtaining all the localized strings required by given module.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.#ctor(CMS.Core.ILocalizationService)">
+            <summary>
+            Instantiates new instance of <see cref="T:CMS.Base.Web.UI.Internal.ClientLocalizationProvider" />.
+            </summary>
+            <param name="localizationService">Provides method for string localization</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.#ctor(CMS.Core.ILocalizationService,CMS.IO.AbstractStorageProvider)">
+            <summary>
+            Instantiates new instance of <see cref="T:CMS.Base.Web.UI.Internal.ClientLocalizationProvider"/>.
+            </summary>
+            <param name="localizationService">Provides method for string localization</param>
+            <param name="abstractStorageProvider">Abstraction of the file storage</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.GetClientLocalization(System.String)">
+            <summary>
+            Resolves all localization string for the given <paramref name="moduleName" />. This method assumes there exists
+            localization file in the module folder.
+            </summary>
+            <param name="moduleName">Module name</param>
+            <exception cref="T:System.ArgumentException"><paramref name="moduleName" /> is <c>null</c> or empty</exception>
+            <returns>Collection of all strings obtained from the localization file localized to the current preferred UI culture</returns>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.BuildResourceDictionary(System.String)">
+            <summary>
+            Builds resource dictionary containing all the resource strings and their translations for the given <paramref name="moduleName"/>.
+            </summary>
+            <param name="moduleName">Name of the module used for the resource file identification</param>
+            <returns>Resource dictionary containing all the resource strings and their translations</returns>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.ClientLocalizationProvider.GetLocalizationFilePath(System.String)">
+            <summary>
+            Gets path of the localization file specified for the given <paramref name="moduleName" />.
+            </summary>
+            <param name="moduleName">Name of the module</param>
+            <returns>Location of the localization file</returns>
+        </member>
+        <member name="T:CMS.Base.Web.UI.Internal.IClientLocalizationProvider">
+            <summary>
+            Provides method for obtaining all the localized strings.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.IClientLocalizationProvider.GetClientLocalization(System.String)">
+            <summary>
+            Resolves all localization string for the given <paramref name="moduleName" />. This method assumes there exists
+            localization file in the module folder.
+            </summary>
+            <param name="moduleName">Module name</param>
+            <returns>Collection of all strings obtained from the localization file localized to the current preferred UI culture</returns>
+        </member>
+        <member name="T:CMS.Base.Web.UI.Internal.IDebugWebAPIProvider">
+            <summary>
+            Describes methods for sending HTTP requests and receiving HTTP responses from live site debug resources identified by a URI.
+            </summary>
+            <remarks>
+            This API supports the framework infrastructure and is not intended to be used directly from your code.
+            </remarks>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.IDebugWebAPIProvider.GetDebugItemsAsync``1(System.Uri,CMS.Base.IUserInfo,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+            <summary>
+            Returns asynchronously result of type <typeparamref name="T"/> from live site debug API endpoint specified by URI in parameter <paramref name="requestUri"/>.
+            User from parameter <paramref name="userInfo"/> is ment to be used for the API call authentication.
+            </summary>
+            <typeparam name="T">Type in which the API call result should be returned.</typeparam>
+            <param name="requestUri">The Uri the request is sent to.</param>
+            <param name="userInfo">User used for request authentication.</param>
+            <param name="formatters">A list of <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter"/>s to use when serializing.</param>
+        </member>
+        <member name="T:CMS.Base.Web.UI.Internal.SystemUINamespace">
+            <summary>
+            Wrapper class to provide hidden UI namespace in the MacroEngine.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.Internal.UIMacroMethods.TextEncodings(CMS.MacroEngine.EvaluationContext,System.Object[])">
+            <summary>
+            Gets the collection of text encodings available in system.
+            </summary>
+            <param name="context">Evaluation context with child resolver</param>
+            <param name="parameters">Method parameters</param>
         </member>
         <member name="T:CMS.Base.Web.UI.HTMLTextDiffList">
             <summary>
@@ -3736,6 +3813,72 @@
             </summary>
             <param name="sender">Sender</param>
             <param name="e">Event arguments</param>
+        </member>
+        <member name="T:CMS.Base.Web.UI.BaseControlsContext">
+            <summary>
+            Extended controls context
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.BaseControlsContext.CurrentFilters">
+            <summary>
+            Gets current filters collection
+            </summary>
+        </member>
+        <member name="T:CMS.Base.Web.UI.DebugWebAPIProvider">
+            <summary>
+            Provides a base class for sending HTTP requests and receiving HTTP responses from live site debug resources identified by a URI.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.DebugWebAPIProvider.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.DebugWebAPIProvider.GetDebugItemsAsync``1(System.Uri,CMS.Base.IUserInfo,System.Collections.Generic.IEnumerable{System.Net.Http.Formatting.MediaTypeFormatter})">
+            <summary>
+            Returns asynchronously result of type <typeparamref name="T"/> from live site debug API endpoint specified by URI in parameter <paramref name="requestUri"/>.
+            </summary>
+            <remarks>
+            User from parameter <paramref name="userInfo"/> is used for the API call authentication.
+            Default value of type <typeparamref name="T"/> is returned if the response is not successful.
+            </remarks>
+            <typeparam name="T">Type in which the API call result should be returned.</typeparam>
+            <param name="requestUri">The Uri the request is sent to.</param>
+            <param name="userInfo">User used for request authentication.</param>
+            <param name="formatters">A list of <see cref="T:System.Net.Http.Formatting.MediaTypeFormatter"/>s to use when serializing.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if any one of the parameters is null.</exception>
+        </member>
+        <member name="T:CMS.Base.Web.UI.LiveSiteDebugProcessor">
+            <summary>
+            Handles debug information on live sites.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.LiveSiteDebugProcessor.#ctor">
+            <summary>
+            Parameterless constructor.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.LiveSiteDebugProcessor.#ctor(CMS.Base.Web.UI.Internal.IDebugWebAPIProvider,CMS.Base.IUserInfo)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.LiveSiteDebugProcessor.GetLastLogsAsync(System.String)">
+            <summary>
+            Retrieves last debug logs for the specified debug name created on current site.
+            </summary>
+            <param name="debugName">The name of the debug.</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.LiveSiteDebugProcessor.GetAllCacheItemsAsync">
+            <summary>
+            Retrieves all cache items created on current site.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.LiveSiteDebugProcessor.GetCacheItemAsync(System.String)">
+            <summary>
+            Retrieves cache item detail with the specified cache key created on current site.
+            </summary>
+            <param name="key">The key of the cache item.</param>
         </member>
         <member name="T:CMS.Base.Web.UI.PageContext">
             <summary>
@@ -5582,6 +5725,11 @@
             Audio/Video controls.
             </summary>
         </member>
+        <member name="F:CMS.Base.Web.UI.DialogParameters.AV_MIME_TYPE">
+            <summary>
+            Audio/Video MIME type.
+            </summary>
+        </member>
         <member name="F:CMS.Base.Web.UI.DialogParameters.YOUTUBE_URL">
             <summary>
             YouTube URL.
@@ -5853,6 +6001,11 @@
         <member name="P:CMS.Base.Web.UI.MediaItem.Name">
             <summary>
             Name of the selected item.
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.MediaItem.Description">
+            <summary>
+            Description of the selected item.
             </summary>
         </member>
         <member name="P:CMS.Base.Web.UI.MediaItem.HistoryID">
@@ -7057,6 +7210,21 @@
             <param name="sender">Sender</param>
             <param name="writer">HTML writer</param>
         </member>
+        <member name="T:CMS.Base.Web.UI.GetActionScriptEventArgs">
+            <summary>
+            Get action script event arguments.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.Web.UI.GetActionScriptEventArgs.OriginalScript">
+            <summary>
+            Original script to handle action.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.Web.UI.GetActionScriptEventArgs.ActionName">
+            <summary>
+            Name of the action.
+            </summary>
+        </member>
         <member name="T:CMS.Base.Web.UI.HeaderActionControlCreatedEventArgs">
             <summary>
             Event arguments for when a header action control is being constructed
@@ -7239,21 +7407,6 @@
             </summary>
             <param name="columnName">Property name</param>
             <param name="value">Value</param>
-        </member>
-        <member name="T:CMS.Base.Web.UI.GetActionScriptEventArgs">
-            <summary>
-            Get action script event arguments.
-            </summary>
-        </member>
-        <member name="F:CMS.Base.Web.UI.GetActionScriptEventArgs.OriginalScript">
-            <summary>
-            Original script to handle action.
-            </summary>
-        </member>
-        <member name="F:CMS.Base.Web.UI.GetActionScriptEventArgs.ActionName">
-            <summary>
-            Name of the action.
-            </summary>
         </member>
         <member name="T:CMS.Base.Web.UI.CMSUpdatePanel">
             <summary>
@@ -7675,6 +7828,12 @@
         <member name="P:CMS.Base.Web.UI.CMSMoreOptionsButton.ScreenReaderDescription">
             <summary>
             Screen reader description of more actions button. This description is used for accessibility.
+            </summary>
+        </member>
+        <member name="P:CMS.Base.Web.UI.CMSMoreOptionsButton.IconCssClass">
+            <summary>
+            CSS class that serves as icon for the button.
+            Icon "icon-ellipsis" is used by default. 
             </summary>
         </member>
         <member name="M:CMS.Base.Web.UI.CMSMoreOptionsButton.InitChildControlsForMoreThanOneActions(System.Collections.Generic.List{CMS.Base.Web.UI.CMSButtonAction})">
@@ -10190,11 +10349,6 @@
             On after action event handler.
             </summary>
         </member>
-        <member name="T:CMS.Base.Web.UI.IDashboardPage">
-            <summary>
-            Interface for the dashboard pages.
-            </summary>
-        </member>
         <member name="T:CMS.Base.Web.UI.ICMSPage">
             <summary>
             Interface for the CMS pages.
@@ -10257,6 +10411,11 @@
             <param name="type">Message type</param>
             <param name="text">Information message</param>
             <param name="separator">Separator</param>
+        </member>
+        <member name="T:CMS.Base.Web.UI.IDashboardPage">
+            <summary>
+            Interface for the dashboard pages.
+            </summary>
         </member>
         <member name="T:CMS.Base.Web.UI.IDataControl">
             <summary>
@@ -11106,6 +11265,18 @@
             <param name="context">Evaluation context with child resolver</param>
             <param name="parameters">Method parameters</param>
         </member>
+        <member name="T:CMS.Base.Web.UI.PageExtensions">
+            <summary>
+            HTML utility methods.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.PageExtensions.AddToHeader(System.Web.UI.Page,System.String)">
+            <summary>
+            Adds the given HTML code to the header of the page.
+            </summary>
+            <param name="page">Page</param>
+            <param name="html">HTML to add</param>
+        </member>
         <member name="T:CMS.Base.Web.UI.ScriptHelper">
             <summary>
             Utility methods for script manipulation.
@@ -11781,6 +11952,16 @@
             </remarks>
             <param name="page">Page to register</param>
         </member>
+        <member name="M:CMS.Base.Web.UI.ScriptHelper.GetLayoutResizeScript(System.Web.UI.Control,System.Web.UI.Control)">
+            <summary>
+            Returns script fragment performing callback when layout pane width has been changed.
+            </summary>
+            <remarks>
+            Designed to be used together with jquery layout library.
+            </remarks>
+            <param name="resizedControl">Control which width is being changed.</param>
+            <param name="callbackCotnrol">Control to which the callback is performed. Has to implement <see cref="T:System.Web.UI.ICallbackEventHandler"/> interface.</param>
+        </member>
         <member name="M:CMS.Base.Web.UI.ScriptHelper.RegisterHiddenField(System.Web.UI.Control,System.String,System.String)">
             <summary>
             Registers the hidden field to a page
@@ -11980,6 +12161,48 @@
             Registers a client script, which is responsible for loading custom web components.
             </summary>
             <param name="page">The page to register the client script to.</param>
+        </member>
+        <member name="T:CMS.Base.Web.UI.UILayoutHelper">
+            <summary>
+            Helper for UI layout dimensions.
+            </summary>
+            <seealso cref="M:CMS.Base.Web.UI.ScriptHelper.GetLayoutResizeScript(System.Web.UI.Control,System.Web.UI.Control)"/>
+            <see cref="T:System.Web.UI.ICallbackEventHandler"/>
+        </member>
+        <member name="F:CMS.Base.Web.UI.UILayoutHelper.WIDTH_ARGUMENT">
+            <summary>
+            Argument for persisting layout width.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.Web.UI.UILayoutHelper.COLLAPSED_ARGUMENT">
+            <summary>
+            Argument for persisting vertical resizer collapsed.
+            </summary>
+        </member>
+        <member name="F:CMS.Base.Web.UI.UILayoutHelper.DELIMITER">
+            <summary>
+            Argument delimiter character.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.UILayoutHelper.GetLayoutWidth(System.String)">
+            <summary>
+            Gets UI layout width for given unique <paramref name="key"/>.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.UILayoutHelper.SetLayoutWidth(System.String,System.Int32)">
+            <summary>
+            Sets UI layout given <paramref name="width"/> for given unique <paramref name="key"/>.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.UILayoutHelper.IsVerticalResizerCollapsed(System.String)">
+            <summary>
+            Gets given vertical resizer collapsed state for given unique <paramref name="key"/>.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.UILayoutHelper.SetVerticalResizerCollapsed(System.String,System.Boolean)">
+            <summary>
+            Sets given vertical resizer <paramref name="collapsed"/> for given unique <paramref name="key"/>.
+            </summary>
         </member>
         <member name="T:CMS.Base.Web.UI.AudioVideoParameters">
             <summary>
@@ -12393,16 +12616,6 @@
             Property value
             </summary>
         </member>
-        <member name="T:CMS.Base.Web.UI.BaseControlsContext">
-            <summary>
-            Extended controls context
-            </summary>
-        </member>
-        <member name="P:CMS.Base.Web.UI.BaseControlsContext.CurrentFilters">
-            <summary>
-            Gets current filters collection
-            </summary>
-        </member>
         <member name="T:CMS.Base.Web.UI.DefaultObjectTypeGraphService">
             <summary>
             Default implementation of <see cref="T:CMS.Base.Web.UI.IObjectTypeGraphService"/>.
@@ -12537,78 +12750,6 @@
             <summary>
             Contains flags that determine which types of related object types to load for standard objects in vis.js object type graphs.
             </summary>
-        </member>
-        <member name="T:CMS.Base.Web.UI.CssRegistration">
-            <summary>
-            Provides methods for CSS stylesheet registration.
-            </summary>
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterCssBlock(System.Web.UI.Page,System.String,System.String)">
-            <summary>
-            Adds a style block containing specified CSS rules to the page's header. If registering the same block multiple times then a given block is registered only once.
-            </summary>
-            <param name="page">The page that is registering the CSS style block</param>
-            <param name="key">Unique key of the style block</param>
-            <param name="style">Style declaration that contains CSS rules</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterCssLink(System.Web.UI.Page,System.String,System.String)">
-            <summary>
-            Adds a link to the custom theme CSS stylesheet to the page header. Supports asynchronous requests.
-            </summary>
-            <param name="page">The page that is registering the CSS link</param>
-            <param name="theme">Stylesheet theme</param>
-            <param name="fileName">Name of the stylesheet file</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterCssLink(System.Web.UI.Page,System.String)">
-            <summary>
-            Adds a link to the external CSS stylesheet to the page header. Supports asynchronous requests.
-            </summary>
-            <param name="page">The page that is registering the CSS link</param>
-            <param name="url">URL of the external stylesheet</param>        
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterDesignMode(System.Web.UI.Page)">
-            <summary>
-            Registers the design mode CSS.
-            </summary>
-            <param name="page">Page</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterBootstrap(System.Web.UI.Page)">
-            <summary>
-            Registers the bootstrap CSS.
-            </summary>
-            <param name="page">Page</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterWidgetsMode(System.Web.UI.Page)">
-            <summary>
-            Registers the widgets mode CSS.
-            </summary>
-            <param name="page">Page</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.AddExternalCssToPageHeader(System.Web.UI.Page,System.String)">
-            <summary>
-            Adds a link to the external CSS stylesheet to the page header. Supports asynchronous requests.
-            </summary>
-            <param name="page">The page that is registering the CSS link</param>
-            <param name="url">URL of the external stylesheet</param>
-        </member>
-        <member name="M:CMS.Base.Web.UI.CssRegistration.AddExternalCssFromListToPageHeader(System.Web.UI.Page,System.String[])">
-            <summary>
-            Adds a link to the external CSS stylesheet to the page header. Supports asynchronous requests.
-            </summary>
-            <param name="page">The page that is registering the CSS link</param>
-            <param name="urls">URL of the external stylesheets</param>
-        </member>
-        <member name="T:CMS.Base.Web.UI.PageExtensions">
-            <summary>
-            HTML utility methods.
-            </summary>
-        </member>
-        <member name="M:CMS.Base.Web.UI.PageExtensions.AddToHeader(System.Web.UI.Page,System.String)">
-            <summary>
-            Adds the given HTML code to the header of the page.
-            </summary>
-            <param name="page">Page</param>
-            <param name="html">HTML to add</param>
         </member>
         <member name="T:CMS.Base.Web.UI.PageElement">
             <summary>
@@ -12754,6 +12895,66 @@
             Returns true if the settings have some virtual content included
             </summary>
         </member>
+        <member name="T:CMS.Base.Web.UI.CssRegistration">
+            <summary>
+            Provides methods for CSS stylesheet registration.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterCssBlock(System.Web.UI.Page,System.String,System.String)">
+            <summary>
+            Adds a style block containing specified CSS rules to the page's header. If registering the same block multiple times then a given block is registered only once.
+            </summary>
+            <param name="page">The page that is registering the CSS style block</param>
+            <param name="key">Unique key of the style block</param>
+            <param name="style">Style declaration that contains CSS rules</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterCssLink(System.Web.UI.Page,System.String,System.String)">
+            <summary>
+            Adds a link to the custom theme CSS stylesheet to the page header. Supports asynchronous requests.
+            </summary>
+            <param name="page">The page that is registering the CSS link</param>
+            <param name="theme">Stylesheet theme</param>
+            <param name="fileName">Name of the stylesheet file</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterCssLink(System.Web.UI.Page,System.String)">
+            <summary>
+            Adds a link to the external CSS stylesheet to the page header. Supports asynchronous requests.
+            </summary>
+            <param name="page">The page that is registering the CSS link</param>
+            <param name="url">URL of the external stylesheet</param>        
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterDesignMode(System.Web.UI.Page)">
+            <summary>
+            Registers the design mode CSS.
+            </summary>
+            <param name="page">Page</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterBootstrap(System.Web.UI.Page)">
+            <summary>
+            Registers the bootstrap CSS.
+            </summary>
+            <param name="page">Page</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.RegisterWidgetsMode(System.Web.UI.Page)">
+            <summary>
+            Registers the widgets mode CSS.
+            </summary>
+            <param name="page">Page</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.AddExternalCssToPageHeader(System.Web.UI.Page,System.String)">
+            <summary>
+            Adds a link to the external CSS stylesheet to the page header. Supports asynchronous requests.
+            </summary>
+            <param name="page">The page that is registering the CSS link</param>
+            <param name="url">URL of the external stylesheet</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.CssRegistration.AddExternalCssFromListToPageHeader(System.Web.UI.Page,System.String[])">
+            <summary>
+            Adds a link to the external CSS stylesheet to the page header. Supports asynchronous requests.
+            </summary>
+            <param name="page">The page that is registering the CSS link</param>
+            <param name="urls">URL of the external stylesheets</param>
+        </member>
         <member name="T:CMS.Base.Web.UI.ModuleCssRegistration">
             <summary>
             Provides methods for module CSS stylesheet registration.
@@ -12793,6 +12994,22 @@
             However, there is one exception from this naming convention.
             Kentico modules do not require the CMS prefix in folder names, it is optional.
             </remarks>
+        </member>
+        <member name="T:CMS.Base.Web.UI.SentimentAnalysisButton">
+            <summary>
+            Represents sentiment analysis button and related popup.
+            </summary>
+        </member>
+        <member name="M:CMS.Base.Web.UI.SentimentAnalysisButton.#ctor(System.String)">
+            <summary>
+            Initializes an instance of the <see cref="T:CMS.Base.Web.UI.SentimentAnalysisButton"/> class,
+            </summary>
+            <param name="initScript">JS code snippet with custom setup.</param>
+        </member>
+        <member name="M:CMS.Base.Web.UI.SentimentAnalysisButton.OnPreRender(System.EventArgs)">
+            <summary>
+            PreRender life cycle event handler.
+            </summary>
         </member>
         <member name="T:CMS.CKEditor.Web.UI.CKEditorConfiguration">
             <summary>
@@ -13447,7 +13664,7 @@
         <member name="P:CMS.CKEditor.Web.UI.CKEditorControl.FileBrowserUploadUrl">
              <summary>
              The location of the script that handles file uploads.
-             If set, the Upload tab will appear in the Link, Image, and Flash dialog windows.
+             If set, the Upload tab will appear in the Link and Image dialog windows.
             
              It is also possible to set a separate url for a selected dialog box,
              using the dialog name in file browser settings: filebrowser[dialogName]UploadUrl.
